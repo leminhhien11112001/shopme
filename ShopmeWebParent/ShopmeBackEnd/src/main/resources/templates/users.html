@@ -17,7 +17,7 @@
 	<div>
 		<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
 			<a class="navbar-brand" th:href="@{/}">
-				<img th:src="@{/images/ShopmeAdminSmall.png}" />
+				<img th:src="@{./images/ShopmeAdminSmall.png}" />
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
 				<span class="navbar-toggler-icon"></span>
@@ -67,6 +67,7 @@
 		<h2>Manage Users</h2>
 		<a th:href="@{/users/new}">Create New User</a>	
 	</div>
+	<br>
 	
 	<div th:if="${message != null}" class="alert alert-success text-center">
 		[[${message}]]
@@ -99,7 +100,8 @@
 						<a th:if="${user.enabled == false}" class="fas fa-check-circle fa-2x icon-dark" href=""></a>
 					</td>
 					<td>
-						<a class="fas fa-edit fa-2x icon-green" href=""></a>
+						<a class="fas fa-edit fa-2x icon-green" th:href="@{'/users/edit/' + ${user.id}}"
+							title="Edit this user"></a>
 						&nbsp; 
 						<a class="fas fa-trash fa-2x icon-dark" href=""></a>
 					</td>
