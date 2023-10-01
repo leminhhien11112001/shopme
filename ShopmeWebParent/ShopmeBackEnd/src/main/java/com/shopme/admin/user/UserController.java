@@ -29,14 +29,14 @@ public class UserController {
 	
 	@GetMapping("/users")
 	public String listFirstPage(Model model) {
-		return listByPage(1, model, "firstName", "asc", null);
+		return listByPage(1, model, "id", "asc", null);
 	}
 	
 	@GetMapping("/users/page/{pageNum}")
 	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
 			@RequestParam(name = "sortField") String sortField, 
 			@RequestParam(name = "sortDir") String sortDir,
-			@RequestParam(name = "keyword") String keyword
+			@RequestParam(name = "keyword", required = false) String keyword
 			) {
 		
 		//@RequestParam annotation is OPTIONAL if the data type is String or Integer. 
