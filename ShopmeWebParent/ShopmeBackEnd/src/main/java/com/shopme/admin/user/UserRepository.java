@@ -10,6 +10,8 @@ import com.shopme.common.entity.User;
 
 public interface UserRepository extends PagingAndSortingRepository<User, Integer>,
 						CrudRepository<User, Integer>{
+	
+	//@Param annotation is used in queries of repository interfaces
 	@Query("SELECT u FROM User u WHERE u.email = :email")
 	public User getUserByEmail(@Param("email") String email);
 	
