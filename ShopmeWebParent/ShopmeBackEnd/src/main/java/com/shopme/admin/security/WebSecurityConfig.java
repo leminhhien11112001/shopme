@@ -53,6 +53,7 @@ public class WebSecurityConfig{
 	                .usernameParameter("email")
 	                .permitAll()
 	            )
+	            .logout(logout -> logout.permitAll())
 	            .authenticationProvider(authenticationProvider());
 	           
         return http.build();
