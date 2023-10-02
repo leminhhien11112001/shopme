@@ -54,6 +54,10 @@ public class WebSecurityConfig{
 	                .permitAll()
 	            )
 	            .logout(logout -> logout.permitAll())
+	            .rememberMe(remember -> remember
+	            				.key("AbcDefgHijKlmnOpqrs_1234567890")
+	            				.tokenValiditySeconds(7 * 24 * 60 * 60) //7 days
+	            		)
 	            .authenticationProvider(authenticationProvider());
 	           
         return http.build();
