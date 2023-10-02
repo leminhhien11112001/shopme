@@ -47,7 +47,8 @@ public class WebSecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
      		
 		 http.authorizeHttpRequests(configure -> configure
-	                .anyRequest().authenticated())
+	                .anyRequest().authenticated()
+	            )
 	            .formLogin(form -> form
 	                .loginPage("/login")
 	                .usernameParameter("email")
