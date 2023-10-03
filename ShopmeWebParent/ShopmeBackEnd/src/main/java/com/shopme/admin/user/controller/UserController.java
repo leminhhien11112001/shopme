@@ -1,4 +1,4 @@
-package com.shopme.admin.user;
+package com.shopme.admin.user.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
+import com.shopme.admin.user.UserNotFoundException;
+import com.shopme.admin.user.UserService;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
@@ -41,8 +43,8 @@ public class UserController {
 		
 		//@RequestParam annotation is OPTIONAL if the data type is String or Integer. 
 		
-		System.out.println("Sort Field: " + sortField);
-		System.out.println("Sort Order: " + sortDir);
+//		System.out.println("Sort Field: " + sortField);
+//		System.out.println("Sort Order: " + sortDir);
 		
 		
 		Page<User> page = service.listByPage(pageNum, sortField, sortDir, keyword);
@@ -69,7 +71,7 @@ public class UserController {
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
 
-		return "users";		
+		return "users/users";		
 	}
 	
 	@GetMapping("/users/new")
@@ -83,7 +85,7 @@ public class UserController {
 		model.addAttribute("listRoles", listRoles);
 		model.addAttribute("pageTitle", "Create New User");
 
-		return "user_form";
+		return "users/user_form";
 	}
 	
 	@PostMapping("/users/save")
@@ -109,9 +111,15 @@ public class UserController {
 
 		redirectAttributes.addFlashAttribute("message", "The user has been saved successfully.");
 
-		return "redirect:/users";
+		return getRedirectURLtoAffectedUser(user);
 	}
 
+	private String getRedirectURLtoAffectedUser(User user) {
+//		String firstPartOfEmail = user.getEmail().split("@")[0];
+		String lastName = user.getLastName();
+		return "redirect:/users/page/1?sortField=id&sortDir=asc&keyword=" + lastName;
+	}
+	
 	@GetMapping("/users/edit/{id}")
 	public String editUser(@PathVariable(name = "id") Integer id, 
 			Model model,
@@ -124,7 +132,7 @@ public class UserController {
 			model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");
 			model.addAttribute("listRoles", listRoles);
 
-			return "user_form";
+			return "users/user_form";
 		} catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 			return "redirect:/users";
@@ -148,15 +156,24 @@ public class UserController {
 	
 	@GetMapping("/users/{id}/enabled/{status}")
 	public String updateUserEnabledStatus(@PathVariable("id") Integer id,
-			@PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) {
+			@PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) throws UserNotFoundException {
 		
-		service.updateUserEnabledStatus(id, enabled);
-		
-		String status = enabled ? "enabled" : "disabled";
-		String message = "The user ID " + id + " has been " + status;
-		
-		redirectAttributes.addFlashAttribute("message", message);
+		try {
+			User user = service.get(id);
+			
+			service.updateUserEnabledStatus(id, enabled);
+			
+			String status = enabled ? "enabled" : "disabled";
+			String message = "The user ID " + id + " has been " + status;
+			
+			System.out.println(message);
+			
+			redirectAttributes.addFlashAttribute("message", message);
 
-		return "redirect:/users";
+			return getRedirectURLtoAffectedUser(user);
+		} catch (UserNotFoundException ex) {
+			redirectAttributes.addFlashAttribute("message", ex.getMessage());
+			return "redirect:/users";
+		}
 	}
 }
