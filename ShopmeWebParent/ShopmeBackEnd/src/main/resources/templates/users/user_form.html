@@ -55,13 +55,13 @@
 			<label class="col-sm-4 col-form-label">Roles:</label>
 			<div class="col-sm-8">
 				<th:block th:each="role : ${listRoles}">
-				<input type="checkbox" th:field="*{roles}" 
-					th:text="${role.name}"
-					th:value="${role.id}"
-					class="m-2"
-				/>
-				- <small>[[${role.description}]]</small>
-				<br/>
+					<input type="checkbox" th:field="*{roles}" 
+						th:text="${role.name}"
+						th:value="${role.id}"
+						class="m-2"
+					/>
+					- <small>[[${role.description}]]</small>
+					<br/>
 				</th:block>
 			</div>
 		</div>		

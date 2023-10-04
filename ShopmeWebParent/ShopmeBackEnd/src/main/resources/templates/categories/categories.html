@@ -14,6 +14,12 @@
 		<a th:href="@{/categories/new}" class="fas fa-folder-plus fa-2x icon-dark mr-2"
 					title="Create Category"></a>
 	</div>
+	
+	<br>
+	
+	<div th:if="${message != null}" class="alert alert-success text-center">
+		[[${message}]]
+	</div>
 
 	<div>
 		<form th:action="@{/categories/page/1}" class="form-inline m-3">
