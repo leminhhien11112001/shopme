@@ -7,9 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.shopme.common.entity.User;
 
+@Repository
+//It's optional to use @Repository. Spring Data JPA handles it automatically.
 public interface UserRepository extends PagingAndSortingRepository<User, Integer>,
 						CrudRepository<User, Integer>{
 	
