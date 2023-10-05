@@ -57,6 +57,7 @@ public class CategoryController {
 			FileUploadUtil.cleanDir(uploadDir);
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 		} else {
+			if(category.getImage().isEmpty()) category.setImage(null);
 			service.save(category);
 		}
 
