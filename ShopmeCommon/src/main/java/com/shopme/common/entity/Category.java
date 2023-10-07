@@ -29,7 +29,7 @@ public class Category {
 	@Column(length = 64, nullable = false, unique = true)
 	private String alias;
 	
-	@Column(length = 128, nullable = false)
+	@Column(length = 128)
 	private String image;
 	
 	private boolean enabled;
@@ -40,6 +40,9 @@ public class Category {
 	
 	@OneToMany(mappedBy = "parent")
 	private Set<Category> children = new HashSet<>();
+	
+	@Transient
+	private boolean hasChildren;
 
 	public Category() {
 	}
@@ -157,13 +160,6 @@ public class Category {
 		this.children = children;
 	}
 	
-	@Transient
-	public String getImagePath() {
-		if (this.id == null) return "/images/image-thumbnail.png";
-		
-		return "/category-images/" + this.id + "/" + this.image;
-	}
-	
 	public boolean isHasChildren() {
 		return hasChildren;
 	}
@@ -172,7 +168,12 @@ public class Category {
 		this.hasChildren = hasChildren;
 	}
 
+	
 	@Transient
-	private boolean hasChildren;
+	public String getImagePath() {
+		if (this.id == null || this.image == null) return "/images/image-thumbnail.png";
+		
+		return "/category-images/" + this.id + "/" + this.image;
+	}
 	
 }
