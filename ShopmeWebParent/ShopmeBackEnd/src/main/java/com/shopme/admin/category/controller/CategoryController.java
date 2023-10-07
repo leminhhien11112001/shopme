@@ -1,4 +1,4 @@
-package com.shopme.admin.category;
+package com.shopme.admin.category.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
+import com.shopme.admin.category.CategoryNotFoundException;
+import com.shopme.admin.category.CategoryPageInfo;
+import com.shopme.admin.category.CategoryService;
 import com.shopme.common.entity.Category;
+import com.shopme.common.entity.User;
 
 @Controller
 public class CategoryController {
@@ -94,7 +98,8 @@ public class CategoryController {
 		}
 
 		ra.addFlashAttribute("message", "The category has been saved successfully.");
-		return "redirect:/categories";
+		
+		return getRedirectURLtoAffectedCategory(category);
 	}
 	
 	@GetMapping("/categories/edit/{id}")
@@ -117,7 +122,7 @@ public class CategoryController {
 	
 	@GetMapping("/categories/{id}/enabled/{status}")
 	public String updateCategoryEnabledStatus(@PathVariable("id") Integer id,
-			@PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) {
+			@PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) throws CategoryNotFoundException {
 		service.updateCategoryEnabledStatus(id, enabled);
 		
 		String status = enabled ? "enabled" : "disabled";
@@ -125,7 +130,7 @@ public class CategoryController {
 		
 		redirectAttributes.addFlashAttribute("message", message);
 
-		return "redirect:/categories";
+		return getRedirectURLtoAffectedCategory(service.get(id));
 	}
 	
 	@GetMapping("/categories/delete/{id}")
@@ -145,4 +150,10 @@ public class CategoryController {
 
 		return "redirect:/categories";
 	}	
+	
+	private String getRedirectURLtoAffectedCategory(Category category) {
+		String name = category.getName();
+		
+		return "redirect:/categories/page/1?sortDir=asc&keyword=" + name;
+	}
 }

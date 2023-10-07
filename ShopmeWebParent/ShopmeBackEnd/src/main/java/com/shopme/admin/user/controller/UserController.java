@@ -146,7 +146,7 @@ public class UserController {
 		try {
 			service.delete(id);
 			
-			String userDir = "../category-images/" + id;
+			String userDir = "user-photos/" + id;
 			FileUploadUtil.removeDir(userDir);
 			
 			redirectAttributes.addFlashAttribute("message", 
