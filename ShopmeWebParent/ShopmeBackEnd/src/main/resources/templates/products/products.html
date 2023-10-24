@@ -16,11 +16,11 @@
 		<table class="table table-bordered table-striped table-hover table-responsive-xl">
 			<thead class="thead-dark">
 				<tr>
-					<th>ID</th>
+					<th th:replace="fragments :: column_link('/products', 'id', 'ID', 'none')" />
 					<th>Main Image</th>
-					<th>Product Name</th>
-					<th>Brand</th>
-					<th>Category</th>
+					<th th:replace="fragments :: column_link('/products', 'name', 'Product Name', 'none')" />
+					<th th:replace="fragments :: column_link('/products', 'brand', 'Brand', 'none')" />
+					<th th:replace="fragments :: column_link('/products', 'category', 'Category', 'none')" />
 					<th>Enabled</th>
 					<th></th>
 				</tr>								
@@ -31,7 +31,7 @@
 					<td>
 						<img th:src="@{${product.mainImagePath}}" style="width: 120px" class="img-fluid" />
 					</td>
-					<td>[[${product.name}]]</td>
+					<td>[[${product.shortName}]]</td>
 					<td>[[${product.brand.name}]]</td>
 					<td>[[${product.category.name}]]</td>
 					<td>
@@ -53,6 +53,8 @@
 	</div>
 
 	<div th:replace="modal_fragments :: confirm_modal" />
+	
+	<div th:replace="fragments :: pagination('/products', 'products')"></div>
 
 	<div th:replace="fragments :: footer"></div>
 
