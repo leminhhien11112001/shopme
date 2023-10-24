@@ -9,9 +9,34 @@
 
 		<a th:href="@{/products/new}" class="fas fa-folder-plus fa-2x icon-dark mr-2"></a>
 	</div>
+	
+	<div>
+		<form th:action="@{/products/page/1}" class="form-inline m-3" id="searchForm">
+			<input type="hidden" name="sortField" th:value="${sortField}" />
+			<input type="hidden" name="sortDir" th:value="${sortDir}" />
 
-	<div th:replace="fragments :: search_form_and_message('/products/page/1')" />
+			Category:&nbsp;
+			<select class="form-control" name="categoryId" id="dropdownCategory">
+				<option value="0">All Categories</option>
 
+				<th:block th:each="cat : ${listCategories}">
+					<option th:value="${cat.id}" th:selected="(${categoryId} == ${cat.id})">[[${cat.name}]]</option>
+				</th:block>
+			</select>
+			
+			Filter:&nbsp;
+			<input type="search" name="keyword" th:value="${keyword}" class="form-control" required/>
+			&nbsp;&nbsp;
+			<input type="submit" value="Search" class="btn btn-primary" />
+			&nbsp;&nbsp;
+			<input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()" />
+		</form>
+
+		<div th:if="${message != null}" class="alert alert-success text-center">
+			[[${message}]]
+		</div>		
+	</div>
+	
 	<div class="full-details">
 		<table class="table table-bordered table-striped table-hover table-responsive-xl">
 			<thead class="thead-dark">
@@ -68,6 +93,10 @@
 			e.preventDefault();
 			showDeleteConfirmModal($(this), 'product');
 		});
+	});
+	
+	$("#dropdownCategory").on("change", function() {
+			$("#searchForm").submit();
 	});
 </script>
 </body>

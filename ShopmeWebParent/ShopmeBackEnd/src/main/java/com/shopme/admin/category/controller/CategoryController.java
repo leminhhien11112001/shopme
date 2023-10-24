@@ -99,7 +99,8 @@ public class CategoryController {
 
 		ra.addFlashAttribute("message", "The category has been saved successfully.");
 		
-		return getRedirectURLtoAffectedCategory(category);
+//		return getRedirectURLtoAffectedCategory(category);
+		return "redirect:/categories";
 	}
 	
 	@GetMapping("/categories/edit/{id}")
