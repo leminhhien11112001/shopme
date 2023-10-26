@@ -44,7 +44,7 @@ public class ProductController {
 
 	@GetMapping("/products")
 	public String listFirstPage(Model model) {
-		return listByPage(1, model, "name", "asc", null, 0);
+		return listByPage(1, model, "id", "asc", null, 0);
 	}
 	
 	@GetMapping("/products/page/{pageNum}")
@@ -279,6 +279,22 @@ public class ProductController {
 		} catch (ProductNotFoundException e) {
 			ra.addFlashAttribute("message", e.getMessage());
 			
+			return "redirect:/products";
+		}
+	}
+	
+	@GetMapping("/products/detail/{id}")
+	public String viewProductDetails(@PathVariable("id") Integer id, Model model,
+			RedirectAttributes ra) {
+		try {
+			Product product = productService.get(id);			
+			model.addAttribute("product", product);		
+
+			return "products/product_detail_modal";
+
+		} catch (ProductNotFoundException e) {
+			ra.addFlashAttribute("message", e.getMessage());
+
 			return "redirect:/products";
 		}
 	}
