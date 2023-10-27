@@ -288,6 +288,14 @@ public class Product {
 		return "/product-images/" + this.id + "/" + this.mainImage;
 	}
 	
+	@Transient
+	public float getDiscountPrice() {
+		if (discountPercent > 0) {
+			return price * ((100 - discountPercent) / 100);
+		}
+		return this.price;
+	}
+	
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + "]";
