@@ -1,6 +1,7 @@
 package com.shopme.common.entity;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -132,6 +133,19 @@ public class User {
 				+ ", roles=" + roles + "]";
 	}
 	
+	public boolean hasRole(String roleName) {
+		Iterator<Role> iterator = roles.iterator();
+
+		while (iterator.hasNext()) {
+			Role role = iterator.next();
+			if (role.getName().equals(roleName)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
 	@Transient
 	public String getPhotosImagePath() {
 		if (id == null || photos == null) return "/images/default-user.png";
@@ -143,6 +157,6 @@ public class User {
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}
-
+	
 }
 	
