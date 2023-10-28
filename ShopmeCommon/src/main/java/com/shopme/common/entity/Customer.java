@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "customers")
@@ -113,6 +114,11 @@ public class Customer {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	@Transient
+	public String getFullName() {
+		return firstName + " " + lastName;
 	}
 
 	@Override
