@@ -50,6 +50,15 @@ public class CustomerUserDetails implements UserDetails {
 		return customer.isEnabled();
 	}
 
+
+	public void setFirstName(String firstName) {
+		this.customer.setFirstName(firstName);
+	}
+
+	public void setLastName(String lastName) {
+		this.customer.setLastName(lastName);
+	}	
+	
 	public String getFullName() {
 		return customer.getFirstName() + " " + customer.getLastName();
 	}

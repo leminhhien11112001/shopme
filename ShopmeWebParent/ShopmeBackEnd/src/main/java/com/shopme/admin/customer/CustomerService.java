@@ -1,6 +1,5 @@
 package com.shopme.admin.customer;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -66,13 +65,17 @@ public class CustomerService {
 	}
 
 	public void save(Customer customerInForm) {
+		Customer customerInDB = customerRepo.findById(customerInForm.getId()).get();
+		
 		if (!customerInForm.getPassword().isEmpty()) {
 			String encodedPassword = passwordEncoder.encode(customerInForm.getPassword());
 			customerInForm.setPassword(encodedPassword);			
 		} else {
-			Customer customerInDB = customerRepo.findById(customerInForm.getId()).get();
 			customerInForm.setPassword(customerInDB.getPassword());
 		}		
+		
+		customerInForm.setCreatedTime(customerInDB.getCreatedTime());
+		
 		customerRepo.save(customerInForm);
 	}
 
