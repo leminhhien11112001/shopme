@@ -20,8 +20,10 @@ public class OrderDetail {
 	private float productCost;
 	
 	private float shippingCost;
+	
+	private float unitPrice;
 		
-	private float subtotal; //quantity * (productCost + shippingCost)
+	private float subtotal; //quantity * unitPrice
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")
@@ -85,6 +87,14 @@ public class OrderDetail {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+	public float getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(float unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 
 }

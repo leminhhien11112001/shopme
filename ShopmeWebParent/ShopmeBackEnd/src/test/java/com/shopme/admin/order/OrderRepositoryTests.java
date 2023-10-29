@@ -54,8 +54,9 @@ public class OrderRepositoryTests {
 		orderDetail.setProductCost(product.getCost());
 		orderDetail.setShippingCost(10);
 		orderDetail.setQuantity(1);
-		orderDetail.setSubtotal(product.getPrice()*1);
-		
+		orderDetail.setSubtotal(product.getPrice());
+		orderDetail.setUnitPrice(product.getPrice());
+
 		mainOrder.getOrderDetails().add(orderDetail);
 
 		Order savedOrder = repo.save(mainOrder);
@@ -72,7 +73,8 @@ public class OrderRepositoryTests {
 		Order mainOrder = new Order();
 		mainOrder.setOrderTime(new Date());
 		mainOrder.setCustomer(customer);
-
+		mainOrder.setDestination(customer.getAddress());
+		
 		OrderDetail orderDetail1 = new OrderDetail();
 		orderDetail1.setProduct(product1);
 		orderDetail1.setOrder(mainOrder);
@@ -80,6 +82,7 @@ public class OrderRepositoryTests {
 		orderDetail1.setShippingCost(10);
 		orderDetail1.setQuantity(1);
 		orderDetail1.setSubtotal(product1.getPrice());
+		orderDetail1.setUnitPrice(product1.getPrice());
 
 		OrderDetail orderDetail2 = new OrderDetail();
 		orderDetail2.setProduct(product2);
@@ -88,19 +91,19 @@ public class OrderRepositoryTests {
 		orderDetail2.setShippingCost(20);
 		orderDetail2.setQuantity(2);
 		orderDetail2.setSubtotal(product2.getPrice() * 2);
+		orderDetail2.setUnitPrice(product2.getPrice());
 
 		mainOrder.getOrderDetails().add(orderDetail1);
 		mainOrder.getOrderDetails().add(orderDetail2);
 
 		mainOrder.setShippingCost(30);
 		mainOrder.setProductCost(product1.getCost() + product2.getCost());
-		mainOrder.setTotal(product1.getPrice() + product2.getPrice() * 2 + 30);
+		mainOrder.setTotal((product1.getPrice() + product2.getPrice() * 2) + 30);
 
 		mainOrder.setPaymentMethod("COD");
 		mainOrder.setStatus("PROCESSING");
 		mainOrder.setDeliverDate(new Date());
 		mainOrder.setDeliverDays(3);
-		mainOrder.setDestination(customer.getAddress());
 
 		Order savedOrder = repo.save(mainOrder);		
 		assertThat(savedOrder.getId()).isGreaterThan(0);		
@@ -141,7 +144,7 @@ public class OrderRepositoryTests {
 
 	@Test
 	public void testDeleteOrder() {
-		Integer orderId = 3;
+		Integer orderId = 2;
 		repo.deleteById(orderId);
 
 		Optional<Order> result = repo.findById(orderId);
