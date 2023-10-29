@@ -83,6 +83,22 @@ public class OrderController {
 			ra.addFlashAttribute("message", ex.getMessage());
 			return "redirect:/orders";
 		}
+	}
+	
+	@GetMapping("/orders/edit/{id}")
+	public String editOrder(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+		try {
+			Order order = orderService.get(id);;
+
+			model.addAttribute("pageTitle", "Edit Order (ID: " + id + ")");
+			model.addAttribute("order", order);
+
+			return "orders/order_form";
+
+		} catch (OrderNotFoundException ex) {
+			ra.addFlashAttribute("message", ex.getMessage());
+			return "redirect:/orders";
+		}
 
 	}
 }

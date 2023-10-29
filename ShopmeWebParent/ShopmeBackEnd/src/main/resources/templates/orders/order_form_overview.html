@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">				
+	  <div class="form-group row">
+	    <label class="col-sm-2 col-form-label">Order ID:</label>
+	    <div class="col-sm-10">
+	      <input type="text" readonly class="form-control" th:value="${order.id}">
+	    </div>
+	  </div>
+	  <div class="form-group row">
+	    <label class="col-sm-2 col-form-label">Customer:</label>
+	    <div class="col-sm-10">
+	      <input type="text" readonly class="form-control" th:value="${order.customer.fullName}">
+	    </div>
+	  </div>
+	  <div class="form-group row">
+	    <label class="col-sm-2 col-form-label">Product Cost:</label>
+	    <div class="col-sm-10">
+	      <input type="text" th:field="*{productCost}" required class="form-control" />
+	    </div>
+	  </div>			  		  
+	  <div class="form-group row">
+	    <label class="col-sm-2 col-form-label">Shipping Cost:</label>
+	    <div class="col-sm-10">
+	      <input type="text" th:field="*{shippingCost}" required class="form-control" />
+	    </div>
+	  </div>		  
+	  <div class="form-group row">
+	    <label class="col-sm-2 col-form-label">Total:</label>
+	    <div class="col-sm-10">
+	      <input type="text" th:field="*{total}" required class="form-control" />
+	    </div>
+	  </div>
+	  <div class="form-group row">
+	    <label class="col-sm-2 col-form-label">Payment Method:</label>
+	    <div class="col-sm-10">
+		      <select th:field="*{paymentMethod}" class="form-control" required style="max-width: 150px">
+	  			 <option th:value="COD">COD</option>
+  				 <option th:value="CREDIT_CARD">CREDIT_CARD</option>
+  				 <option th:value="PAYPAL">PAYPAL</option>
+		      </select>
+	    </div>
+	  </div>			  	
+	  <div class="form-group row">
+	    <label class="col-sm-2 col-form-label">Status:</label>
+	    <div class="col-sm-10">
+		      <select th:field="*{status}" class="form-control" required style="max-width: 150px">
+	  			 <option th:value="NEW">NEW</option>
+  				 <option th:value="CANCELLED">CANCELLED</option>
+  				 <option th:value="PROCESSING">PROCESSING</option>
+  				 <option th:value="PACKAGED">PACKAGED</option>
+  				 <option th:value="CANCELLED">PICKED</option>
+  				 <option th:value="PROCESSING">SHIPPING</option>
+  				 <option th:value="DELIVERED">DELIVERED</option>
+  				 <option th:value="PAID">PAID</option>
+  				 <option th:value="REFUNDED">REFUNDED</option>  				 
+		      </select>
+	    </div>
+	  </div>
+</div>

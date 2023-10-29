@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -14,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -50,6 +53,7 @@ public class Order {
 	private Set<OrderDetail> orderDetails = new HashSet<>();
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	@OrderBy("updatedTime ASC")
 	private List<OrderTrack> orderTracks = new ArrayList<>();
 
 	public Integer getId() {
@@ -158,6 +162,12 @@ public class Order {
 
 		return destination;
 	}
+	
+	@Transient
+	public String getDeliverDateOnForm() {
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		return dateFormatter.format(this.deliverDate);
+	}	
 	
 	@Override
 	public String toString() {
