@@ -70,4 +70,19 @@ public class OrderController {
 
 		return "redirect:/orders";
 	}
+	
+	@GetMapping("/orders/detail/{id}")
+	public String viewOrderDetails(@PathVariable("id") Integer id, Model model, 
+			RedirectAttributes ra) {
+		try {
+			Order order = orderService.get(id);
+			model.addAttribute("order", order);
+
+			return "orders/order_details_modal";
+		} catch (OrderNotFoundException ex) {
+			ra.addFlashAttribute("message", ex.getMessage());
+			return "redirect:/orders";
+		}
+
+	}
 }
