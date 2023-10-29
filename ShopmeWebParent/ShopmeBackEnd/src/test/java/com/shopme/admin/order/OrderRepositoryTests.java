@@ -46,6 +46,7 @@ public class OrderRepositoryTests {
 		mainOrder.setStatus("NEW");
 		mainOrder.setDeliverDate(new Date());
 		mainOrder.setDeliverDays(1);
+		mainOrder.setDestination(customer.getAddress());
 
 		OrderDetail orderDetail = new OrderDetail();
 		orderDetail.setProduct(product);
@@ -99,6 +100,7 @@ public class OrderRepositoryTests {
 		mainOrder.setStatus("PROCESSING");
 		mainOrder.setDeliverDate(new Date());
 		mainOrder.setDeliverDays(3);
+		mainOrder.setDestination(customer.getAddress());
 
 		Order savedOrder = repo.save(mainOrder);		
 		assertThat(savedOrder.getId()).isGreaterThan(0);		
@@ -115,7 +117,7 @@ public class OrderRepositoryTests {
 
 	@Test
 	public void testUpdateOrder() {
-		Integer orderId = 3;
+		Integer orderId = 2;
 		Order order = repo.findById(orderId).get();
 
 		order.setStatus("SHIPPING");
@@ -130,7 +132,7 @@ public class OrderRepositoryTests {
 
 	@Test
 	public void testGetOrder() {
-		Integer orderId = 3;
+		Integer orderId = 2;
 		Order order = repo.findById(orderId).get();
 
 		assertThat(order).isNotNull();

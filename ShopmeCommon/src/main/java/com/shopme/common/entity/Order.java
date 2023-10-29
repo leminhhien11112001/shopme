@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "orders")
@@ -28,6 +29,8 @@ public class Order {
 	private float productCost;
 	
 	private float total; //productPrice + shippingCost
+	
+	private String destination;
 
 	private int deliverDays;
 	
@@ -131,7 +134,18 @@ public class Order {
 	public void setOrderDetails(Set<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
 	}
+	
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
 
+	@Transient
+	public String getDestination() {
+		String destination = customer.getAddress();
+
+		return destination;
+	}
+	
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", total=" + total + ", paymentMethod=" + paymentMethod + ", status=" + status
