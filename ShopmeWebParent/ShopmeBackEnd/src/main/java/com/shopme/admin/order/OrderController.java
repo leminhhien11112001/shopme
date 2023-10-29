@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.common.entity.Customer;
 import com.shopme.common.entity.Order;
@@ -56,5 +57,17 @@ public class OrderController {
 		model.addAttribute("keyword", keyword);
 
 		return "orders/orders";		
+	}
+	
+	@GetMapping("/orders/delete/{id}")
+	public String deleteOrder(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+		try {
+			orderService.delete(id);;
+			ra.addFlashAttribute("message", "The order ID " + id + " has been deleted.");
+		} catch (OrderNotFoundException ex) {
+			ra.addFlashAttribute("message", ex.getMessage());
+		}
+
+		return "redirect:/orders";
 	}
 }

@@ -84,6 +84,11 @@
 
 	$(document).ready(function() {
 		handleLinkViewCustomerDetails();
+		
+		$(".link-delete").click(function(e) {
+			e.preventDefault();
+			showDeleteConfirmModal($(this), 'orders');
+		});
 	});
 
 	function handleLinkViewCustomerDetails() {
@@ -93,6 +98,7 @@
 			$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
 		});			
 	}
+
 </script>
 </body>
 </html>

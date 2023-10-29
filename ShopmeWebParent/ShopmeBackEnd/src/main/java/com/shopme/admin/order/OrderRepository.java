@@ -15,4 +15,6 @@ public interface OrderRepository extends CrudRepository<Order, Integer>,
 			+ " o.customer.lastName LIKE %?1% OR o.customer.phoneNumber LIKE %?1% OR"
 			+ " o.paymentMethod LIKE %?1% OR o.status LIKE %?1% OR o.destination LIKE %?1%")
 	public Page<Order> findAll(String keyword, Pageable pageable);
+	
+	public Long countById(Integer id);
 }
