@@ -15,8 +15,6 @@ import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-
-
 @Entity
 @Table(name = "categories")
 public class Category {
