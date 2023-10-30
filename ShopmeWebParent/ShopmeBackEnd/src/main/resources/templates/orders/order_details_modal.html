@@ -28,24 +28,27 @@
 		      <input type="text" readonly class="form-control" th:value="${order.id}">
 		    </div>
 		  </div>
-		  <div class="form-group row">
-		    <label class="col-sm-2 col-form-label">Customer:</label>
-		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control" th:value="${order.customer.fullName}">
-		    </div>
-		  </div>
-		  <div class="form-group row">
-		    <label class="col-sm-2 col-form-label">Product Cost:</label>
-		    <div class="col-sm-10">
-		       <input type="text" readonly class="form-control" th:value="${order.productCost}">
-		    </div>
-		  </div>			  		  
-		  <div class="form-group row">
-		    <label class="col-sm-2 col-form-label">Shipping Cost:</label>
-		    <div class="col-sm-10">
-		      <input type="text" readonly class="form-control" th:value="${order.shippingCost}">
-		    </div>
-		  </div>			  
+		  
+		  <th:block th:if="${isVisibleForAdminOrSalesperson}">
+			  <div class="form-group row">
+			    <label class="col-sm-2 col-form-label">Customer:</label>
+			    <div class="col-sm-10">
+			      <input type="text" readonly class="form-control" th:value="${order.customer.fullName}">
+			    </div>
+			  </div>
+			  <div class="form-group row">
+			    <label class="col-sm-2 col-form-label">Product Cost:</label>
+			    <div class="col-sm-10">
+			       <input type="text" readonly class="form-control" th:value="${order.productCost}">
+			    </div>
+			  </div>			  		  
+			  <div class="form-group row">
+			    <label class="col-sm-2 col-form-label">Shipping Cost:</label>
+			    <div class="col-sm-10">
+			      <input type="text" readonly class="form-control" th:value="${order.shippingCost}">
+			    </div>
+			  </div>	
+		  </th:block>		  
 		  <div class="form-group row">
 		    <label class="col-sm-2 col-form-label">Total (Product Price + Shipping Cost):</label>
 		    <div class="col-sm-10">
@@ -83,15 +86,17 @@
 					<div class="text-wrap">
 						<b>[[${product.name}]]</b>
 					</div>
-					<div>
-						Product Cost: [[${detail.productCost}]]
-					</div>
-					<div>
-						Subtotal: [[${detail.quantity}]] X [[${detail.unitPrice}]] = [[${detail.subtotal}]]
-					</div>
-					<div>
-						Shipping Cost: [[${detail.shippingCost}]]
-					</div>					
+					<th:block th:if="${isVisibleForAdminOrSalesperson}">
+						<div>
+							Product Cost: [[${detail.productCost}]]
+						</div>
+						<div>
+							Subtotal: [[${detail.quantity}]] X [[${detail.unitPrice}]] = [[${detail.subtotal}]]
+						</div>
+						<div>
+							Shipping Cost: [[${detail.shippingCost}]]
+						</div>	
+					</th:block>			
 				</div>
 			</div>
 		</th:block>

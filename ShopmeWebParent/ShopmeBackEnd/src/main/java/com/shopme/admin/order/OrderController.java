@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.common.entity.Customer;
 import com.shopme.common.entity.Order;
 import com.shopme.common.entity.OrderDetail;
@@ -30,17 +32,20 @@ public class OrderController {
 
 	@Autowired 
 	private OrderService orderService;
+	
+	private String defaultRedirectURL = "redirect:/orders/page/1?sortField=orderTime&sortDir=desc";
 
 	@GetMapping("/orders")
 	public String listFirstPage(Model model) {
-		return listByPage(1, model, "orderTime", "desc", null);
+		return defaultRedirectURL;
 	}
 	
 	@GetMapping("/orders/page/{pageNum}")
 	public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
 			@RequestParam(name = "sortField") String sortField, 
 			@RequestParam(name = "sortDir") String sortDir,
-			@RequestParam(name = "keyword", required = false) String keyword
+			@RequestParam(name = "keyword", required = false) String keyword,
+			@AuthenticationPrincipal ShopmeUserDetails loggedUser
 			) {	
 		Page<Order> page = orderService.listByPage(pageNum, sortField, sortDir, keyword);
 		
@@ -65,6 +70,10 @@ public class OrderController {
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
+		
+		if (!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Salesperson") && loggedUser.hasRole("Shipper")) {
+			return "orders/orders_shipper";
+		}
 
 		return "orders/orders";		
 	}
@@ -78,20 +87,29 @@ public class OrderController {
 			ra.addFlashAttribute("message", ex.getMessage());
 		}
 
-		return "redirect:/orders";
+		return defaultRedirectURL;
 	}
 	
 	@GetMapping("/orders/detail/{id}")
 	public String viewOrderDetails(@PathVariable("id") Integer id, Model model, 
-			RedirectAttributes ra) {
+			RedirectAttributes ra, @AuthenticationPrincipal ShopmeUserDetails loggedUser) {
 		try {
 			Order order = orderService.get(id);
+			
+			boolean isVisibleForAdminOrSalesperson = false;
+
+			if (loggedUser.hasRole("Admin") || loggedUser.hasRole("Salesperson")) {
+				isVisibleForAdminOrSalesperson = true;
+			}
+
+			model.addAttribute("isVisibleForAdminOrSalesperson", isVisibleForAdminOrSalesperson);
+			
 			model.addAttribute("order", order);
 
 			return "orders/order_details_modal";
 		} catch (OrderNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());
-			return "redirect:/orders";
+			return defaultRedirectURL;
 		}
 	}
 	
@@ -107,7 +125,7 @@ public class OrderController {
 
 		} catch (OrderNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());
-			return "redirect:/orders";
+			return defaultRedirectURL;
 		}
 
 	}
@@ -121,7 +139,7 @@ public class OrderController {
 
 		ra.addFlashAttribute("message", "The order ID " + order.getId() + " has been updated successfully");
 
-		return "redirect:/orders";
+		return defaultRedirectURL;
 	}
 
 	private void updateOrderTracks(Order order, HttpServletRequest request) {

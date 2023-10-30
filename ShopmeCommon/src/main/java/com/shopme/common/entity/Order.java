@@ -185,4 +185,39 @@ public class Order {
 			e.printStackTrace();
 		} 		
 	}
+	
+	@Transient
+	public boolean isCOD() {
+		return paymentMethod.equals("COD");
+	}
+
+	@Transient
+	public boolean isPicked() {
+		return hasStatus("PICKED");
+	}
+
+	@Transient
+	public boolean isShipping() {
+		return hasStatus("SHIPPING");
+	}
+
+	@Transient
+	public boolean isDelivered() {
+		return hasStatus("DELIVERED");
+	}
+
+	@Transient
+	public boolean isReturned() {
+		return hasStatus("RETURNED");
+	}	
+
+	public boolean hasStatus(String status) {
+		for (OrderTrack aTrack : orderTracks) {
+			if (aTrack.getStatus().equals(status)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

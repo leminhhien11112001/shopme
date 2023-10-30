@@ -11,7 +11,7 @@ import com.shopme.common.entity.Order;
 public interface OrderRepository extends CrudRepository<Order, Integer>,
 				PagingAndSortingRepository<Order, Integer> {
 	
-	@Query("SELECT o FROM Order o WHERE o.customer.firstName LIKE %?1% OR"
+	@Query("SELECT o FROM Order o WHERE CONCAT('#', o.id) LIKE %?1% OR o.customer.firstName LIKE %?1% OR"
 			+ " o.customer.lastName LIKE %?1% OR o.customer.phoneNumber LIKE %?1% OR"
 			+ " o.paymentMethod LIKE %?1% OR o.status LIKE %?1% OR o.destination LIKE %?1%")
 	public Page<Order> findAll(String keyword, Pageable pageable);
