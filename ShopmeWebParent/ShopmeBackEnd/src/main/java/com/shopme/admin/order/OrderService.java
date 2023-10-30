@@ -1,5 +1,7 @@
 package com.shopme.admin.order;
 
+import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.shopme.common.entity.Order;
+import com.shopme.common.entity.OrderTrack;
 
 import jakarta.transaction.Transactional;
 
@@ -59,4 +62,35 @@ public class OrderService {
 
 		repo.save(orderInForm);
 	}	
+	
+	public void updateStatus(Integer orderId, String status) {
+		Order orderInDB = repo.findById(orderId).get();
+		String statusToUpdate = status;
+
+		if (!orderInDB.hasStatus(statusToUpdate)) {
+			List<OrderTrack> orderTracks = orderInDB.getOrderTracks();
+
+			OrderTrack track = new OrderTrack();
+			track.setOrder(orderInDB);
+			track.setStatus(statusToUpdate);
+			track.setUpdatedTime(new Date());
+			
+			if(status.equals("PICKED")) {
+				track.setNotes("Shipper picked the package");
+			}else if(status.equals("SHIPPING")) {
+				track.setNotes("Shipper is delivering the package");
+			}else if(status.equals("DELIVERED")) {
+				track.setNotes("Customer received products");
+			}else if(status.equals("RETURNED")){
+				track.setNotes("Products were returned");
+			}
+			
+			orderTracks.add(track);
+
+			orderInDB.setStatus(statusToUpdate);
+
+			repo.save(orderInDB);
+		}
+
+	}
 }

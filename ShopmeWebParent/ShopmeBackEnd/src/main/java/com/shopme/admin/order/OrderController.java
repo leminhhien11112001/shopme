@@ -211,4 +211,14 @@ public class OrderController {
 		}
 
 	}
+	
+	@GetMapping("/orders_shipper/update/{id}/{status}")
+	public String updateOrderStatus(@PathVariable("id") Integer orderId, @PathVariable("status") String status,
+			RedirectAttributes ra) {
+		orderService.updateStatus(orderId, status);
+		
+		ra.addFlashAttribute("message", "Order updated successfully");
+		
+		return defaultRedirectURL;
+	}
 }
