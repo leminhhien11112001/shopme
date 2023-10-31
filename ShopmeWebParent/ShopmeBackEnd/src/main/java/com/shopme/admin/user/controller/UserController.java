@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.admin.user.UserService;
-import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
 import org.springframework.util.StringUtils;
@@ -76,7 +75,7 @@ public class UserController {
 	
 	@GetMapping("/users/new")
 	public String newUser(Model model) {
-		List<Role> listRoles = service.listRoles();
+		List<String> listRoles = service.listRoles();
 
 		User user = new User();
 		user.setEnabled(true);
@@ -126,7 +125,7 @@ public class UserController {
 			RedirectAttributes redirectAttributes) {
 		try {
 			User user = service.get(id);
-			List<Role> listRoles = service.listRoles();
+			List<String> listRoles = service.listRoles();
 
 			model.addAttribute("user", user);
 			model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");

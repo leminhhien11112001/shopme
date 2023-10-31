@@ -1,18 +1,10 @@
 package com.shopme.common.entity;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -39,23 +31,18 @@ public class User {
 	private String photos;
 
 	private boolean enabled;
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "users_roles",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "role_id")
-			)
-	private Set<Role> roles = new HashSet<>();
+	
+	private String role;
 
 	public User() {
 	}
 
-	public User(String email, String password, String firstName, String lastName) {
+	public User(String email, String password, String firstName, String lastName, String role) {
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.role = role;
 	}
 
 
@@ -114,35 +101,25 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-
-	public Set<Role> getRoles() {
-		return roles;
+	
+	public String getRole() {
+		return role;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setRole(String role) {
+		this.role = role;
 	}
-
-	public void addRole(Role role) {
-		this.roles.add(role);
-	}
-
+	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", roles=" + roles + "]";
+				+ ", role=" + role + "]";
 	}
 	
 	public boolean hasRole(String roleName) {
-		Iterator<Role> iterator = roles.iterator();
-
-		while (iterator.hasNext()) {
-			Role role = iterator.next();
-			if (role.getName().equals(roleName)) {
-				return true;
-			}
+		if(this.role.equals(roleName)) {
+			return true;
 		}
-
 		return false;
 	}
 	

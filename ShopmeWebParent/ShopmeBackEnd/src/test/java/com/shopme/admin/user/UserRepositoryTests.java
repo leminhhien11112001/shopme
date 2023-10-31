@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
-import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
 @DataJpaTest(showSql = false)
@@ -30,70 +29,9 @@ public class UserRepositoryTests {
 	
 	@Test
 	public void testCreateUserWithOneRole() {
-		Role roleAdmin = entityManager.find(Role.class, 1);
-		User userNamHM = new User("nam@codejava.net", "nam2020", "Nam", "Ha Minh");
-		userNamHM.addRole(roleAdmin);
+		User userNamHM = new User("hanh@codejava.net", "nam2020", "Nam", "Ha Minh", "Admin");
 
 		User savedUser = repo.save(userNamHM);
-
-		assertThat(savedUser.getId()).isGreaterThan(0);
-	}
-	
-	@Test
-	public void testCreateNewUserWithTwoRoles() {
-		User userRavi = new User("ravi@gmail.com", "ravi2020", "Ravi", "Kumar");
-		Role roleEditor = new Role(3);
-		Role roleAssistant = new Role(5);
-
-		userRavi.addRole(roleEditor);
-		userRavi.addRole(roleAssistant);
-
-		User savedUser = repo.save(userRavi);
-
-		assertThat(savedUser.getId()).isGreaterThan(0);
-	}
-	
-	//No hashCode Role
-	@Test
-	public void testCreateNewUserWithTwoRolesWithNoHashCode() {
-		User userKunjan = new User("kunjan@gmail.com","kkapadia","Kunjan","Kapadia");
-
-		Role roleEditor = new Role(3);
-		
-		Role roleAssistant1 = new Role(5);
-		Role roleAssistant2 = new Role(5);
-
-
-		userKunjan.addRole(roleEditor);
-
-		userKunjan.addRole(roleAssistant1);
-
-		userKunjan.addRole(roleAssistant2);
-
-
-		User savedUser = repo.save(userKunjan);
-
-		assertThat(savedUser.getId()).isGreaterThan(0);
-	}
-	
-	@Test
-	public void testCreateNewUserWithTwoRolesWithHashCode() {
-		User userKunjan = new User("kunjan@gmail.com","kkapadia","Kunjan","Kapadia");
-
-		Role roleEditor = new Role(3);
-		
-		Role roleAssistant1 = new Role(5);
-		Role roleAssistant2 = new Role(5);
-
-
-		userKunjan.addRole(roleEditor);
-
-		userKunjan.addRole(roleAssistant1);
-
-		userKunjan.addRole(roleAssistant2);
-
-
-		User savedUser = repo.save(userKunjan);
 
 		assertThat(savedUser.getId()).isGreaterThan(0);
 	}
@@ -123,14 +61,8 @@ public class UserRepositoryTests {
 	@Test
 	public void testUpdateUserRoles() {
 		User userRavi = repo.findById(8).get();
-		Role roleEditor = new Role(3);
-		Role roleSalesperson = new Role(2);
-		Role roleSalesperson2 = new Role(2);
 
-		userRavi.getRoles().remove(roleEditor);
-		
-		userRavi.addRole(roleSalesperson);
-		userRavi.addRole(roleSalesperson2);
+		userRavi.setRole("Shipper");
 
 		repo.save(userRavi);
 	}
@@ -168,7 +100,7 @@ public class UserRepositoryTests {
 
 	@Test
 	public void testEnableUser() {
-		Integer id = 3;
+		Integer id = 1;
 		repo.updateEnabledStatus(id, true);
 
 	}	

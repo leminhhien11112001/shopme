@@ -43,7 +43,7 @@
 					
 					<th th:replace="fragments :: column_link('/users', 'lastName', 'Last Name', 'none')" />
 					
-					<th>Roles</th>
+					<th>Role</th>
 					
 					<th th:replace="fragments :: column_link('/users', 'enabled', 'Enabled', 'none')" />
 					
@@ -59,7 +59,7 @@
 					<td class="hideable-column">[[${user.email}]]</td>
 					<td>[[${user.firstName}]]</td>
 					<td>[[${user.lastName}]]</td>
-					<td>[[${user.roles}]]</td>
+					<td>[[${user.role}]]</td>
 					<td>
 						<div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})" />
 					</td>
@@ -80,7 +80,7 @@
 			</div>
 			<div class="col-8">
 				<div>[[${user.fullName}]]</div>
-				<div>[[${user.roles}]]</div>
+				<div>[[${user.role}]]</div>
 				<div class="mt-2">
 					<div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})" />
 					&nbsp; 			

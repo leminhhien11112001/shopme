@@ -1,5 +1,6 @@
 package com.shopme.admin.user;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -11,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 
 import jakarta.transaction.Transactional;
@@ -24,9 +24,6 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepo;
-	
-	@Autowired
-	private RoleRepository roleRepo;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -53,8 +50,16 @@ public class UserService {
 		return userRepo.findAll(pageable);
 	}
 	
-	public List<Role> listRoles() {
-		return (List<Role>) roleRepo.findAll();
+	public List<String> listRoles() {
+		List<String> roles = new ArrayList<>();
+		
+		roles.add("Admin");
+		roles.add("Salesperson");
+		roles.add("Editor");
+		roles.add("Shipper");
+		roles.add("Assistant");
+		
+		return roles;
 	}
 	
 	public User save(User user) {
