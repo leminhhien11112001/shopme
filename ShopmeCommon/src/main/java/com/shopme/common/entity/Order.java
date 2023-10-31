@@ -157,10 +157,7 @@ public class Order {
 		this.destination = destination;
 	}
 
-	@Transient
 	public String getDestination() {
-		String destination = customer.getAddress();
-
 		return destination;
 	}
 	
