@@ -31,10 +31,7 @@
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" data-toggle="tab" href="#details" role="tab">Details</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" data-toggle="tab" href="#shipping" role="tab">Shipping</a>
-		  </li>		  
+		  </li>  
 		</ul>
 		
 		<div class="tab-content">
@@ -72,15 +69,6 @@
 			  	</div>
 		  	</th:block>
 		  		
-		  </div>
-		  <div class="tab-pane p-3" id="shipping" role="tabpanel">
-		  	<th:block th:if="${isReadOnlyForSalesperson}">
-		  			<div th:replace="products/product_shipping_read_only :: content"></div>
-		  	</th:block>		  
-		  
-		  	<th:block th:unless="${isReadOnlyForSalesperson}">
-		  		<div th:replace="products/product_shipping :: content"></div>
-		  	</th:block>
 		  </div>
 		</div>	
 	</div>
