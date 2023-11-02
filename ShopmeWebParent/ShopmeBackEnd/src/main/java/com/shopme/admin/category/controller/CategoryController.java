@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.common.exception.CategoryNotFoundException;
 import com.shopme.admin.category.CategoryService;
+import com.shopme.common.entity.Agency;
 import com.shopme.common.entity.Category;
 
 @Controller
@@ -67,10 +68,12 @@ public class CategoryController {
 	@GetMapping("/categories/new")
 	public String newCategory(Model model) {
 		List<Category> listCategories = service.listAll();
+		List<Agency> listAgencies = service.listAgencies();
 
 		model.addAttribute("category", new Category());
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("pageTitle", "Create New Category");
+		model.addAttribute("listAgencies", listAgencies);
 
 		return "categories/category_form";
 	}
@@ -105,9 +108,11 @@ public class CategoryController {
 		try {
 			Category category = service.get(id);
 			List<Category> listCategories = service.listAll();
+			List<Agency> listAgencies = service.listAgencies();
 
 			model.addAttribute("category", category);
 			model.addAttribute("listCategories", listCategories);
+			model.addAttribute("listAgencies", listAgencies);
 			model.addAttribute("pageTitle", "Edit Category (ID: " + id + ")");
 
 			return "categories/category_form";			
