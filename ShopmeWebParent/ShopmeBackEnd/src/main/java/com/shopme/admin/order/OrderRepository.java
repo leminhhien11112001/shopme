@@ -23,6 +23,6 @@ public interface OrderRepository extends CrudRepository<Order, Integer>,
 	
 	@Query("SELECT NEW com.shopme.common.entity.Order(o.id, o.orderTime, o.productCost,"
 			+ " o.total) FROM Order o WHERE"
-			+ " o.orderTime BETWEEN ?1 AND ?2 ORDER BY o.orderTime ASC")
+			+ " DATE(o.orderTime) BETWEEN DATE(?1) AND DATE(?2) ORDER BY o.orderTime ASC")
 	public List<Order> findByOrderTimeBetween(Date startTime, Date endTime);
 }
