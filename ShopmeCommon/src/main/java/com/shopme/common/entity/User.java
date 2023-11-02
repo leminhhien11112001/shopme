@@ -32,6 +32,7 @@ public class User {
 
 	private boolean enabled;
 	
+	@Column(name = "role", length = 20, nullable = false)
 	private String role;
 
 	public User() {
