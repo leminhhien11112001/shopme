@@ -45,6 +45,8 @@
 					
 					<th>Role</th>
 					
+					<th th:replace="fragments :: column_link('/users', 'agency', 'Agency', 'none')" />
+					
 					<th th:replace="fragments :: column_link('/users', 'enabled', 'Enabled', 'none')" />
 					
 					<th></th>
@@ -60,6 +62,7 @@
 					<td>[[${user.firstName}]]</td>
 					<td>[[${user.lastName}]]</td>
 					<td>[[${user.role}]]</td>
+					<td>[[${user.agency}]]</td>
 					<td>
 						<div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})" />
 					</td>
@@ -71,26 +74,6 @@
 				</tr>
 			</tbody>
 		</table>
-	</div>
-	
-	<div class="less-details">
-		<div th:each="user : ${listUsers}" class="row m-1">
-			<div class="col-4">
-				<img th:src="@{${user.photosImagePath}}" style="width: 100px" />		
-			</div>
-			<div class="col-8">
-				<div>[[${user.fullName}]]</div>
-				<div>[[${user.role}]]</div>
-				<div class="mt-2">
-					<div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})" />
-					&nbsp; 			
-					<div th:replace="fragments :: edit('user', '/users/edit/' + ${user.id})" />
-					&nbsp;&nbsp;
-					<div th:replace="fragments :: delete('user', ${user.id}, '/users/delete/' + ${user.id}, true)" />
-				</div>
-			</div>
-			<div>&nbsp;</div>
-		</div>
 	</div>
 	
 	<div th:replace="fragments :: pagination('/users', 'users')"></div>

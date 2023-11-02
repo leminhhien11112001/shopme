@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.admin.user.UserService;
+import com.shopme.common.entity.Agency;
 import com.shopme.common.entity.User;
 
 import org.springframework.util.StringUtils;
@@ -76,12 +77,14 @@ public class UserController {
 	@GetMapping("/users/new")
 	public String newUser(Model model) {
 		List<String> listRoles = service.listRoles();
-
+		List<Agency> listAgencies = service.listAgencies();
+		
 		User user = new User();
 		user.setEnabled(true);
 
 		model.addAttribute("user", user);
 		model.addAttribute("listRoles", listRoles);
+		model.addAttribute("listAgencies", listAgencies);
 		model.addAttribute("pageTitle", "Create New User");
 
 		return "users/user_form";
@@ -126,10 +129,12 @@ public class UserController {
 		try {
 			User user = service.get(id);
 			List<String> listRoles = service.listRoles();
+			List<Agency> listAgencies = service.listAgencies();
 
 			model.addAttribute("user", user);
 			model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");
 			model.addAttribute("listRoles", listRoles);
+			model.addAttribute("listAgencies", listAgencies);
 
 			return "users/user_form";
 		} catch (UserNotFoundException ex) {

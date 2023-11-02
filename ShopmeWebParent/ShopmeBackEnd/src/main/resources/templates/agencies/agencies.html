@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Agencies - Shopme Admin', 'none')" />
+<body>
+<div class="container-fluid">
+	<div th:replace="navigation :: menu"></div>
+	<div>
+		<h2>Manage Agencies</h2>	
+	</div>
+
+	<div th:replace="fragments :: search_form_and_message('/agencies/page/1')" />
+
+	<div class="full-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="thead-dark">
+				<tr>
+					<th th:replace="fragments :: column_link('/agencies', 'id', 'ID', 'none')" />
+					<th th:replace="fragments :: column_link('/agencies', 'name', 'Name', 'none')" />
+					<th th:replace="fragments :: column_link('/agencies', 'address', 'Address', 'none')" />
+					<th></th>
+					<th></th>
+				</tr>								
+			</thead>
+			<tbody>
+				<tr th:each="agency : ${listAgencies}">
+					<td>[[${agency.id}]]</td>
+					<td>[[${agency.name}]]</td>
+					<td>[[${agency.address}]]</td>
+					<td>
+						<div th:replace="fragments :: status(${agency.enabled}, 'agency', '/agencies/' + ${agency.id})" />
+					</td>
+					<td>
+						<div th:replace="fragments :: edit('agency', '/agencies/edit/' + ${agency.id})" />
+					</td>					
+				</tr>
+			</tbody>
+		</table>
+	</div>	
+
+	<div th:replace="fragments :: pagination('/agencies', 'agencies')"></div>
+
+	<div th:replace="fragments :: footer"></div>
+
+</div>
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+	moduleURL = "[[@{/agencies}]]";
+</script>
+</body>
+</html>

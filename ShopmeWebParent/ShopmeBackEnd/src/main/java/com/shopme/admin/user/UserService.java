@@ -12,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.shopme.admin.agency.AgencyRepository;
+import com.shopme.common.entity.Agency;
 import com.shopme.common.entity.User;
 
 import jakarta.transaction.Transactional;
@@ -24,6 +26,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private AgencyRepository agencyRepo;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -60,6 +65,12 @@ public class UserService {
 		roles.add("Assistant");
 		
 		return roles;
+	}
+	
+	public List<Agency> listAgencies() {
+		List<Agency> agencies = agencyRepo.findAll();
+		
+		return agencies;
 	}
 	
 	public User save(User user) {

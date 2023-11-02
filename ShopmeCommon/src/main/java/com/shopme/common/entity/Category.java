@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -25,6 +27,10 @@ public class Category {
 	private String image;
 	
 	private boolean enabled;
+	
+	@ManyToOne
+	@JoinColumn(name = "agency_id")
+	private Agency agency;
 	
 	public Category() {
 
@@ -86,6 +92,14 @@ public class Category {
 		this.enabled = enabled;
 	}
 	
+	public Agency getAgency() {
+		return agency;
+	}
+
+	public void setAgency(Agency agency) {
+		this.agency = agency;
+	}
+
 	@Transient
 	public String getImagePath() {
 		if (this.id == null || this.image == null) return "/images/image-thumbnail.png";
