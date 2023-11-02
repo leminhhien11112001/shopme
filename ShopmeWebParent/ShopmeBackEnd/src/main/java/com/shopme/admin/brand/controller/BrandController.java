@@ -68,7 +68,7 @@ public class BrandController {
 	
 	@GetMapping("/brands/new")
 	public String newBrand(Model model) {
-		List<Category> listCategories = categoryService.listCategoriesUsedInForm();
+		List<Category> listCategories = categoryService.listAll();
 
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("brand", new Brand());
@@ -104,7 +104,7 @@ public class BrandController {
 			RedirectAttributes ra) {
 		try {
 			Brand brand = brandService.get(id);
-			List<Category> listCategories = categoryService.listCategoriesUsedInForm();
+			List<Category> listCategories = categoryService.listAll();
 
 			model.addAttribute("brand", brand);
 			model.addAttribute("listCategories", listCategories);
