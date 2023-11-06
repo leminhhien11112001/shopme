@@ -117,5 +117,17 @@ public class CustomerController {
 
 		return "redirect:/customers";
 	}
+	
+	@GetMapping("/customers/new")
+	public String newCustomer(Model model) {
+		
+		Customer customer = new Customer();
+		customer.setEnabled(true);
+
+		model.addAttribute("customer", customer);
+		model.addAttribute("pageTitle", "Create New Customer");
+
+		return "customers/customer_form";
+	}
 
 }
