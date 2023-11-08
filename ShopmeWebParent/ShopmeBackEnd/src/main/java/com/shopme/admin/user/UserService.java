@@ -88,7 +88,6 @@ public class UserService {
 		} else {		
 			encodePassword(user);
 		}
-		
 		return userRepo.save(user);
 	}
 	
@@ -152,6 +151,27 @@ public class UserService {
 
 	public void updateUserEnabledStatus(Integer id, boolean enabled) {
 		userRepo.updateEnabledStatus(id, enabled);
+	}
+
+	public boolean isIdValid(Integer oldId, Integer id, Integer agencyId) {
+		
+		if ((id % 100) != agencyId) return false;
+		
+		User userById = userRepo.getUserById(id);
+
+		if(userById == null) return true;
+		
+		boolean isCreatingNew = (oldId == null);
+		
+		if(isCreatingNew) {
+			if(userById != null) return false;
+		}else {
+			if(userById.getId() != id) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	

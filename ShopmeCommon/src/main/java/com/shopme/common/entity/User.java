@@ -14,7 +14,6 @@ import jakarta.persistence.Transient;
 @Table(name = "users")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(length = 128, nullable = false, unique = true)
