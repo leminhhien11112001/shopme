@@ -36,6 +36,9 @@ public class Agency {
 	@OneToMany(mappedBy = "agency", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Category> categoies = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "agency", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Order> orders = new ArrayList<>();
+	
 	public Agency() {
 		
 	}
@@ -93,6 +96,14 @@ public class Agency {
 		this.enabled = enabled;
 	}
 	
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
 	@Transient
 	public String getAgency() {
 		return this.id + " - " + this.name;

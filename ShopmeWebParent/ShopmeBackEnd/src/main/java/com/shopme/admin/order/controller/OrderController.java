@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shopme.admin.order.OrderNotFoundException;
 import com.shopme.admin.order.OrderService;
 import com.shopme.admin.security.ShopmeUserDetails;
-import com.shopme.common.entity.Customer;
+import com.shopme.common.entity.Agency;
 import com.shopme.common.entity.Order;
 import com.shopme.common.entity.OrderDetail;
 import com.shopme.common.entity.OrderTrack;
@@ -118,10 +118,12 @@ public class OrderController {
 	@GetMapping("/orders/edit/{id}")
 	public String editOrder(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
 		try {
-			Order order = orderService.get(id);;
+			Order order = orderService.get(id);
+			List<Agency> listAgencies = orderService.listAgencies();
 
 			model.addAttribute("pageTitle", "Edit Order (ID: " + id + ")");
 			model.addAttribute("order", order);
+			model.addAttribute("listAgencies", listAgencies);
 
 			return "orders/order_form";
 
