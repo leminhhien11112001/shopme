@@ -33,9 +33,19 @@
 	    </div>
 	  </div>
 	  <div class="form-group row">
+			<label class="col-sm-2 col-form-label">Agency:</label>
+			<div class="col-sm-10">
+				<select th:field="*{agency}" class="form-control" required style="max-width: 180px">
+					<th:block th:each="agency : ${listAgencies}">
+						<option th:value="${agency.id}">[[${agency.agency}]]</option>
+					</th:block>
+				</select>
+			</div>
+		</div>
+	  <div class="form-group row">
 	    <label class="col-sm-2 col-form-label">Payment Method:</label>
 	    <div class="col-sm-10">
-		      <select th:field="*{paymentMethod}" class="form-control" required style="max-width: 150px">
+		      <select th:field="*{paymentMethod}" class="form-control" style="max-width: 180px">
 	  			 <option th:value="COD">COD</option>
   				 <option th:value="CREDIT_CARD">CREDIT_CARD</option>
   				 <option th:value="PAYPAL">PAYPAL</option>
@@ -45,7 +55,7 @@
 	  <div class="form-group row">
 	    <label class="col-sm-2 col-form-label">Status:</label>
 	    <div class="col-sm-10">
-		      <select th:field="*{status}" class="form-control" required style="max-width: 150px">
+		      <select th:field="*{status}" class="form-control" required style="max-width: 180px">
 	  			 <option th:value="NEW">NEW</option>
   				 <option th:value="CANCELLED">CANCELLED</option>
   				 <option th:value="PROCESSING">PROCESSING</option>
