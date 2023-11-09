@@ -74,7 +74,7 @@ public class UserService {
 	}
 	
 	public User save(User user) {
-		boolean isUpdatingUser = (user.getId() != null);
+		boolean isUpdatingUser = userRepo.existsById(user.getId());
 
 		if (isUpdatingUser) {
 			User existingUser = userRepo.findById(user.getId()).get();
@@ -88,7 +88,6 @@ public class UserService {
 		} else {		
 			encodePassword(user);
 		}
-		
 		return userRepo.save(user);
 	}
 	
@@ -115,17 +114,17 @@ public class UserService {
 		user.setPassword(encodePassword);
 	}
 	
-	public boolean isEmailUnique(Integer id, String email) {
+	public boolean isEmailUnique(Integer oldId, Integer id, String email) {
 		User userByEmail = userRepo.getUserByEmail(email);
 
 		if(userByEmail == null) return true;
 		
-		boolean isCreatingNew = (id == null);
+		boolean isCreatingNew = (oldId == null);
 		
 		if(isCreatingNew) {
 			if(userByEmail != null) return false;
 		}else {
-			if(userByEmail.getId() != id) {
+			if(!userByEmail.getId().equals(id)) {
 				return false;
 			}
 		}
@@ -152,6 +151,22 @@ public class UserService {
 
 	public void updateUserEnabledStatus(Integer id, boolean enabled) {
 		userRepo.updateEnabledStatus(id, enabled);
+	}
+
+	public boolean isIdValid(Integer oldId, Integer id, Integer agencyId) {
+		
+		if ((id / 100) != agencyId) return false;
+		User userById = userRepo.getUserById(id);
+
+		if(userById == null) return true;
+		
+		boolean isCreatingNew = (oldId == null);
+		
+		if(isCreatingNew) {
+			if(userById != null) return false;
+		}
+		
+		return true;
 	}
 
 	

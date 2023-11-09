@@ -13,12 +13,21 @@
 	</div>
 	
 	<form th:action="@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto"
-		enctype="multipart/form-data"
-		th:object="${user}" onsubmit="return checkEmailUnique(this);">
+      enctype="multipart/form-data"
+      th:object="${user}" onsubmit="return checkId(this)">
 		
-		<input type="hidden" th:field="*{id}" />
+		<input th:if = "${user.id != null}" type="hidden" id="oldId" th:value="${user.id}">
+		<!--<input type="hidden" id = "oldId" th:field="*{id}" />-->
 
 	<div class="border border-secondary rounded p-3">
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label">Id:</label>
+			<div class="col-sm-8">			
+				<input th:if = "${user.id == null}" type="number"  class="form-control" th:field="*{id}" required minlength="3" maxlength="3" />
+				<input th:if = "${user.id != null}" type="number"  class="form-control" th:field="*{id}" required minlength="3" maxlength="3" readonly/>
+			</div>
+		</div>
+		
 		<div class="form-group row">
 			<label class="col-sm-4 col-form-label">E-mail:</label>
 			<div class="col-sm-8">
@@ -109,14 +118,57 @@
 
 	moduleURL = "[[@{/users}]]";
 	
+	function checkId(form) {
+		url = "[[@{/users/check_id}]]";
+		
+		csrfValue = $("input[name='_csrf']").val();
+		oldId = $("#oldId").val();
+		userId = $("#id").val();
+		agencyId = $("#agency").val();
+		params = {oldId: oldId, id: userId, agencyId: agencyId, _csrf: csrfValue};
+		
+		$.post(url, params, function(response) {
+			if (response == "OK") {
+			url = "[[@{/users/check_email}]]";
+					userEmail = $("#email").val();
+					csrfValue = $("input[name='_csrf']").val();
+					userId =  $("#id").val();
+					oldId =  $("#oldId").val();
+					params = {oldId: oldId, id: userId, email: userEmail, _csrf: csrfValue};
+					
+					$.post(url, params, function(response) {
+						if (response == "OK") {
+							form.submit();
+						} else if (response == "Duplicated") {
+							showWarningModal("There is another user having the email " + userEmail);
+						} else {
+							showErrorModal("Unknown response from server");
+						}
+					}).fail(function() {
+						showErrorModal("Could not connect to the server");
+					});
+					return false;
+			} else if (response == "Duplicated") {
+				showWarningModal("There is another user having the id "+userId+" agency "+agencyId+" not fit ");
+				return false;
+			} else {
+				showErrorModal("Unknown response from server");
+				return false;
+			}
+		}).fail(function() {
+			showErrorModal("Could not connect to the server");
+			return false;
+		});
+		return false;
+	}
+	
 	function checkEmailUnique(form) {
 		url = "[[@{/users/check_email}]]";
-		
 		userEmail = $("#email").val();
 		csrfValue = $("input[name='_csrf']").val();
-		userId = $("#id").val();
-		
-		params = {id: userId, email: userEmail, _csrf: csrfValue};
+		userId =  $("#id").val();
+		oldId =  $("#oldId").val();
+		params = {oldId: oldId, id: userId, email: userEmail, _csrf: csrfValue};
 		
 		$.post(url, params, function(response) {
 			if (response == "OK") {
@@ -129,8 +181,6 @@
 		}).fail(function() {
 			showErrorModal("Could not connect to the server");
 		});
-		
-		return false;
 	}
 </script>
 <script th:src="@{/js/common_form.js}"></script>
