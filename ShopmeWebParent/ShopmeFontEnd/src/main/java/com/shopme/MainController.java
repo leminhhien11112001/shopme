@@ -21,7 +21,7 @@ public class MainController {
 	
 	@GetMapping("")
 	public String viewHomePage(Model model) {
-		List<Category> listCategories = categoryService.listNoChildrenCategories();
+		List<Category> listCategories = categoryService.listAllCategories();
 		model.addAttribute("listCategories", listCategories);
 		
 		return "index";

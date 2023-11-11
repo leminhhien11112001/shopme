@@ -16,19 +16,10 @@ public class CategoryService {
 	@Autowired 
 	private CategoryRepository repo;
 
-	public List<Category> listNoChildrenCategories() {
-		List<Category> listNoChildrenCategories = new ArrayList<>();
-
+	public List<Category> listAllCategories() {
 		List<Category> listEnabledCategories = repo.findAllEnabled();
 
-		listEnabledCategories.forEach(category -> {
-			Set<Category> children = category.getChildren();
-			if (children == null || children.size() == 0) {
-				listNoChildrenCategories.add(category);
-			}
-		});
-
-		return listNoChildrenCategories;
+		return listEnabledCategories;
 	}
 	
 	public Category getCategory(String alias) throws CategoryNotFoundException {
@@ -43,13 +34,6 @@ public class CategoryService {
 	//For Breadcrumb
 	public List<Category> getCategoryParents(Category child) {
 		List<Category> listParents = new ArrayList<>();
-
-		Category parent = child.getParent();
-
-		while (parent != null) {
-			listParents.add(0, parent);
-			parent = parent.getParent();
-		}
 
 		listParents.add(child);
 
