@@ -39,7 +39,7 @@
 					</div>
 					<div>
 						<span>=&nbsp;</span>
-						<span>$ [[${item.subtotal}]]</span>
+						<span th:id="'subtotal' + ${product.id}" class="h4 subtotal">$ [[${item.subtotal}]]</span>
 					</div>					
 				</div>
 			</div>
@@ -52,7 +52,7 @@
 				<span class="h3">Estimated Total:</span>
 			</div>
 			<div class="mt-2">
-				<span>$ [[${estimatedTotal}]]</span>
+				<span style="font-size: larger;" id="total">$ [[${estimatedTotal}]]</span>
 			</div>
 			<div class="mt-2">
 				<button class="btn btn-danger p-3 mt-2">Check Out</button>
@@ -64,7 +64,16 @@
 		<h3>You have not chosen any products yet.</h3>
 	</div>
 
+	<div th:replace="fragments :: modal_dialog"></div>
 	<div th:replace="navigation :: footer_menu"></div>
 </div>	
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+	var csrfHeaderName = "[[${_csrf.headerName}]]";
+	var csrfValue = "[[${_csrf.token}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/jquery.number.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/shopping_cart.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_modal.js}"></script>
 </body>
 </html>
