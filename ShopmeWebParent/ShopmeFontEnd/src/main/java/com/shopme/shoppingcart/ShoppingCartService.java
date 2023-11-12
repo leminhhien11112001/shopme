@@ -1,11 +1,15 @@
 package com.shopme.shoppingcart;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shopme.common.entity.CartItem;
 import com.shopme.common.entity.Customer;
 import com.shopme.common.entity.Product;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class ShoppingCartService {
@@ -40,4 +44,20 @@ public class ShoppingCartService {
 
 		return updatedQuantity;
 	}
+	
+	public List<CartItem> listCartItems(Customer customer) {
+		return cartRepo.findByCustomer(customer);
+	}
+	
+	public String getEmailOfAuthenticatedCustomer(HttpServletRequest request) {
+		Object principal = request.getUserPrincipal();
+		
+		if (principal == null) return null;
+
+		String customerEmail = null;
+
+		customerEmail = request.getUserPrincipal().getName(); 
+		
+		return customerEmail;
+	}	
 }

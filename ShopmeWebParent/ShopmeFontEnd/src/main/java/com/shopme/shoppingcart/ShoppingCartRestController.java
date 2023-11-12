@@ -38,23 +38,11 @@ public class ShoppingCartRestController {
 
 	private Customer getAuthenticatedCustomer(HttpServletRequest request) 
 			throws CustomerNotFoundException {
-		String email = getEmailOfAuthenticatedCustomer(request);
+		String email = cartService.getEmailOfAuthenticatedCustomer(request);
 		if (email == null) {
 			throw new CustomerNotFoundException("No authenticated customer");
 		}
 
 		return customerService.getCustomerByEmail(email);
 	}
-	
-	private String getEmailOfAuthenticatedCustomer(HttpServletRequest request) {
-		Object principal = request.getUserPrincipal();
-		
-		if (principal == null) return null;
-
-		String customerEmail = null;
-
-		customerEmail = request.getUserPrincipal().getName(); 
-		
-		return customerEmail;
-	}	
 }
