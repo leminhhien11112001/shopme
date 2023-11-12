@@ -14,12 +14,7 @@ public class UserRestController {
 	private UserService service;
 	
 	@PostMapping("/users/check_id")
-	public String checkValidId(Integer oldId, Integer id, Integer agencyId) {
-		return service.isIdValid(oldId, id, agencyId) ? "OK" : "Duplicated";
-	}
-	
-	@PostMapping("/users/check_email")
-	public String checkDuplicateEmail(Integer oldId, Integer id, String email) {
-		return service.isEmailUnique(oldId, id, email) ? "OK" : "Duplicated";
+	public String checkValidId(Integer oldId, Integer id, Integer agencyId, String email) {
+		return service.checkValid(oldId, id, agencyId, email);
 	}
 }

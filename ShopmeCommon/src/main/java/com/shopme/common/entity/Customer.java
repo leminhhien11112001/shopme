@@ -15,7 +15,6 @@ import jakarta.persistence.Transient;
 public class Customer {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(nullable = false, unique = true, length = 45)

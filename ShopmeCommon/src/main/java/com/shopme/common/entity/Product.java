@@ -23,7 +23,6 @@ import jakarta.persistence.Transient;
 @Table(name = "products")
 public class Product {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(unique = true, length = 256, nullable = false)

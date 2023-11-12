@@ -37,16 +37,20 @@ function getCategories() {
 }
 
 function checkUnique(form) {
+	productOldId = $("#oldId").val();
+	cateId = $("#category").val();
 	productId = $("#id").val();
 	productName = $("#name").val();
 
 	csrfValue = $("input[name='_csrf']").val();
 
-	params = {id: productId, name: productName, _csrf: csrfValue};
+	params = {oldId: productOldId, cateId: cateId, id: productId, name: productName, _csrf: csrfValue};
 
 	$.post(checkUniqueUrl, params, function(response) {
 		if (response == "OK") {
 			form.submit();
+		} else if (response == "DuplicateId") {
+			showWarningModal("There is another product having the Id " + productId);	
 		} else if (response == "Duplicate") {
 			showWarningModal("There is another product having the name " + productName);	
 		} else {

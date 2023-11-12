@@ -14,7 +14,7 @@ public class ProductRestController {
 	private ProductService service;
 
 	@PostMapping("/products/check_unique")
-	public String checkUnique(Integer id, String name) {
-		return service.checkUnique(id, name);
+	public String checkUnique(Integer oldId, Integer cateId, Integer id, String name) {
+		return service.checkUnique(oldId, cateId, id, name);
 	}	
 }

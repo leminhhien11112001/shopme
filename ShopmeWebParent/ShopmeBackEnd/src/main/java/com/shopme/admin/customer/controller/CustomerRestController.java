@@ -12,11 +12,7 @@ public class CustomerRestController {
 	private CustomerService service;
 
 	@PostMapping("/customers/check_email")
-	public String checkDuplicateEmail(Integer id, String email) {
-		if (service.isEmailUnique(id, email)) {
-			return "OK";
-		} else {
-			return "Duplicated";
-		}
+	public String checkDuplicateEmail(Integer oldId, Integer id, String email) {
+		return service.isEmailUnique(oldId, id, email); 
 	}
 }

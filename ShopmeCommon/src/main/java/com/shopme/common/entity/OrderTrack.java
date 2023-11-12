@@ -20,7 +20,6 @@ import jakarta.persistence.Transient;
 public class OrderTrack{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(length = 256)

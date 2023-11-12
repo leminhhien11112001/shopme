@@ -6,9 +6,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.shopme.common.entity.Category;
+import com.shopme.common.entity.User;
 
 @Repository 
 public interface CategoryRepository extends	PagingAndSortingRepository<Category, Integer>
@@ -26,5 +28,8 @@ public interface CategoryRepository extends	PagingAndSortingRepository<Category,
 	
 	@Query("UPDATE Category c SET c.enabled = ?2 WHERE c.id = ?1")
 	@Modifying
-	public void updateEnabledStatus(Integer id, boolean enabled);	
+	public void updateEnabledStatus(Integer id, boolean enabled);
+
+	@Query("SELECT u FROM Category u WHERE u.id = :id")
+	public Category getCategoryById(@Param("id") Integer id);	
 }

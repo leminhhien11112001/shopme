@@ -54,23 +54,25 @@ public class CustomerService {
 	}
 	
 
-	public boolean isEmailUnique(Integer id, String email) {
+	public String isEmailUnique(Integer oldId, Integer id, String email) {
+		Customer existCustomerById = customerRepo.getCustomerById(id);
 		Customer existCustomer = customerRepo.findByEmail(email);
 
+		if (oldId == null && existCustomerById != null) return "DuplicatedId";
+		
 		if (existCustomer != null && existCustomer.getId() != id) {
 			// found another customer having the same email
-			return false;
+			return "Duplicated";
 		}
 
-		return true;
+		return "OK";
 	}
 
 	public void save(Customer customerInForm) {
-		boolean isUpdatingCustomer = (customerInForm.getId() != null);
+		Customer customerInDB = customerRepo.getCustomerById(customerInForm.getId());
+		boolean isUpdatingCustomer = (customerInDB != null);
 		
 		if(isUpdatingCustomer) {
-			Customer customerInDB = customerRepo.findById(customerInForm.getId()).get();
-			
 			if (!customerInForm.getPassword().isEmpty()) {
 				String encodedPassword = passwordEncoder.encode(customerInForm.getPassword());
 				customerInForm.setPassword(encodedPassword);			

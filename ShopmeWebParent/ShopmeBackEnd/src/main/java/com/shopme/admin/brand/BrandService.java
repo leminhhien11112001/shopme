@@ -39,6 +39,10 @@ public class BrandService {
 	}
 	
 	public Brand save(Brand brand) {
+		if (brand.getId() < 100) {
+			String newId =1 + ((brand.getId() < 10)? "0":"") + brand.getId();
+			brand.setId(Integer.parseInt(newId));
+		}
 		return repo.save(brand);
 	}
 
@@ -60,14 +64,20 @@ public class BrandService {
 		repo.deleteById(id);
 	}
 	
-	public String checkUnique(Integer id, String name) {
-		boolean isCreatingNew = (id == null || id == 0);
+	public String checkUnique(Integer oldId, Integer id, String name) {
+		boolean isCreatingNew = (oldId == null || oldId == 0);
+		
 		Brand brandByName = repo.findByName(name);
 
 		if (isCreatingNew) {
+			String newId = 1 + ((id < 10)? "0":"") + id;
+			Brand brandById = repo.getBrandById(Integer.parseInt(newId));
+			if (brandById != null) {
+				return "DuplicateId";
+			}
 			if (brandByName != null) return "Duplicate";
 		} else {
-			if (brandByName != null && brandByName.getId() != id) {
+			if (brandByName != null && !brandByName.getId().equals(id)) {
 				return "Duplicate";
 			}
 		}

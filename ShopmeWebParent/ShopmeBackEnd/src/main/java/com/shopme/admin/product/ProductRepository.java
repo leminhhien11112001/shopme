@@ -36,4 +36,7 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 			+ "OR p.brand.name LIKE %?2% "
 			+ "OR p.category.name LIKE %?2%)")			
 	public Page<Product> searchInCategory(Integer categoryId, String keyword, Pageable pageable);
+	
+	@Query("SELECT u FROM Product u WHERE u.id = :id")
+	public Product getProductById(Integer id);
 }

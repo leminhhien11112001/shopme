@@ -23,5 +23,8 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
 	@Query("SELECT c FROM Customer c WHERE c.email = ?1")
 	public Customer findByEmail(String email);
 
-	public Long countById(Integer id);	
+	public Long countById(Integer id);
+
+	@Query("SELECT u FROM Customer u WHERE u.id = :id")
+	public Customer getCustomerById(Integer id);	
 }

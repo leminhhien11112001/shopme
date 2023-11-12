@@ -53,8 +53,16 @@ public class ProductService {
 	}
 	
 	public Product save(Product product) {
-		if (product.getId() == null) {
-			product.setCreatedTime(new Date());
+		Product productInDb;
+		if(product.getId()<100) {
+			String newId = product.getCategory().getId()+ ((product.getId() < 10)? "0":"") + product.getId(); 
+			product.setId(Integer.parseInt(newId));
+			productInDb = repo.getProductById(Integer.parseInt(newId));
+		}else {
+			productInDb = repo.getProductById(product.getId());
+		}
+		if (productInDb == null) {
+			product.setCreatedTime(new Date());	
 		}
 
 		if (product.getAlias() == null || product.getAlias().isEmpty()) {
@@ -78,14 +86,18 @@ public class ProductService {
 		repo.save(productInDB);
 	}
 	
-	public String checkUnique(Integer id, String name) {
-		boolean isCreatingNew = (id == null || id == 0);
+	public String checkUnique(Integer oldId, Integer cateId, Integer id, String name) {
+		boolean isCreatingNew = (oldId == null || oldId == 0);
+		
 		Product productByName = repo.findByName(name.trim());
 
 		if (isCreatingNew) {
+			String newId = cateId + ((id < 10)? "0":"") + id;
+			Product productById = repo.getProductById(Integer.parseInt(newId));
+			if (productById != null) return "DuplicateId";
 			if (productByName != null) return "Duplicate";
 		} else {
-			if (productByName != null && productByName.getId() != id) {
+			if (productByName != null && !productByName.getId().equals(id)) {
 				return "Duplicate";
 			}
 		}

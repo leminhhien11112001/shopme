@@ -74,7 +74,7 @@ public class UserService {
 	}
 	
 	public User save(User user) {
-		boolean isUpdatingUser = userRepo.existsById(user.getId());
+		boolean isUpdatingUser = user.getId()> 101;
 
 		if (isUpdatingUser) {
 			User existingUser = userRepo.findById(user.getId()).get();
@@ -85,7 +85,9 @@ public class UserService {
 				encodePassword(user);
 			}
 
-		} else {		
+		} else {	
+			String newId = user.getAgency().getId() + ((user.getId() < 10)? "0":"") + user.getId();
+			user.setId(Integer.parseInt(newId));
 			encodePassword(user);
 		}
 		return userRepo.save(user);
@@ -153,20 +155,19 @@ public class UserService {
 		userRepo.updateEnabledStatus(id, enabled);
 	}
 
-	public boolean isIdValid(Integer oldId, Integer id, Integer agencyId) {
-		
-		if ((id / 100) != agencyId) return false;
-		User userById = userRepo.getUserById(id);
+	public String checkValid(Integer oldId, Integer id, Integer agencyId, String email) {
+		String newId = agencyId + ((id < 10)? "0":"") + id;
+		User userById = userRepo.getUserById(Integer.parseInt(newId));
+		User userByEmail = userRepo.getUserByEmail(email);
 
-		if(userById == null) return true;
+		if (oldId == null && userById != null) return "DuplicatedId";
 		
-		boolean isCreatingNew = (oldId == null);
-		
-		if(isCreatingNew) {
-			if(userById != null) return false;
+		if (userByEmail != null && userByEmail.getId() != id) {
+			// found another customer having the same email
+			return "Duplicated";
 		}
-		
-		return true;
+
+		return "OK";
 	}
 
 	

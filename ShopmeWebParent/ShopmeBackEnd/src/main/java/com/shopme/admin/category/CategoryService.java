@@ -48,6 +48,10 @@ public class CategoryService {
 	}
 	
 	public Category save(Category category) {
+		if (category.getId() < 100) {
+			String newId = category.getAgency().getId() + ((category.getId() < 10)? "0":"") + category.getId();
+			category.setId(Integer.parseInt(newId));
+		}
 		return repo.save(category);
 	}
 	
@@ -59,12 +63,17 @@ public class CategoryService {
 		}
 	}
 	
-	public String checkUnique(Integer id, String name, String alias) {
-		boolean isCreatingNew = (id == null || id == 0);
+	public String checkUnique(Integer oldId, Integer id, Integer agencyId, String name, String alias) {
+		boolean isCreatingNew = (oldId == null || oldId == 0);
 		
 		Category categoryByName = repo.findByName(name);
 		
 		if (isCreatingNew) {
+			String newId = agencyId + ((id < 10)? "0":"") + id;
+			Category categoryById = repo.getCategoryById(Integer.parseInt(newId));
+			if (categoryById != null) {
+				return "DuplicateId";
+			}
 			if (categoryByName != null) {
 				return "DuplicateName";
 			} else {
@@ -74,12 +83,12 @@ public class CategoryService {
 				}
 			}
 		} else {
-			if (categoryByName != null && categoryByName.getId() != id) {
+			if (categoryByName != null && !categoryByName.getId().equals(id)) {
 				return "DuplicateName";
 			}
 			
 			Category categoryByAlias = repo.findByAlias(alias);
-			if (categoryByAlias != null && categoryByAlias.getId() != id) {
+			if (categoryByAlias != null && !categoryByAlias.getId().equals(id)) {
 				return "DuplicateAlias";
 			}
 		}
