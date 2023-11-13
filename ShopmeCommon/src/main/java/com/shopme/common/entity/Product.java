@@ -40,6 +40,8 @@ public class Product {
 
 	@Column(name = "created_time")
 	private Date createdTime;
+	
+	private float shippingCost;
 
 	@Column(name = "updated_time")
 	private Date updatedTime;
@@ -255,6 +257,14 @@ public class Product {
 		return name;
 	}
 	
+	public float getShippingCost() {
+		return shippingCost;
+	}
+
+	public void setShippingCost(float shippingCost) {
+		this.shippingCost = shippingCost;
+	}
+
 	@Transient
 	public String getMainImagePath() {
 		if (id == null || mainImage == null) return "/images/image-thumbnail.png";
