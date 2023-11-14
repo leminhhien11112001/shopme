@@ -162,7 +162,7 @@ public class UserService {
 
 		if (oldId == null && userById != null) return "DuplicatedId";
 		
-		if (userByEmail != null && userByEmail.getId() != id) {
+		if (userByEmail != null && !userByEmail.getId().equals(id)) {
 			// found another customer having the same email
 			return "Duplicated";
 		}
