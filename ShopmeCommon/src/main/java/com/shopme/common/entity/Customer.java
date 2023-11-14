@@ -124,6 +124,11 @@ public class Customer {
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}
+	
+	@Transient
+	public String getInfo() {
+		return getFullName() + ", " + phoneNumber + ", " + address;
+	}
 
 	@Override
 	public String toString() {
