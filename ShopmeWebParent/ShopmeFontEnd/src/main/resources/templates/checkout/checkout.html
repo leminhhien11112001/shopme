@@ -30,11 +30,13 @@
 			<div class="card mt-3 mb-3">
 				<div class="card-header"><h5>Payment Method</h5></div>
 				<div class="card-body">
-					<p>
-						<input type="radio" /> Cash on Delivery (COD)
-						&nbsp;
-						<button class="btn btn-primary">Place Order with COD</button>
-					</p>
+					<form th:action="@{/place_order}" method="post">
+						<p>
+							<input type="radio" name="paymentMethod" id="radioCOD" value="COD" /> Cash on Delivery (COD)
+							&nbsp;
+							<button class="btn btn-primary d-none" type="submit" id="buttonSubmit">Place Order with COD</button>
+						</p>
+					</form>
 				</div>			
 			</div>
 		</div>
@@ -85,5 +87,17 @@
 
 	<div th:replace="navigation :: footer_menu"></div>
 </div>
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+	var csrfHeaderName = "[[${_csrf.headerName}]]";
+	var csrfValue = "[[${_csrf.token}]]";
+
+	$(document).ready(function() {
+		$("#radioCOD").on("click", function() {
+			$("#buttonSubmit").removeClass("d-none");
+		});
+	});
+
+</script>
 </body>
 </html>	
