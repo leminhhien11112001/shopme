@@ -28,10 +28,6 @@ public class Category {
 	
 	private boolean enabled;
 	
-	@ManyToOne
-	@JoinColumn(name = "agency_id")
-	private Agency agency;
-	
 	public Category() {
 
 	}
@@ -90,14 +86,6 @@ public class Category {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-	}
-	
-	public Agency getAgency() {
-		return agency;
-	}
-
-	public void setAgency(Agency agency) {
-		this.agency = agency;
 	}
 
 	@Transient

@@ -27,7 +27,6 @@
 					<th>Category Image</th>
 					<th th:replace="fragments :: column_link('/categories', 'name', 'Category Name', 'none')" />	
 					<th class="hideable-column">Alias</th>
-					<th th:replace="fragments :: column_link('/categories', 'agency', 'Agency', 'none')" />
 					<th>Enabled</th>
 					<th></th>
 				</tr>								
@@ -40,7 +39,6 @@
 					</td>
 					<td>[[${cat.name}]]</td>
 					<td class="hideable-column">[[${cat.alias}]]</td>
-					<td>[[${cat.agency}]]</td>
 					<td>
 						<div th:replace="fragments :: status(${cat.enabled}, 'category', '/categories/' + ${cat.id})" />
 					</td>

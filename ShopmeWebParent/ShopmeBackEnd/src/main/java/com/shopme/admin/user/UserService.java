@@ -12,8 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.shopme.admin.agency.AgencyRepository;
-import com.shopme.common.entity.Agency;
 import com.shopme.common.entity.User;
 
 import jakarta.transaction.Transactional;
@@ -26,9 +24,6 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepo;
-	
-	@Autowired
-	private AgencyRepository agencyRepo;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -67,14 +62,8 @@ public class UserService {
 		return roles;
 	}
 	
-	public List<Agency> listAgencies() {
-		List<Agency> agencies = agencyRepo.findAll();
-		
-		return agencies;
-	}
-	
 	public User save(User user) {
-		boolean isUpdatingUser = userRepo.existsById(user.getId());
+		boolean isUpdatingUser = (user.getId() != null);
 
 		if (isUpdatingUser) {
 			User existingUser = userRepo.findById(user.getId()).get();
@@ -114,17 +103,17 @@ public class UserService {
 		user.setPassword(encodePassword);
 	}
 	
-	public boolean isEmailUnique(Integer oldId, Integer id, String email) {
+	public boolean isEmailUnique(Integer id, String email) {
 		User userByEmail = userRepo.getUserByEmail(email);
 
 		if(userByEmail == null) return true;
 		
-		boolean isCreatingNew = (oldId == null);
+		boolean isCreatingNew = (id == null);
 		
 		if(isCreatingNew) {
 			if(userByEmail != null) return false;
 		}else {
-			if(!userByEmail.getId().equals(id)) {
+			if(userByEmail.getId() != id) {
 				return false;
 			}
 		}
@@ -153,21 +142,4 @@ public class UserService {
 		userRepo.updateEnabledStatus(id, enabled);
 	}
 
-	public boolean isIdValid(Integer oldId, Integer id, Integer agencyId) {
-		
-		if ((id / 100) != agencyId) return false;
-		User userById = userRepo.getUserById(id);
-
-		if(userById == null) return true;
-		
-		boolean isCreatingNew = (oldId == null);
-		
-		if(isCreatingNew) {
-			if(userById != null) return false;
-		}
-		
-		return true;
-	}
-
-	
 }

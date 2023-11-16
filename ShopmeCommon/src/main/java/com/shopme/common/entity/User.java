@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -14,6 +12,7 @@ import jakarta.persistence.Transient;
 @Table(name = "users")
 public class User {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column(length = 128, nullable = false, unique = true)
@@ -35,10 +34,6 @@ public class User {
 	
 	@Column(name = "role", length = 20, nullable = false)
 	private String role;
-
-	@ManyToOne
-	@JoinColumn(name = "agency_id")
-	private Agency agency;
 	
 	public User() {
 	}
@@ -114,14 +109,6 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
-	}
-	
-	public Agency getAgency() {
-		return agency;
-	}
-
-	public void setAgency(Agency agency) {
-		this.agency = agency;
 	}
 
 	@Override

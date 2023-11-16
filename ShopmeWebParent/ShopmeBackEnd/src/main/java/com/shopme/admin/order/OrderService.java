@@ -11,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.shopme.admin.agency.AgencyRepository;
-import com.shopme.common.entity.Agency;
 import com.shopme.common.entity.Order;
 import com.shopme.common.entity.OrderTrack;
 
@@ -25,9 +23,6 @@ public class OrderService {
 
 	@Autowired 
 	private OrderRepository repo;
-	
-	@Autowired
-	private AgencyRepository agencyRepo;
 
 	public Page<Order> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
 		Sort sort = Sort.by(sortField);
@@ -51,12 +46,6 @@ public class OrderService {
 
 		repo.deleteById(id);
 	}	
-	
-	public List<Agency> listAgencies() {
-		List<Agency> agencies = agencyRepo.findAll();
-		
-		return agencies;
-	}
 	
 	public Order get(Integer id) throws OrderNotFoundException {
 		try {

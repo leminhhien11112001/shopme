@@ -44,9 +44,7 @@
 					<th th:replace="fragments :: column_link('/users', 'lastName', 'Last Name', 'none')" />
 					
 					<th>Role</th>
-					
-					<th th:replace="fragments :: column_link('/users', 'agency', 'Agency', 'none')" />
-					
+										
 					<th th:replace="fragments :: column_link('/users', 'enabled', 'Enabled', 'none')" />
 					
 					<th></th>
@@ -62,7 +60,6 @@
 					<td>[[${user.firstName}]]</td>
 					<td>[[${user.lastName}]]</td>
 					<td>[[${user.role}]]</td>
-					<td>[[${user.agency}]]</td>
 					<td>
 						<div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})" />
 					</td>

@@ -57,10 +57,6 @@ public class Order {
 	@OrderBy("updatedTime ASC")
 	private List<OrderTrack> orderTracks = new ArrayList<>();
 	
-	@ManyToOne
-	@JoinColumn(name = "agency_id")
-	private Agency agency;
-	
 	public Order() {
 		
 	}
@@ -174,14 +170,6 @@ public class Order {
 
 	public String getDestination() {
 		return destination;
-	}
-	
-	public Agency getAgency() {
-		return agency;
-	}
-
-	public void setAgency(Agency agency) {
-		this.agency = agency;
 	}
 
 	@Transient

@@ -32,16 +32,7 @@
 	      <input type="text" th:field="*{total}" required class="form-control" />
 	    </div>
 	  </div>
-	  <div class="form-group row">
-			<label class="col-sm-2 col-form-label">Agency:</label>
-			<div class="col-sm-10">
-				<select th:field="*{agency}" class="form-control" required style="max-width: 180px">
-					<th:block th:each="agency : ${listAgencies}">
-						<option th:value="${agency.id}">[[${agency.agency}]]</option>
-					</th:block>
-				</select>
-			</div>
-		</div>
+	
 	  <div class="form-group row">
 	    <label class="col-sm-2 col-form-label">Payment Method:</label>
 	    <div class="col-sm-10">

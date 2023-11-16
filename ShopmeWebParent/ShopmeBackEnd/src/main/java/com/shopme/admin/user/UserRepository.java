@@ -22,14 +22,10 @@ public interface UserRepository extends PagingAndSortingRepository<User, Integer
 	
 	public Long countById(Integer id);
 	
-	@Query("SELECT u FROM User u WHERE CONCAT(u.id, ' ', u.email, ' ', u.lastName, ' ',u.firstName, ' ',"
-			+ " u.agency.name) LIKE %?1%")
+	@Query("SELECT u FROM User u WHERE CONCAT(u.id, ' ', u.email, ' ', u.lastName, ' ',u.firstName) LIKE %?1%")
 	public Page<User> findAll(String keyword, Pageable pageable);
 	
 	@Query("UPDATE User u SET u.enabled = ?2 WHERE u.id = ?1")
 	@Modifying
 	public void updateEnabledStatus(Integer id, boolean enabled);
-
-	@Query("SELECT u FROM User u WHERE u.id = :id")
-	public User getUserById(@Param("id") Integer id);
 }

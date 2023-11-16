@@ -15,7 +15,7 @@ public interface CategoryRepository extends	PagingAndSortingRepository<Category,
 				, CrudRepository<Category, Integer>{
 
 
-	@Query("SELECT c FROM Category c WHERE CONCAT(c.id, ' ', c.name, ' ', c.alias, ' ',c.agency.name) LIKE %?1%")
+	@Query("SELECT c FROM Category c WHERE CONCAT(c.id, ' ', c.name, ' ', c.alias) LIKE %?1%")
 	public Page<Category> findAll(String keyword, Pageable pageable);
 	
 	public Category findByName(String name);

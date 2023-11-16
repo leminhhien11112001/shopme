@@ -10,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.shopme.admin.agency.AgencyRepository;
-import com.shopme.common.entity.Agency;
 import com.shopme.common.entity.Category;
 import com.shopme.common.exception.CategoryNotFoundException;
 
@@ -25,9 +23,6 @@ public class CategoryService {
 	
 	@Autowired
 	private CategoryRepository repo;
-	
-	@Autowired
-	private AgencyRepository agencyRepo;
 	
 	public List<Category> listAll() {
 		return (List<Category>) repo.findAll();
@@ -99,10 +94,4 @@ public class CategoryService {
 
 		repo.deleteById(id);
 	}	
-	
-	public List<Agency> listAgencies() {
-		List<Agency> agencies = agencyRepo.findAll();
-		
-		return agencies;
-	}
 }

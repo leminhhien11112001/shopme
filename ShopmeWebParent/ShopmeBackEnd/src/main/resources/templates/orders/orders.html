@@ -25,9 +25,7 @@
 					<th th:replace="fragments :: column_link('/orders', 'destination', 'Destination', 'none')" />	
 
 					<th th:replace="fragments :: column_link('/orders', 'paymentMethod', 'Payment Method', 'none')" />	
-					
-					<th th:replace="fragments :: column_link('/orders', 'agency', 'Agency', 'none')" />
-					
+										
 					<th th:replace="fragments :: column_link('/orders', 'status', 'Status', 'none')" />
 
 					<th></th>
@@ -49,7 +47,6 @@
 					</td>
 					<td>[[${order.destination}]]</td>
 					<td>[[${order.paymentMethod}]]</td>
-					<td>[[${order.agency}]]</td>
 					<td>[[${order.status}]]</td>
 					
 					<td>
