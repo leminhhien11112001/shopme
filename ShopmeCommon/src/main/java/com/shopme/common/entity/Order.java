@@ -220,6 +220,11 @@ public class Order {
 	}	
 	
 	@Transient
+	public boolean isProcessing() {
+		return hasStatus("PROCESSING");
+	}
+	
+	@Transient
 	public String getProductNames() {
 		String productNames = "";
 
