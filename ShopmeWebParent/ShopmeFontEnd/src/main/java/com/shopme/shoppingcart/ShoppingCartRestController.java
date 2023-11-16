@@ -39,7 +39,7 @@ public class ShoppingCartRestController {
 
 	private Customer getAuthenticatedCustomer(HttpServletRequest request) 
 			throws CustomerNotFoundException {
-		String email = cartService.getEmailOfAuthenticatedCustomer(request);
+		String email = customerService.getEmailOfAuthenticatedCustomer(request);
 		if (email == null) {
 			throw new CustomerNotFoundException("No authenticated customer");
 		}

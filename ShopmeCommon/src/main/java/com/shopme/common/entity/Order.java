@@ -218,6 +218,21 @@ public class Order {
 	public boolean isReturned() {
 		return hasStatus("RETURNED");
 	}	
+	
+	@Transient
+	public String getProductNames() {
+		String productNames = "";
+
+		productNames = "<ul>";
+
+		for (OrderDetail detail : orderDetails) {
+			productNames += "<li>" + detail.getProduct().getShortName() + "</li>";			
+		}
+
+		productNames += "</ul>";
+
+		return productNames;
+	}	
 
 	public boolean hasStatus(String status) {
 		for (OrderTrack aTrack : orderTracks) {

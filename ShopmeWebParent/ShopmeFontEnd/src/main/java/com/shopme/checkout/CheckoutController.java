@@ -50,7 +50,7 @@ public class CheckoutController {
 	}
 
 	private Customer getAuthenticatedCustomer(HttpServletRequest request) {
-		String email = cartService.getEmailOfAuthenticatedCustomer(request);				
+		String email = customerService.getEmailOfAuthenticatedCustomer(request);				
 		return customerService.getCustomerByEmail(email);
 	}	
 	

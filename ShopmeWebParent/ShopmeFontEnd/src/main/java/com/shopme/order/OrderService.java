@@ -16,8 +16,15 @@ import com.shopme.common.entity.OrderDetail;
 import com.shopme.common.entity.OrderTrack;
 import com.shopme.common.entity.Product;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 @Service
 public class OrderService {
+	
+	public static final int ORDERS_PER_PAGE = 5;
 
 	@Autowired 
 	private OrderRepository repo;
@@ -74,5 +81,20 @@ public class OrderService {
 
 		return newOrder;
 		
+	}
+	
+	public Page<Order> listForCustomerByPage(Customer customer, int pageNum, 
+			String sortField, String sortDir, String keyword) {
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+
+		Pageable pageable = PageRequest.of(pageNum - 1, ORDERS_PER_PAGE, sort);
+
+		if (keyword != null) {
+			return repo.findAll(keyword, customer.getId(), pageable);
+		}
+
+		return repo.findAll(customer.getId(), pageable);
+
 	}
 }

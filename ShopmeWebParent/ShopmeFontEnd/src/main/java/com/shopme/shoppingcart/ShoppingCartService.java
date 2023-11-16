@@ -10,7 +10,6 @@ import com.shopme.common.entity.Customer;
 import com.shopme.common.entity.Product;
 import com.shopme.product.ProductRepository;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -53,18 +52,6 @@ public class ShoppingCartService {
 	
 	public List<CartItem> listCartItems(Customer customer) {
 		return cartRepo.findByCustomer(customer);
-	}
-	
-	public String getEmailOfAuthenticatedCustomer(HttpServletRequest request) {
-		Object principal = request.getUserPrincipal();
-		
-		if (principal == null) return null;
-
-		String customerEmail = null;
-
-		customerEmail = request.getUserPrincipal().getName(); 
-		
-		return customerEmail;
 	}	
 	
 	public float updateQuantity(Integer productId, Integer quantity, Customer customer) {

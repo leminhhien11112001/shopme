@@ -1,13 +1,14 @@
 package com.shopme.customer;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shopme.common.entity.Customer;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class CustomerService {
@@ -57,6 +58,18 @@ public class CustomerService {
 	private void encodePassword(Customer customer) {
 		String encodedPassword = passwordEncoder.encode(customer.getPassword());
 		customer.setPassword(encodedPassword);
+	}
+	
+	public String getEmailOfAuthenticatedCustomer(HttpServletRequest request) {
+		Object principal = request.getUserPrincipal();
+		
+		if (principal == null) return null;
+
+		String customerEmail = null;
+
+		customerEmail = request.getUserPrincipal().getName(); 
+		
+		return customerEmail;
 	}
 	
 }
