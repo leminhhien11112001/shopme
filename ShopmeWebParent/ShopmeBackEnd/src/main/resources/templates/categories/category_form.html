@@ -41,7 +41,12 @@
 		<div class="form-group row">
 			<label class="col-sm-4 col-form-label">Agency:</label>
 			<div class="col-sm-8">
-				<select th:field="*{agency}" class="form-control" required>
+				<select th:if = "${category.id == null}" th:field="*{agency}" class="form-control" required>
+					<th:block th:each="agency : ${listAgencies}">
+						<option th:value="${agency.id}">[[${agency.agency}]]</option>
+					</th:block>
+				</select>
+				<select th:if = "${category.id != null}" th:field="*{agency}" class="form-control" required disabled>
 					<th:block th:each="agency : ${listAgencies}">
 						<option th:value="${agency.id}">[[${agency.agency}]]</option>
 					</th:block>

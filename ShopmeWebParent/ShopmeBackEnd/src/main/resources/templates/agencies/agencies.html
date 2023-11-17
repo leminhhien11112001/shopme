@@ -6,6 +6,10 @@
 	<div th:replace="navigation :: menu"></div>
 	<div>
 		<h2>Manage Agencies</h2>	
+		
+		<a th:href="@{/agencies/new}" class="fas fa-folder-plus fa-2x icon-dark mr-2"
+					title="Create Agency"></a>
+		
 	</div>
 
 	<div th:replace="fragments :: search_form_and_message('/agencies/page/1')" />

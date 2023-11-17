@@ -12,9 +12,11 @@ public class AgencyRestController {
 	private AgencyService service;
 	
 	@PostMapping("/agencies/check_name")
-	public String checkDuplicateName(Integer id, String name) {
-		if (service.isNameUnique(id, name)) {
+	public String checkDuplicateName(Integer id, Integer oldId, String name) {
+		if (service.isNameUnique(id, name) && service.isIdUnique(id, oldId)) {
 			return "OK";
+		} else if (!service.isIdUnique(id, oldId)){
+			return "DuplicatedId";
 		} else {
 			return "Duplicated";
 		}

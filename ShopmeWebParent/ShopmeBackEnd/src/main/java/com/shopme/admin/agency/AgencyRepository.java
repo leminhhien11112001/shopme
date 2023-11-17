@@ -26,5 +26,8 @@ public interface AgencyRepository extends PagingAndSortingRepository<Agency, Int
 	public Agency findByName(String name);
 	
 	public List<Agency> findAll();
+
+	@Query("SELECT a FROM Agency a WHERE a.id = ?1")
+	public Agency findAgencyById(Integer id);
 	
 }

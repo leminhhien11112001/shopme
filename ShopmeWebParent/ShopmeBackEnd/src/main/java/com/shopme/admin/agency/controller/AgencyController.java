@@ -25,6 +25,15 @@ public class AgencyController {
 	public String listFirstPage(Model model) {
 		return listByPage(model, 1, "name", "asc", null);
 	}
+	
+	@GetMapping("/agencies/new")
+	public String newBrand(Model model) {
+	
+		model.addAttribute("agency", new Agency());
+		model.addAttribute("pageTitle", "Create New Agency");
+
+		return "agencies/agency_form";		
+	}
 
 	@GetMapping("/agencies/page/{pageNum}")
 	public String listByPage(Model model, @PathVariable(name = "pageNum") int pageNum, 

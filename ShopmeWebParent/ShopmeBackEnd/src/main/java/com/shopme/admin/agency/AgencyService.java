@@ -18,7 +18,7 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class AgencyService {
-	public static final int AGENCIES_PER_PAGE = 3;
+	public static final int AGENCIES_PER_PAGE = 5;
 	
 	@Autowired
 	private AgencyRepository repo;
@@ -55,10 +55,20 @@ public class AgencyService {
 	public boolean isNameUnique(Integer id, String name) {
 		Agency existAgency = repo.findByName(name);
 
-		if (existAgency != null && existAgency.getId() != id) {
+		if (existAgency != null && !existAgency.getId().equals(id)) {
 			return false;
 		}
 
+		return true;
+	}
+
+	public boolean isIdUnique(Integer id, Integer oldId) {
+		boolean isNew = (oldId == null) ;
+		
+		Agency agencyById = repo.findAgencyById(id);
+		
+		if (isNew && agencyById != null) return false;
+		
 		return true;
 	}
 }
