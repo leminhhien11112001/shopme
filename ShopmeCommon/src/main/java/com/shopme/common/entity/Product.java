@@ -75,6 +75,10 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProductDetail> details = new ArrayList<>();
 	
+	private int reviewCount;
+	
+	private float averageRating;
+	
 	public Product() {
 		
 	}
@@ -263,6 +267,22 @@ public class Product {
 
 	public void setShippingCost(float shippingCost) {
 		this.shippingCost = shippingCost;
+	}
+
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
+	public float getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(float averageRating) {
+		this.averageRating = averageRating;
 	}
 
 	@Transient
