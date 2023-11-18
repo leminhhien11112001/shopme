@@ -9,16 +9,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.shopme.admin.product.ProductRepository;
 import com.shopme.common.entity.Review;
 import com.shopme.common.exception.ReviewNotFoundException;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class ReviewService {
 	
 	public static final int REVIEWS_PER_PAGE = 5;
 
 	@Autowired 
-	private ReviewRepository repo;
+	private ReviewRepository reviewRepo;
+	
+	@Autowired 
+	private ProductRepository productRepo;
+
 	
 	public Page<Review> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
 		Sort sort = Sort.by(sortField);
@@ -28,33 +36,34 @@ public class ReviewService {
 		Pageable pageable = PageRequest.of(pageNum - 1, REVIEWS_PER_PAGE, sort);
 		
 		if(keyword != null) {
-			return repo.findAll(keyword, pageable);
+			return reviewRepo.findAll(keyword, pageable);
 		}
 		
-		return repo.findAll(pageable);
+		return reviewRepo.findAll(pageable);
 	}
 
 	public Review get(Integer id) throws ReviewNotFoundException {
 		try {
-			return repo.findById(id).get();
+			return reviewRepo.findById(id).get();
 		} catch (NoSuchElementException ex) {
 			throw new ReviewNotFoundException("Could not find any reviews with ID " + id);
 		}
 	}
 
 	public void save(Review reviewInForm) {
-		Review reviewInDB = repo.findById(reviewInForm.getId()).get();
+		Review reviewInDB = reviewRepo.findById(reviewInForm.getId()).get();
 		reviewInDB.setHeadline(reviewInForm.getHeadline());
 		reviewInDB.setComment(reviewInForm.getComment());
 
-		repo.save(reviewInDB);
+		reviewRepo.save(reviewInDB);
+		productRepo.updateReviewCountAndAverageRating(reviewInDB.getProduct().getId());
 	}
 
 	public void delete(Integer id) throws ReviewNotFoundException {
-		if (!repo.existsById(id)) {
+		if (!reviewRepo.existsById(id)) {
 			throw new ReviewNotFoundException("Could not find any reviews with ID " + id);
 		}
 
-		repo.deleteById(id);
+		reviewRepo.deleteById(id);
 	}
 }
