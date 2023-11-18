@@ -40,7 +40,7 @@ public class WebSecurityConfig{
      		
 		 http.authorizeHttpRequests(configure -> configure
 				 	.requestMatchers("/account_details", "/update_account_details", "/cart", "/orders/**",
-				 			"/checkout", "/place_order").authenticated()
+				 			"/checkout", "/place_order", "/reviews/**").authenticated()
 				 	.anyRequest().permitAll()
 				 	
 	            )
