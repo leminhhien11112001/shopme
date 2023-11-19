@@ -300,6 +300,11 @@ public class Product {
 		return this.price;
 	}
 	
+	@Transient
+	public String getURI() {
+	    return "/p/" + this.alias;
+	}
+	
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + "]";
