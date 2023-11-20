@@ -14,6 +14,7 @@
 		th:object="${category}">
 		
 		<input type="hidden" id = oldId th:value = "${category.id}" />
+		<input th:if = "${category.agency != null}" type="hidden" th:field="*{agency}" />
 	
 	<div class="border border-secondary rounded p-3">
 		<div class="form-group row">

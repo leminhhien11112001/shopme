@@ -17,7 +17,7 @@
       th:object="${user}" onsubmit="return checkId(this)">
 		
 		<input th:if = "${user.id != null}" type="hidden" id="oldId" th:value="${user.id}">
-		<!--<input type="hidden" id = "oldId" th:field="*{id}" />-->
+		<input th:if = "${user.agency != null}" type="hidden" th:field="*{agency}" />
 
 	<div class="border border-secondary rounded p-3">
 		<div class="form-group row">

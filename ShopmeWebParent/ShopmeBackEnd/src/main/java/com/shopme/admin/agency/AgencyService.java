@@ -71,4 +71,14 @@ public class AgencyService {
 		
 		return true;
 	}
+	
+	public void delete(Integer id) throws AgencyNotFoundException {
+		Long countById = repo.countById(id);
+
+		if (countById == null || countById == 0) {
+			throw new AgencyNotFoundException("Could not find any brand with ID " + id);			
+		}
+		
+		repo.deleteById(id);
+	}
 }

@@ -35,6 +35,8 @@
 					</td>
 					<td>
 						<div th:replace="fragments :: edit('agency', '/agencies/edit/' + ${agency.id})" />
+						&nbsp; 
+						<div th:replace="fragments :: delete('agency', ${agency.id}, '/agencies/delete/' + ${agency.id}, true)" />					
 					</td>					
 				</tr>
 			</tbody>

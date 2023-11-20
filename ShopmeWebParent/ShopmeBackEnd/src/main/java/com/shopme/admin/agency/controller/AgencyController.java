@@ -101,4 +101,17 @@ public class AgencyController {
 		
 		return "redirect:/agencies";
 	}
+	
+	@GetMapping("/agencies/delete/{id}")
+	public String deleteAgency(@PathVariable Integer id, RedirectAttributes ra) {
+		try {
+			service.delete(id);			
+			ra.addFlashAttribute("message", "The agency ID " + id + " has been deleted successfully.");
+
+		} catch (AgencyNotFoundException ex) {
+			ra.addFlashAttribute("message", ex.getMessage());
+		}
+
+		return "redirect:/agencies";
+	}
 }
