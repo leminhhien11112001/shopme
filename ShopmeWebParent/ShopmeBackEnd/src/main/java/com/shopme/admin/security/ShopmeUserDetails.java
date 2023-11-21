@@ -63,7 +63,7 @@ public class ShopmeUserDetails implements UserDetails {
 	public String getFullname() {
 		return this.user.getFirstName() + " " + this.user.getLastName();
 	}
-
+	
 	public void setFirstName(String firstName) {
 		this.user.setFirstName(firstName);
 	}
@@ -74,6 +74,10 @@ public class ShopmeUserDetails implements UserDetails {
 	
 	public boolean hasRole(String roleName) {
 		return user.hasRole(roleName);
+	}
+	
+	public Integer getAgency() {
+		return this.user.getAgency().getId();
 	}
 
 }

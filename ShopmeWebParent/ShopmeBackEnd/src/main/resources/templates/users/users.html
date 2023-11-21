@@ -10,7 +10,7 @@
 	
 	<div>
 		<h2>Manage Users</h2>
-		<a th:href="@{/users/new}" title="Create user"
+		<a th:if="${#authentication.principal.agency} == 0" th:href="@{/users/new}" title="Create user"
 			class="fas fa-user-plus fa-2x icon-dark mr-2"></a>
 	</div>
 	<br>

@@ -7,8 +7,7 @@
 	<div>
 		<h2>Manage Agencies</h2>	
 		
-		<a th:href="@{/agencies/new}" class="fas fa-folder-plus fa-2x icon-dark mr-2"
-					title="Create Agency"></a>
+		<div th:replace="fragments :: new('Create Agency', '/agencies/new')" />
 		
 	</div>
 

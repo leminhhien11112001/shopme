@@ -9,7 +9,8 @@
 		<h2>Manage Products</h2>	
 		
 		<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
-			<a th:href="@{/products/new}" class="fas fa-folder-plus fa-2x icon-dark mr-2"></a>
+			<div th:replace="fragments :: new('Create Product', '/products/new')" />
+			<!--<a th:href="@{/products/new}" class="fas fa-folder-plus fa-2x icon-dark mr-2"></a>-->
 		</th:block>
 	</div>
 	

@@ -35,8 +35,13 @@
 			th:title="'Edit this ' + ${entityName}"></a>
 	</div>
 	
+	<div th:fragment="new(title, newURL)" th:remove="tag">
+		<a th:if="${#authentication.principal.agency} == 0" class="fas fa-folder-plus fa-2x icon-dark mr-2" th:href="@{${newURL}}"
+			th:title="'${title}'"></a>
+	</div>
+	
 	<div th:fragment="delete(entityName, entityId, deleteURL, visible)" th:remove="tag">
-		<th:block th:if="${visible}">		
+		<th:block th:if="${visible && #authentication.principal.agency == 0}">		
 			<a class="fas fa-trash fa-2x icon-dark link-delete" 
 				th:href="@{${deleteURL}}"
 				th:entityId="${entityId}"

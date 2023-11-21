@@ -74,7 +74,7 @@ public class UserService {
 	}
 	
 	public User save(User user) {
-		boolean isUpdatingUser = user.getId()> 101;
+		boolean isUpdatingUser = (user.getId()> 100) || userRepo.existsById(user.getId()) ;
 
 		if (isUpdatingUser) {
 			User existingUser = userRepo.findById(user.getId()).get();
