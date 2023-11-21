@@ -29,13 +29,13 @@ public class Agency {
 	
 	private boolean enabled;
 	
-	@OneToMany(mappedBy = "agency", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "agency")
 	private Set<User> users = new HashSet<>();
 	
-	@OneToMany(mappedBy = "agency", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "agency")
 	private List<Category> categoies = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "agency", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "agency")
 	private List<Order> orders = new ArrayList<>();
 	
 	public Agency() {
