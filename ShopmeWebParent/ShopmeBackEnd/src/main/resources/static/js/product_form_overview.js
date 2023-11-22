@@ -50,7 +50,7 @@ function checkUnique(form) {
 		if (response == "OK") {
 			form.submit();
 		} else if (response == "DuplicateId") {
-			showWarningModal("There is another product having the Id " + productId);	
+			showWarningModal("There is another product having the Id");	
 		} else if (response == "Duplicate") {
 			showWarningModal("There is another product having the name " + productName);	
 		} else {

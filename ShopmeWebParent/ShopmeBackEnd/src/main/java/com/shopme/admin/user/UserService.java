@@ -60,9 +60,7 @@ public class UserService {
 		
 		roles.add("Admin");
 		roles.add("Salesperson");
-		roles.add("Editor");
 		roles.add("Shipper");
-		roles.add("Assistant");
 		
 		return roles;
 	}

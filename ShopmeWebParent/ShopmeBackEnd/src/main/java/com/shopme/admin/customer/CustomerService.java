@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.shopme.common.entity.Customer;
 import com.shopme.common.exception.CustomerNotFoundException;
@@ -24,9 +23,6 @@ public class CustomerService {
 
 	@Autowired 
 	private CustomerRepository customerRepo;
-	
-	@Autowired 
-	private PasswordEncoder passwordEncoder;
 
 	public Page<Customer> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
 		Sort sort = Sort.by(sortField);
@@ -72,18 +68,9 @@ public class CustomerService {
 		Customer customerInDB = customerRepo.getCustomerById(customerInForm.getId());
 		boolean isUpdatingCustomer = (customerInDB != null);
 		
-		if(isUpdatingCustomer) {
-			if (!customerInForm.getPassword().isEmpty()) {
-				String encodedPassword = passwordEncoder.encode(customerInForm.getPassword());
-				customerInForm.setPassword(encodedPassword);			
-			} else {
-				customerInForm.setPassword(customerInDB.getPassword());
-			}		
-			
+		if(isUpdatingCustomer) {	
 			customerInForm.setCreatedTime(customerInDB.getCreatedTime());
 		}else {
-			String encodedPassword = passwordEncoder.encode(customerInForm.getPassword());
-			customerInForm.setPassword(encodedPassword);
 			customerInForm.setCreatedTime(new Date());
 		}
 		
