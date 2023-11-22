@@ -113,11 +113,4 @@ public class OrderService {
 		return repo.findOrder(id);
 	}
 
-	public String isIdUnique(Integer oldId, Integer id) {
-		Order inDb = findOrder(id);
-
-		if (oldId == null && inDb != null) return "DuplicatedId";
-
-		return "OK";
-	}
 }
