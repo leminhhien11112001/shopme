@@ -49,6 +49,15 @@
 		</th:block>
 	</div>
 	
+	<div th:fragment="delete_order(entityName, entityId, deleteURL, visible)" th:remove="tag">
+		<th:block th:if="${visible}">		
+			<a class="fas fa-trash fa-2x icon-dark link-delete" 
+				th:href="@{${deleteURL}}"
+				th:entityId="${entityId}"
+				th:title="'Delete this ' + ${entityName}"></a>
+		</th:block>
+	</div>
+	
 	<div th:fragment="status(enabled, entityName, entityURL)" th:remove="tag">
 		<a th:if="${enabled == true}" class="fas fa-check-circle fa-2x icon-green" 
 			th:href="@{${entityURL} + '/enabled/false'}"
