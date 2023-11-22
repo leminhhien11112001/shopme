@@ -157,12 +157,14 @@ public class OrderController {
 	@GetMapping("/orders/edit/{id}")
 	public String editOrder(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
 		try {
+			List<Customer> listCustomers = customerService.listAll();
 			Order order = orderService.get(id);
 			List<Agency> listAgencies = orderService.listAgencies();
 
 			model.addAttribute("pageTitle", "Edit Order (ID: " + id + ")");
 			model.addAttribute("order", order);
 			model.addAttribute("listAgencies", listAgencies);
+			model.addAttribute("listCustomers", listCustomers);
 
 			return "orders/order_form";
 
