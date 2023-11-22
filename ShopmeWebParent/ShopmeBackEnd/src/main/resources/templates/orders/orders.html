@@ -62,7 +62,10 @@
 						&nbsp; 
 						<div th:replace="fragments :: edit('order', '/orders/edit/' + ${order.id})" />
 						&nbsp; 
-						<div th:replace="fragments :: delete('order', ${order.id}, '/orders/delete/' + ${order.id}, true)" />						
+						<a class="fas fa-trash fa-2x icon-dark link-delete" 
+							th:href="@{/orders/delete/}"
+							th:entityId="${order.id}"
+							th:title="'Delete this ' + ${order}"></a>
 					</td>
 				</tr>
 			</tbody>
