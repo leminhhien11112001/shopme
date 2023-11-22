@@ -1,5 +1,7 @@
 package com.shopme.admin.order.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.text.DateFormat;
@@ -17,10 +19,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.shopme.admin.agency.AgencyService;
+import com.shopme.admin.customer.CustomerService;
 import com.shopme.admin.order.OrderNotFoundException;
 import com.shopme.admin.order.OrderService;
 import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.common.entity.Agency;
+import com.shopme.common.entity.Customer;
 import com.shopme.common.entity.Order;
 import com.shopme.common.entity.OrderDetail;
 import com.shopme.common.entity.OrderTrack;
@@ -34,6 +39,12 @@ public class OrderController {
 
 	@Autowired 
 	private OrderService orderService;
+	
+	@Autowired
+	private CustomerService customerService;
+	
+	@Autowired
+	private AgencyService agencyService;
 	
 	private String defaultRedirectURL = "redirect:/orders/page/1?sortField=orderTime&sortDir=desc";
 
@@ -78,6 +89,34 @@ public class OrderController {
 		}
 
 		return "orders/orders";		
+	}
+	
+	@GetMapping("/orders/new")
+	public String newOrder(Model model) {
+		List<Customer> listCustomers = customerService.listAll();
+		List<Agency> listAgencies = agencyService.listAll();
+		List<OrderTrack> lisTracks = new ArrayList<>();
+		
+		Order order = new Order();
+		
+		OrderTrack orderTrack = new OrderTrack();
+		orderTrack.setStatus("NEW");
+		orderTrack.setNotes("Order was placed by the customer");
+		orderTrack.setUpdatedTime(new Date());
+		lisTracks.add(orderTrack);
+		
+		Customer customer = new Customer();
+		order.setCustomer(customer);
+		order.setDeliverDays(3);
+		order.setDeliverDate(new Date());
+		order.setOrderTracks(lisTracks);
+				
+		model.addAttribute("order", order);
+		model.addAttribute("listCustomers", listCustomers);
+		model.addAttribute("listAgencies", listAgencies);
+		model.addAttribute("pageTitle", "Create New Order");
+			
+		return "orders/order_form";
 	}
 	
 	@GetMapping("/orders/delete/{id}")

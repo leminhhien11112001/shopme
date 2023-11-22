@@ -45,12 +45,6 @@
 
 				     		 <option th:value="NEW" th:selected="${track.status == 'NEW'}"
 				     		 	defaultDescription="Order was placed by the customer">NEW</option>
-			  				 <option th:value="CANCELLED" th:selected="${track.status == 'CANCELLED'}"
-			  				 	defaultDescription="Order was rejected">CANCELLED</option>
-			  				 <option th:value="PROCESSING" th:selected="${track.status == 'PROCESSING'}"
-			  				 	defaultDescription="Order is being processed">PROCESSING</option>
-			  				 <option th:value="PACKAGED" th:selected="${track.status == 'PACKAGED'}"
-			  				 	defaultDescription="Products were packaged">PACKAGED</option>
 			  				 <option th:value="CANCELLED" th:selected="${track.status == 'PICKED'}"
 			  				 	defaultDescription="Shipper picked the package">PICKED</option>
 			  				 <option th:value="PROCESSING" th:selected="${track.status == 'SHIPPING'}"
@@ -59,10 +53,6 @@
 			  				 	defaultDescription="Customer received products">DELIVERED</option>
 			  				 <option th:value="RETURNED" th:selected="${track.status == 'RETURNED'}"
 			  				 	defaultDescription="Products were returned">RETURNED</option>
-			  				 <option th:value="PAID" th:selected="${track.status == 'PAID'}"
-			  				 	defaultDescription="Customer has paid this order">PAID</option>
-			  				 <option th:value="REFUNDED" th:selected="${track.status == 'REFUNDED'}"
-			  				 	defaultDescription="Customer has been refunded">REFUNDED</option>
 				      </select>	
 				    </div>
 				  </div>

@@ -1,5 +1,6 @@
 package com.shopme.admin.agency;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.shopme.common.entity.Agency;
-import com.shopme.common.entity.Customer;
 import com.shopme.common.exception.AgencyNotFoundException;
 
 import jakarta.transaction.Transactional;
@@ -22,6 +22,10 @@ public class AgencyService {
 	
 	@Autowired
 	private AgencyRepository repo;
+	
+	public List<Agency> listAll() {
+		return (List<Agency>) repo.findAll();
+	}
 	
 	public Page<Agency> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
 		Sort sort = Sort.by(sortField);

@@ -5,15 +5,29 @@
 	  <div class="form-group row">
 	    <label class="col-sm-2 col-form-label">Order ID:</label>
 	    <div class="col-sm-10">
-	      <input type="text" readonly class="form-control" th:value="${order.id}">
+	        <input th:if = "${order.id == null}" type="number"  class="form-control" th:field="*{id}" required min="1" max="99" />
+			<input th:if = "${order.id != null}" type="number"  class="form-control" th:field="*{id}" readonly/>
 	    </div>
 	  </div>
-	  <div class="form-group row">
+	  
+	  <div class="form-group row" th:if = "${order.id != null}">
 	    <label class="col-sm-2 col-form-label">Customer:</label>
 	    <div class="col-sm-10">
 	      <input type="text" readonly class="form-control" th:value="${order.customer.fullName}">
 	    </div>
 	  </div>
+	  
+	  <div class="form-group row" th:if = "${order.id == null}">
+			<label class="col-sm-2 col-form-label">Customer:</label>
+			<div class="col-sm-10">
+				<select th:field="*{customer}" class="form-control" required>
+					<th:block th:each="customer : ${listCustomers}">
+						<option th:value="${customer.id}">[[${customer.fullNameAndId}]]</option>
+					</th:block>
+				</select>
+			</div>
+	  </div>
+	  
 	  <div class="form-group row">
 	    <label class="col-sm-2 col-form-label">Product Cost:</label>
 	    <div class="col-sm-10">
@@ -32,16 +46,18 @@
 	      <input type="text" th:field="*{total}" required class="form-control" />
 	    </div>
 	  </div>
+	  
 	  <div class="form-group row">
 			<label class="col-sm-2 col-form-label">Agency:</label>
 			<div class="col-sm-10">
-				<select th:field="*{agency}" class="form-control" required style="max-width: 180px">
+				<select th:field="*{agency}" class="form-control" required>
 					<th:block th:each="agency : ${listAgencies}">
 						<option th:value="${agency.id}">[[${agency.agency}]]</option>
 					</th:block>
 				</select>
 			</div>
-		</div>
+	  </div>
+	  
 	  <div class="form-group row">
 	    <label class="col-sm-2 col-form-label">Payment Method:</label>
 	    <div class="col-sm-10">
@@ -57,15 +73,10 @@
 	    <div class="col-sm-10">
 		      <select th:field="*{status}" class="form-control" required style="max-width: 180px">
 	  			 <option th:value="NEW">NEW</option>
-  				 <option th:value="CANCELLED">CANCELLED</option>
-  				 <option th:value="PROCESSING">PROCESSING</option>
-  				 <option th:value="PACKAGED">PACKAGED</option>
-  				 <option th:value="CANCELLED">PICKED</option>
-  				 <option th:value="PROCESSING">SHIPPING</option>
+  				 <option th:value="PICKED">PICKED</option>
+  				 <option th:value="SHIPPING">SHIPPING</option>
   				 <option th:value="DELIVERED">DELIVERED</option>
-  				 <option th:value="RETURNED">RETURNED</option>
-  				 <option th:value="PAID">PAID</option>
-  				 <option th:value="REFUNDED">REFUNDED</option>  				 
+  				 <option th:value="RETURNED">RETURNED</option>				 
 		      </select>
 	    </div>
 	  </div>

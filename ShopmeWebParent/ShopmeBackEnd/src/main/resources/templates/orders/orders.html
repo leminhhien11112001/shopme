@@ -7,6 +7,8 @@
 	<div>
 		<h2>Manage Orders</h2>	
 	</div>
+	
+	<div th:replace="fragments :: new('Create Order', '/orders/new')" />
 
 	<div th:replace="fragments :: search_form_and_message('/orders/page/1')" />
 

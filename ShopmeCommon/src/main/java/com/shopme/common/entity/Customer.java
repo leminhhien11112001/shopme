@@ -112,6 +112,11 @@ public class Customer {
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}
+	
+	@Transient
+	public String getFullNameAndId() {
+		return id + " - " + firstName + " " + lastName;
+	}
 
 	@Override
 	public String toString() {

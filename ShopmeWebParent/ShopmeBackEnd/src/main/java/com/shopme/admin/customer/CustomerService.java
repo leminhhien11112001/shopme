@@ -1,6 +1,7 @@
 package com.shopme.admin.customer;
 
 import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.shopme.common.entity.Customer;
+import com.shopme.common.entity.Product;
 import com.shopme.common.exception.CustomerNotFoundException;
 
 import jakarta.transaction.Transactional;
@@ -23,6 +25,11 @@ public class CustomerService {
 
 	@Autowired 
 	private CustomerRepository customerRepo;
+	
+
+	public List<Customer> listAll() {
+		return (List<Customer>) customerRepo.findAll();
+	}
 
 	public Page<Customer> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
 		Sort sort = Sort.by(sortField);
