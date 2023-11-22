@@ -83,7 +83,9 @@ public class WebSecurityConfig{
 	            		)
 	            .authenticationProvider(authenticationProvider());
 	           
-        return http.build();
+		http.headers().frameOptions().sameOrigin();
+        
+		return http.build();
     }
 	
 	@Bean
