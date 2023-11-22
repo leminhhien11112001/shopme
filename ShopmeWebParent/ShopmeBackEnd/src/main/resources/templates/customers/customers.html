@@ -7,9 +7,9 @@
 	<div>
 		<h2>Manage Customers</h2>	
 		
-		<!--<a th:href="@{/customers/new}" title="Create Customer"
-			class="fas fa-user-plus fa-2x icon-dark mr-2"></a>-->
-			<div th:replace="fragments :: new('Create Customer', '/customers/new')" />
+		<a th:href="@{/customers/new}" title="Create Customer"
+			class="fas fa-user-plus fa-2x icon-dark mr-2"></a>
+			<!-- <div th:replace="fragments :: new('Create Customer', '/customers/new')" /> -->
 	</div>
 
 	<div th:replace="fragments :: search_form_and_message('/customers/page/1')" />

@@ -176,10 +176,19 @@ public class OrderController {
 	}
 	
 	@PostMapping("/order/save")
-	public String saveOrder(Order order, HttpServletRequest request, RedirectAttributes ra) {
+	public String saveOrder(Order order, HttpServletRequest request, RedirectAttributes ra) throws OrderNotFoundException {
 		updateProductDetails(order, request);
-		updateOrderTracks(order, request);
-
+		if (orderService.findOrder(order.getId()) != null) {
+			updateOrderTracks(order, request);
+		} else {
+			OrderTrack track = new OrderTrack();
+			track.setOrder(order);
+			track.setStatus("NEW");
+			track.setNotes("Order was placed by the customer");
+			track.setUpdatedTime(new Date());
+	
+			order.getOrderTracks().add(track);
+		}
 		orderService.save(order);		
 
 		ra.addFlashAttribute("message", "The order ID " + order.getId() + " has been updated successfully");

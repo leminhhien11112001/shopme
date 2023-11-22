@@ -35,6 +35,18 @@ public class OrderTrack{
 	@JoinColumn(name = "order_id")
 	private Order order;
 
+	public OrderTrack() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public OrderTrack(String notes, Date updatedTime, String status, Order order) {
+		super();
+		this.notes = notes;
+		this.updatedTime = updatedTime;
+		this.status = status;
+		this.order = order;
+	}
+
 	public String getNotes() {
 		return notes;
 	}

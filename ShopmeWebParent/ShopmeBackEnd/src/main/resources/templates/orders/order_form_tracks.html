@@ -45,9 +45,9 @@
 
 				     		 <option th:value="NEW" th:selected="${track.status == 'NEW'}"
 				     		 	defaultDescription="Order was placed by the customer">NEW</option>
-			  				 <option th:value="CANCELLED" th:selected="${track.status == 'PICKED'}"
+			  				 <option th:value="PICKED" th:selected="${track.status == 'PICKED'}"
 			  				 	defaultDescription="Shipper picked the package">PICKED</option>
-			  				 <option th:value="PROCESSING" th:selected="${track.status == 'SHIPPING'}"
+			  				 <option th:value="SHIPPING" th:selected="${track.status == 'SHIPPING'}"
 			  				 	defaultDescription="Shipper is delivering the package">SHIPPING</option>
 			  				 <option th:value="DELIVERED" th:selected="${track.status == 'DELIVERED'}"
 			  				 	defaultDescription="Customer received products">DELIVERED</option>

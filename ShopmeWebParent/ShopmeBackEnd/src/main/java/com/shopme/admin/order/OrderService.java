@@ -67,10 +67,13 @@ public class OrderService {
 	}
 	
 	public void save(Order orderInForm) {
-		Order orderInDB = repo.findById(orderInForm.getId()).get();
-		orderInForm.setOrderTime(orderInDB.getOrderTime());
-		orderInForm.setCustomer(orderInDB.getCustomer());
-
+		if (repo.existsById(orderInForm.getId())) {
+			Order orderInDB = repo.findById(orderInForm.getId()).get();
+			orderInForm.setOrderTime(orderInDB.getOrderTime());
+			orderInForm.setCustomer(orderInDB.getCustomer());
+		} else {
+			orderInForm.setOrderTime(new Date());
+		}
 		repo.save(orderInForm);
 	}	
 	
@@ -103,5 +106,18 @@ public class OrderService {
 			repo.save(orderInDB);
 		}
 
+	}
+
+	public Order findOrder(Integer id) {
+		// TODO Auto-generated method stub
+		return repo.findOrder(id);
+	}
+
+	public String isIdUnique(Integer oldId, Integer id) {
+		Order inDb = findOrder(id);
+
+		if (oldId == null && inDb != null) return "DuplicatedId";
+
+		return "OK";
 	}
 }

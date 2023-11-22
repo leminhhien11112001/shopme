@@ -30,6 +30,27 @@ $(document).ready(function() {
 	});			
 });
 
+function checkUnique(form) {
+		oldId = $("#oldId").val();
+		id = $("#id").val();
+
+
+		url = "[[@{/orders/check_id}]]";
+
+		params = {oldId: oldId, id: Id, _csrf: csrfValue};
+
+		$.post(url, params, function(response) {
+			if (response == "OK") {	
+				form.submit();
+			} else if (response == "DuplicateId") {
+				showWarningModal("There is another corder having same id " + id);	
+			}
+		}).fail(function() {
+			showErrorModal("Could not connect to the server");
+		});
+		return false;
+	}
+
 function updateOrderAmounts() {
 	totalCost = 0.0;
 
@@ -116,7 +137,7 @@ function formatNumberForField(fieldRef) {
 	fieldRef.val($.number(fieldRef.val(), 2));
 }
 
-function processFormBeforeSubmit() {
+function processFormBeforeSubmit(form) {
 
 	removeThousandSeparatorForField(fieldProductCost);
 	removeThousandSeparatorForField(fieldShippingCost);
@@ -137,7 +158,7 @@ function processFormBeforeSubmit() {
 	$(".ship-input").each(function(e) {
 		removeThousandSeparatorForField($(this));
 	});		
-
+    checkUnique(form);
 	return true;
 }
 
