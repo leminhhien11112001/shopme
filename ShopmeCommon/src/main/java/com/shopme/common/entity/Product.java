@@ -49,7 +49,7 @@ public class Product {
 	private boolean inStock;
 
 	private float cost;
-
+	
 	private float price;
 
 	@Column(name = "discount_percent")
