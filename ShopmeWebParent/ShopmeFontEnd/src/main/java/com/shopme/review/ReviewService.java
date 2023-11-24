@@ -11,6 +11,7 @@ import com.shopme.common.entity.Customer;
 import com.shopme.common.entity.Product;
 import com.shopme.common.entity.Review;
 import com.shopme.common.exception.ReviewNotFoundException;
+import com.shopme.order.OrderDetailRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -22,6 +23,9 @@ public class ReviewService {
 	@Autowired 
 	private ReviewRepository repo;
 
+	@Autowired 
+	private OrderDetailRepository orderDetailRepo;
+	
 	public Page<Review> listByCustomerByPage(Customer customer, String keyword, int pageNum, 
 			String sortField, String sortDir) {
 		Sort sort = Sort.by(sortField);
@@ -57,5 +61,15 @@ public class ReviewService {
 		Pageable pageable = PageRequest.of(pageNum - 1, REVIEWS_PER_PAGE, sort);
 
 		return repo.findByProduct(product, pageable);
+	}
+	
+	public boolean didCustomerReviewProduct(Customer customer, Integer productId) {
+		Long count = repo.countByCustomerAndProduct(customer.getId(), productId);
+		return count > 0;
+	}
+
+	public boolean canCustomerReviewProduct(Customer customer, Integer productId) {
+		Long count = orderDetailRepo.countByProductAndCustomerAndOrderStatus(productId, customer.getId(), "DELIVERED");
+		return count > 0;
 	}
 }

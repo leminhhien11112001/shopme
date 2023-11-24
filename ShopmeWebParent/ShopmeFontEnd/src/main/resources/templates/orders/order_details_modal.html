@@ -90,7 +90,15 @@
 						 [[${detail.unitPrice}]]
 						 = 
 						 [[${detail.subtotal}]]
-					</div>				
+					</div>		
+					<br>
+					<div th:if="${!product.reviewedByCustomer && product.customerCanReview}">
+						<a href="" class="btn btn-info">Write Review</a>
+					</div>
+
+					<div th:if="${product.reviewedByCustomer}">
+						<a target="_blank" th:href="@{'/reviews/page/1?sortField=reviewTime&sortDir=desc&keyword=' + ${#strings.substring(product.shortName, 0, 20)}}" class="btn btn-warning">See your Review</a>
+					</div>			
 				</div>
 			</div>
 			</th:block>
