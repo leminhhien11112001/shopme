@@ -85,12 +85,19 @@ public class ProductController {
 			Page<Review> listReviews = reviewService.list3MostRecentReviewsByProduct(product);
 			
 			Customer customer = getAuthenticatedCustomer(request);
-			boolean customerReviewed = reviewService.didCustomerReviewProduct(customer, product.getId());
+			
+			boolean customerReviewed = false;
+			boolean customerCanReview = false;
+			
+			if(customer != null) {
+			    customerReviewed = reviewService.didCustomerReviewProduct(customer, product.getId());
+			    customerCanReview = reviewService.canCustomerReviewProduct(customer, product.getId());
+			}
 
 			if (customerReviewed) {
 				model.addAttribute("customerReviewed", customerReviewed);
 			} else {
-				boolean customerCanReview = reviewService.canCustomerReviewProduct(customer, product.getId());
+//				customerCanReview = reviewService.canCustomerReviewProduct(customer, product.getId());
 				model.addAttribute("customerCanReview", customerCanReview);
 			}
 			
