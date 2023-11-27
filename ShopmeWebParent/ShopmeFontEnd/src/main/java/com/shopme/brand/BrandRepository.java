@@ -1,4 +1,4 @@
-package com.shopme.product;
+package com.shopme.brand;
 
 import org.springframework.data.repository.CrudRepository;
 

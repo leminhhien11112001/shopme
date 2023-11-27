@@ -19,6 +19,9 @@ public interface ProductRepository extends
 	
 	public Product findByAlias(String alias);
 	
+	@Query("SELECT p FROM Product p WHERE p.id = ?1")
+	public Product getById(Integer id);
+	
 	@Query(value = "SELECT * FROM products WHERE enabled = true AND "
 			+ "MATCH(name, short_description, full_description) AGAINST (?1)", 
 			nativeQuery = true)
