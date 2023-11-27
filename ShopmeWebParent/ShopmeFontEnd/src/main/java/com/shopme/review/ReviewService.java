@@ -1,6 +1,7 @@
 package com.shopme.review;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +32,14 @@ public class ReviewService {
 	
 	@Autowired 
 	private ProductRepository productRepo;
+	
+	public List<Review> findAll(){
+		return repo.findAll();
+	}
+	
+	public List<Review> findByCustomer(Integer idCustomer){
+		return repo.findByCustomer(idCustomer);
+	}
 	
 	public Page<Review> listByCustomerByPage(Customer customer, String keyword, int pageNum, 
 			String sortField, String sortDir) {

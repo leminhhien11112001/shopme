@@ -1,5 +1,6 @@
 package com.shopme.product;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,10 @@ public class ProductService {
 
 	@Autowired 
 	private ProductRepository repo;
+	
+	public List<Product> findAll(){
+		return (List<Product>) repo.findAll();
+	}
 
 	public Page<Product> listByCategory(int pageNum, Integer categoryId) {
 		Pageable pageable = PageRequest.of(pageNum - 1, PRODUCTS_PER_PAGE);

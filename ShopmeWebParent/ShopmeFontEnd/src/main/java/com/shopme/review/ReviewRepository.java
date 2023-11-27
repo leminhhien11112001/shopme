@@ -1,5 +1,7 @@
 package com.shopme.review;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +14,9 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
 	@Query("SELECT r FROM Review r WHERE r.customer.id = ?1")
 	public Page<Review> findByCustomer(Integer customerId, Pageable pageable);
+	
+	@Query("SELECT r FROM Review r WHERE r.customer.id = ?1")
+	public List<Review> findByCustomer(Integer customerId);
 
 	@Query("SELECT r FROM Review r WHERE r.customer.id = ?1 AND ("
 			+ "r.headline LIKE %?2% OR r.comment LIKE %?2% OR "

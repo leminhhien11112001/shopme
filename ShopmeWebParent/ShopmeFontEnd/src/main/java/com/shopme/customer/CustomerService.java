@@ -1,6 +1,7 @@
 package com.shopme.customer;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -70,6 +71,10 @@ public class CustomerService {
 		customerEmail = request.getUserPrincipal().getName(); 
 		
 		return customerEmail;
+	}
+	
+	public List<Customer> findAll() {
+		return (List<Customer>) customerRepo.findAll();
 	}
 	
 }

@@ -22,24 +22,19 @@
 				</th:block>	
 				<th:block sec:authorize="isAuthenticated()">
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/reviews}">Reviews</a>
-					</li>
-
+						<a class="nav-link" th:href="@{/cart}">Cart</a>
+					</li>	
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/orders}">Orders</a>
 					</li>
-
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/cart}">Cart</a>
+						<a class="nav-link" th:href="@{/reviews}">Reviews</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="javascript: document.logoutForm.submit()">Logout</a>
-					</li>	
 					<li class="nav-item d-flex" style="margin-left: 10px;">
 						<span class="fas fa-user fa-2x icon-silver"></span>
 						<b><a class="nav-link" th:href="@{/account_details}" 
 								sec:authentication="principal.fullName"></a></b>
-						<a class="nav-link" id="logoutLink" href="">Logout</a>
+						<a class="nav-link" href="javascript: document.logoutForm.submit()">Logout</a>
 					</li>		
 				</th:block>					
 			</ul>

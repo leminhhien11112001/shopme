@@ -56,7 +56,7 @@
 				<li class="nav-item d-flex" style="margin-left: 10px;">
 					<span class="fas fa-user fa-2x icon-silver"></span>
 					<a class="nav-link" sec:authentication="principal.fullname" th:href="@{/account}"></a>
-					<a class="nav-link" id="logoutLink" href="">Logout</a>
+					<a class="nav-link" href="javascript: document.logoutForm.submit()">Logout</a>
 				</li>								
 			</ul>
 		</div>
