@@ -7,8 +7,9 @@
 	<div>
 		<h2>Manage Orders</h2>	
 	</div>
-	
-	<div th:replace="fragments :: new('Create Order', '/orders/new')" />
+			
+	<a th:href="@{/orders/new}" title="Create order"
+			class="fas fa-folder-plus fa-2x icon-dark mr-2"></a>
 
 	<div th:replace="fragments :: search_form_and_message('/orders/page/1')" />
 
