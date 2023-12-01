@@ -1,5 +1,7 @@
 package com.shopme.product;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -39,5 +41,8 @@ public interface ProductRepository extends
 	        + "WHERE p.id = ?1")
 	@Modifying
 	public void updateReviewCountAndAverageRating(Integer productId);
+	
+	@Query("SELECT p FROM Product p ORDER BY p.averageRating DESC LIMIT ?1")
+	public List<Product> findByAverageRating (Integer n);
 
 }

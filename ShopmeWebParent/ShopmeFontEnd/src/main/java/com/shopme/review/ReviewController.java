@@ -1,6 +1,9 @@
 package com.shopme.review;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,20 +176,41 @@ public class ReviewController {
 		} catch (ProductNotFoundException ex) {
 			return "error/404";
 		}
-
-		review.setProduct(product);
-		review.setCustomer(customer);
-
-		Review savedReview = reviewService.save(review);
-		
+				
 		List<Product> recommendProducts = new ArrayList<>();
 		
-//		recommendProducts = reviewService.contentBasedRecommendation(savedReview.getCustomer().getId(), 6);
-		recommendProducts = reviewService.itemToItemRecommendation(savedReview.getCustomer().getId(), 6);
+		int numberOfItems = 6;
 		
-		model.addAttribute("review", savedReview);
-		model.addAttribute("recommendProducts", recommendProducts);
+		if(!reviewService.didCustomerReview(customer)) {
+			
+			recommendProducts = productService.findByAverageRating(numberOfItems);	
+			
+			review.setProduct(product);
+			review.setCustomer(customer);
+			
+			Review savedReview = reviewService.save(review);
+			
+			model.addAttribute("review", savedReview);
+			model.addAttribute("recommendProducts", recommendProducts);
+
+			return "reviews/review_done";
+		}
+		else {
+			review.setProduct(product);
+			review.setCustomer(customer);
+			
+			Review savedReview = reviewService.save(review);
+			
+			recommendProducts = reviewService.contentBasedRecommendation(savedReview.getCustomer().getId(), numberOfItems);
+//			recommendProducts = reviewService.itemToItemRecommendation(savedReview.getCustomer().getId(), numberOfItems);
+			
+			model.addAttribute("review", savedReview);
+			model.addAttribute("recommendProducts", recommendProducts);
+
+			return "reviews/review_done";
+		}
 		
-		return "reviews/review_done";
+		
+		
 	}
 }

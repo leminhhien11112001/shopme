@@ -55,4 +55,8 @@ public class ProductService {
 		Pageable pageable = PageRequest.of(pageNum - 1, SEARCH_RESULTS_PER_PAGE);
 		return repo.search(keyword, pageable);
 	}
+	
+	public List<Product> findByAverageRating (Integer n){
+		return repo.findByAverageRating(n);
+	}
 }

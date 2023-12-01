@@ -100,6 +100,11 @@ public class ReviewService {
 		Long count = repo.countByCustomerAndProduct(customer.getId(), productId);
 		return count > 0;
 	}
+	
+	public boolean didCustomerReview(Customer customer) {
+		Long count = repo.countByCustomer(customer.getId());
+		return count > 0;
+	}
 
 	public boolean canCustomerReviewProduct(Customer customer, Integer productId) {
 		Long count = orderDetailRepo.countByProductAndCustomerAndOrderStatus(productId, customer.getId(), "DELIVERED");
@@ -171,6 +176,10 @@ public class ReviewService {
 		        return Double.compare(d2, d1);
 			}
 		});
+		
+		for(int i=0; i<6 && i<unknownItemList.size(); ++i) {
+			System.out.println(unknownItemList.get(i).getId() + ": " + predictedScores.get(unknownItemList.get(i).getId()));
+		}
 	}
 
 	private HashMap<String, Double> generateWeightMap(HashMap<Integer, Double> userItemsMap,
@@ -331,6 +340,10 @@ public class ReviewService {
 		        return Double.compare(d2, d1);
             }
         });
+        
+        for(int i=0; i<6 && i<missingItem.size(); ++i) {
+        	System.out.println(missingItem.get(i) + ": " + predicted.get(missingItem.get(i)));
+        }
         
         return missingItem;
     }
