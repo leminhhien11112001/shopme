@@ -1,4 +1,4 @@
-package com.shopme.admin.brand.controller;
+package com.shopme.common.entity;
 
 public class CategoryDTO {
 	private Integer id;

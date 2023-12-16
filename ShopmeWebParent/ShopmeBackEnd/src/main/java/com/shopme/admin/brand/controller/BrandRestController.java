@@ -14,6 +14,7 @@ import com.shopme.admin.brand.BrandNotFoundException;
 import com.shopme.admin.brand.BrandService;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
+import com.shopme.common.entity.CategoryDTO;
 
 @RestController
 public class BrandRestController {
