@@ -183,6 +183,10 @@ public class Customer {
 	public void setCountry(Country country) {
 		this.country = country;
 	}
+	
+	public String getFullName() {
+		return firstName + " " + lastName;
+	}
 
 	@Override
 	public String toString() {
