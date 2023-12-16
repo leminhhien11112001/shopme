@@ -77,4 +77,12 @@ public class CustomerController {
 		System.out.println("to Address: " + toAddress);
 		System.out.println("Verify URL: " + verifyURL);
 	}
+	
+
+	@GetMapping("/verify")
+	public String verifyAccount(String code, Model model) {
+		boolean verified = customerService.verify(code);
+
+		return "register/" + (verified ? "verify_success" : "verify_fail");
+	}
 }
