@@ -31,6 +31,10 @@ public class Country {
 	public Country() {
 
 	}
+	
+	public Country(Integer id) {
+		this.id = id;
+	}
 
 	public Country(String name, String code) {
 		this.name = name;
