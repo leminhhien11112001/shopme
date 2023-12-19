@@ -44,11 +44,11 @@
 		<table class="table table-bordered table-striped table-hover table-responsive-xl">
 			<thead class="thead-dark">
 				<tr>
-					<th th:replace="fragments :: column_link('/products', 'id', 'ID', 'none')" />
+					<th th:replace="fragments :: column_link('id', 'ID', 'none')" />
 					<th>Main Image</th>
-					<th th:replace="fragments :: column_link('/products', 'name', 'Product Name', 'none')" />
-					<th th:replace="fragments :: column_link('/products', 'brand', 'Brand', 'none')" />
-					<th th:replace="fragments :: column_link('/products', 'category', 'Category', 'none')" />
+					<th th:replace="fragments :: column_link('name', 'Product Name', 'none')" />
+					<th th:replace="fragments :: column_link('brand', 'Brand', 'none')" />
+					<th th:replace="fragments :: column_link('category', 'Category', 'none')" />
 					<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 						<th>Enabled</th>
 					</th:block>
@@ -98,7 +98,7 @@
 
 	<div th:replace="modal_fragments :: confirm_modal" />
 	
-	<div th:replace="fragments :: pagination('/products', 'products')"></div>
+	<div th:replace="fragments :: pagination('products')"></div>
 	
 	<div class="modal fade" id="detailModal">
 		<div class="modal-dialog modal-xl">

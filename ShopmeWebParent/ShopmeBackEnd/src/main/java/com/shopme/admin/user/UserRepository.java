@@ -5,15 +5,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.shopme.admin.paging.SearchRepository;
 import com.shopme.common.entity.User;
 
 @Repository
 //It's optional to use @Repository. Spring Data JPA handles it automatically.
-public interface UserRepository extends PagingAndSortingRepository<User, Integer>,
+public interface UserRepository extends SearchRepository<User, Integer>,
 						CrudRepository<User, Integer>{
 	
 	//@Param annotation is used in queries of repository interfaces

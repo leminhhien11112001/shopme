@@ -11,17 +11,17 @@
 
 	</div>
 
-	<div th:replace="fragments :: search_form_and_message('/brands/page/1')" />
+	<div th:replace="fragments :: search_form_and_message" />
 
 	<div class="full-details">
 		<table class="table table-bordered table-striped table-hover table-responsive-xl">
 			<thead class="thead-dark">
 				<tr>
 					<th class="hideable-column">
-						<th th:replace="fragments :: column_link('/brands', 'id', 'ID', 'tag')" />
+						<th th:replace="fragments :: column_link('id', 'ID', 'tag')" />
 					</th>
 					<th>Logo</th>
-					<th th:replace="fragments :: column_link('/brands', 'name', 'Brand Name', 'none')" />
+					<th th:replace="fragments :: column_link('name', 'Brand Name', 'none')" />
 					<th>Categories</th>
 					<th></th>
 				</tr>								
@@ -68,7 +68,7 @@
 
 	<div th:replace="modal_fragments :: confirm_modal" />
 	
-	<div th:replace="fragments :: pagination('/brands', 'brands')"></div>
+	<div th:replace="fragments :: pagination('brands')"></div>
 
 	<div th:replace="fragments :: footer"></div>
 
