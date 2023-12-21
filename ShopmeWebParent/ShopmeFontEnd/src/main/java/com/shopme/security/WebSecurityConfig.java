@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.shopme.security.oauth.CustomerOAuth2UserService;
@@ -25,17 +24,17 @@ public class WebSecurityConfig{
 	@Autowired private DatabaseLoginSuccessHandler databaseLoginHandler;
 	
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
 	@Bean
-	public UserDetailsService userDetailsService() {
+	UserDetailsService userDetailsService() {
 		return new CustomerUserDetailsService();
 	}
 	
 	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
+	DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
 		authProvider.setUserDetailsService(userDetailsService());
@@ -45,7 +44,7 @@ public class WebSecurityConfig{
 	}	
 	
 	@Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
 		http.authorizeHttpRequests(configure -> configure
 			 	.requestMatchers("/customer").authenticated()
@@ -73,7 +72,7 @@ public class WebSecurityConfig{
     }
 	
 	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
+	WebSecurityCustomizer webSecurityCustomizer() {
 		
 		return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
 		

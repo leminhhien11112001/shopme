@@ -1,4 +1,4 @@
-package com.shopme.admin.user.controller;
+package com.shopme.admin.user;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,10 +15,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.paging.PagingAndSortingHelper;
 import com.shopme.admin.paging.PagingAndSortingParam;
-import com.shopme.admin.user.UserNotFoundException;
-import com.shopme.admin.user.UserService;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
+import com.shopme.common.exception.UserNotFoundException;
 
 import org.springframework.util.StringUtils;
 

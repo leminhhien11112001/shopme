@@ -1,4 +1,4 @@
-package com.shopme.admin.user.controller;
+package com.shopme.admin.user;
 
 import java.io.IOException;
 
@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.admin.security.ShopmeUserDetails;
-import com.shopme.admin.user.UserService;
 import com.shopme.common.entity.User;
 
 @Controller

@@ -1,4 +1,4 @@
-package com.shopme.admin.category.controller;
+package com.shopme.admin.category;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,10 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.FileUploadUtil;
 import com.shopme.common.exception.CategoryNotFoundException;
-import com.shopme.admin.category.CategoryPageInfo;
-import com.shopme.admin.category.CategoryService;
 import com.shopme.common.entity.Category;
-import com.shopme.common.entity.User;
 
 @Controller
 public class CategoryController {
@@ -29,20 +26,24 @@ public class CategoryController {
 
 	
 	@GetMapping("/categories")
-	public String listFirstPage(@RequestParam(name = "sortDir", required = false) String sortDir, Model model) {
-		return listByPage(1, sortDir, null, model);
+	public String listFirstPage(@RequestParam(name = "sortField", required = false) String sortField,
+			@RequestParam(name = "sortDir", required = false) String sortDir, Model model) {
+		return listByPage(1,sortField, sortDir, null, model);
 	}
 	
 	@GetMapping("/categories/page/{pageNum}")
 	public String listByPage(@PathVariable(name = "pageNum") int pageNum,
-				String sortDir, String keyword, Model model) {
+				String sortField ,String sortDir, String keyword, Model model) {
+		if(sortField == null || sortField.isEmpty()) {
+			sortField = "name";
+		}
 		
 		if (sortDir ==  null || sortDir.isEmpty()) {
 			sortDir = "asc";
 		}
 		
 		CategoryPageInfo pageInfo = new CategoryPageInfo();
-		List<Category> listCategories = service.listByPage(pageInfo, pageNum, sortDir, keyword);
+		List<Category> listCategories = service.listByPage(pageInfo, pageNum, sortField, sortDir, keyword);
 		
 		long startCount = (pageNum - 1) * CategoryService.ROOT_CATEGORIES_PER_PAGE + 1;
 		long endCount = startCount + CategoryService.ROOT_CATEGORIES_PER_PAGE - 1;
@@ -55,7 +56,7 @@ public class CategoryController {
 		model.addAttribute("totalPages", pageInfo.getTotalPages());
 		model.addAttribute("totalItems", pageInfo.getTotalElements());
 		model.addAttribute("currentPage", pageNum);
-		model.addAttribute("sortField", "name");
+		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("startCount", startCount);

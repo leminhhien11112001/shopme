@@ -30,8 +30,8 @@ public class CategoryService {
 	private CategoryRepository repo;
 	
 	public List<Category> listByPage(CategoryPageInfo pageInfo, int pageNum,
-			String sortDir, String keyword) {
-		Sort sort = Sort.by("name");
+			String sortField, String sortDir, String keyword) {
+		Sort sort = Sort.by(sortField);
 		
 		if (sortDir.equals("asc")) {
 			sort = sort.ascending();

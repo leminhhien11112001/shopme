@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	
-<head th:replace="fragments :: page_head(${pageTitle}, 'none')" />
+<head th:replace="fragments :: page_head('Categories - Shopme Admin', 'none')" />
 
 <body>
 <div class="container-fluid">
@@ -23,7 +23,7 @@
 		<table class="table table-bordered table-striped table-hover table-responsive-xl">
 			<thead class="thead-dark">
 				<tr>
-					<th>ID</th>
+					<th th:replace="fragments :: column_link('id', 'ID', 'none')" />	
 					<th>Category Image</th>
 					<th th:replace="fragments :: column_link('name', 'Category Name', 'none')" />	
 					<th class="hideable-column">Alias</th>

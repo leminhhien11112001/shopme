@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.shopme.admin.paging.PagingAndSortingHelper;
 import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
+import com.shopme.common.exception.UserNotFoundException;
 
 import jakarta.transaction.Transactional;
 

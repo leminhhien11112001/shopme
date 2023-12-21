@@ -1,4 +1,4 @@
-package com.shopme.admin.brand;
+package com.shopme.common.exception;
 
 public class BrandNotFoundException extends Exception {
 
