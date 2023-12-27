@@ -49,7 +49,7 @@ public class WebSecurityConfig{
 		
 		http.authorizeHttpRequests(configure -> configure
 			 	.requestMatchers("/customer").authenticated()
-			 	.requestMatchers("/account_details", "/update_account_details", "/cart").authenticated()
+			 	.requestMatchers("/account_details", "/update_account_details", "/cart", "/address_book/**").authenticated()
                 .anyRequest().permitAll()
             )
             .formLogin(form -> form
