@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.shopme.admin.paging.SearchRepository;
-import com.shopme.common.entity.Order;
+import com.shopme.common.entity.order.Order;
 
 public interface OrderRepository extends SearchRepository<Order, Integer>,
 			CrudRepository<Order, Integer>{

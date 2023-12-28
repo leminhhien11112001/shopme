@@ -1,4 +1,4 @@
-package com.shopme.common.entity;
+package com.shopme.common.entity.order;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -9,144 +9,45 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
+import com.shopme.common.entity.AbstractAddress;
+import com.shopme.common.entity.Customer;
+
 @Entity
 @Table(name = "orders")
-public class Order {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-
-	@Column(name = "first_name", nullable = false, length = 45)
-	private String firstName;
-
-	@Column(name = "last_name", nullable = false, length = 45)
-	private String lastName;
-
-	@Column(name = "phone_number", nullable = false, length = 15)
-	private String phoneNumber;
-
-	@Column(name = "address_line_1", nullable = false, length = 64)
-	private String addressLine1;
-
-	@Column(name = "address_line_2", length = 64)
-	private String addressLine2;
-
-	@Column(nullable = false, length = 45)
-	private String city;
-
-	@Column(nullable = false, length = 45)
-	private String state;
-
-	@Column(name = "postal_code", nullable = false, length = 10)
-	private String postalCode;
-
+public class Order extends AbstractAddress {
+	
 	@Column(nullable = false, length = 45)
 	private String country;
-
+	
 	private Date orderTime;
-
+	
 	private float shippingCost;
 	private float productCost;
 	private float subtotal;
 	private float tax;
 	private float total;
-
+	
 	private int deliverDays;
 	private Date deliverDate;
-
+	
 	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
-
+	
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
-
+	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private Set<OrderDetail> orderDetails = new HashSet<>();
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getAddressLine1() {
-		return addressLine1;
-	}
-
-	public void setAddressLine1(String addressLine1) {
-		this.addressLine1 = addressLine1;
-	}
-
-	public String getAddressLine2() {
-		return addressLine2;
-	}
-
-	public void setAddressLine2(String addressLine2) {
-		this.addressLine2 = addressLine2;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getPostalCode() {
-		return postalCode;
-	}
-
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
 
 	public String getCountry() {
 		return country;
@@ -251,7 +152,7 @@ public class Order {
 	public void setOrderDetails(Set<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
 	}
-
+	
 	public void copyAddressFromCustomer() {
 		setFirstName(customer.getFirstName());
 		setLastName(customer.getLastName());
@@ -263,22 +164,19 @@ public class Order {
 		setPostalCode(customer.getPostalCode());
 		setState(customer.getState());		
 	}
-	
-	@Transient
-	public String getDestination() {
-		String destination =  city + ", ";
-		if (state != null && !state.isEmpty()) destination += state + ", ";
-		destination += country;
-
-		return destination;
-	}
-	
 
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", subtotal=" + subtotal + ", paymentMethod=" + paymentMethod + ", status=" + status
 				+ ", customer=" + customer.getFullName() + "]";
 	}
-
-
+	
+	@Transient
+	public String getDestination() {
+		String destination =  city + ", ";
+		if (state != null && !state.isEmpty()) destination += state + ", ";
+		destination += country;
+		
+		return destination;
+	}
 }

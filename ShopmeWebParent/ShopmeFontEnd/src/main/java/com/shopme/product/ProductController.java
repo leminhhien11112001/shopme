@@ -2,8 +2,6 @@ package com.shopme.product;
 
 import java.util.List;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.shopme.category.CategoryService;
 import com.shopme.common.entity.Category;
-import com.shopme.common.entity.Product;
+import com.shopme.common.entity.product.Product;
 import com.shopme.common.exception.CategoryNotFoundException;
 import com.shopme.common.exception.ProductNotFoundException;
 
@@ -27,13 +25,13 @@ public class ProductController {
 	private CategoryService categoryService;
 
 	@GetMapping("/c/{category_alias}")
-	public String viewCategoryFirstPage(@PathVariable("category_alias") String alias,
+	public String viewProductFirstPage(@PathVariable("category_alias") String alias,
 			Model model) {
-		return viewCategoryByPage(alias, 1, model);
+		return viewProductByPage(alias, 1, model);
 	}
 
 	@GetMapping("/c/{category_alias}/page/{pageNum}")
-	public String viewCategoryByPage(@PathVariable("category_alias") String alias,
+	public String viewProductByPage(@PathVariable("category_alias") String alias,
 			@PathVariable("pageNum") int pageNum,
 			Model model) {
 		
