@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "orders")
@@ -262,6 +263,16 @@ public class Order {
 		setPostalCode(customer.getPostalCode());
 		setState(customer.getState());		
 	}
+	
+	@Transient
+	public String getDestination() {
+		String destination =  city + ", ";
+		if (state != null && !state.isEmpty()) destination += state + ", ";
+		destination += country;
+
+		return destination;
+	}
+	
 
 	@Override
 	public String toString() {
