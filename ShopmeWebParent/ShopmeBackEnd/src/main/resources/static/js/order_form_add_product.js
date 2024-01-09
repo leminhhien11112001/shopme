@@ -2,12 +2,12 @@ $(document).ready(function() {
 	$("#products").on("click", "#linkAddProduct", function(e) {
 		e.preventDefault();
 		link = $(this);
-		url = link.attr("href"); // orders/search_product
-
+		url = link.attr("href");
+		
 		$("#addProductModal").on("shown.bs.modal", function() {
 			$(this).find("iframe").attr("src", url);
 		});
-
+		
 		$("#addProductModal").modal();
 	})
 });
@@ -19,15 +19,15 @@ function addProduct(productId, productName) {
 function getShippingCost(productId) {
 	selectedCountry = $("#country option:selected");
 	countryId = selectedCountry.val();
-
+	
 	state = $("#state").val();
 	if (state.length == 0) {
 		state = $("#city").val();		
 	}
-
+	
 	requestUrl = contextPath + "get_shipping_cost";
 	params = {productId: productId, countryId: countryId, state: state};
-
+	
 	$.ajax({
 		type: 'POST',
 		url: requestUrl,
@@ -54,10 +54,12 @@ function getProductInfo(productId, shippingCost) {
 		mainImagePath = contextPath.substring(0, contextPath.length - 1) + productJson.imagePath;
 		productCost = $.number(productJson.cost, 2);
 		productPrice = $.number(productJson.price, 2);
-
+		
 		htmlCode = generateProductCode(productId, productName, mainImagePath, productCost, productPrice, shippingCost);
 		$("#productList").append(htmlCode);
-
+		
+		updateOrderAmounts();
+		
 	}).fail(function(err) {
 		showWarningModal(err.responseJSON.message);
 	});	
@@ -65,16 +67,19 @@ function getProductInfo(productId, shippingCost) {
 
 function generateProductCode(productId, productName, mainImagePath, productCost, productPrice, shippingCost) {
 	nextCount = $(".hiddenProductId").length + 1;
+	rowId = "row" + nextCount;
 	quantityId = "quantity" + nextCount;
 	priceId = "price" + nextCount;
 	subtotalId = "subtotal" + nextCount;
-
+	blankLineId= "blankLine" + nextCount;
+	
 	htmlCode = `
-		<div class="border rounded p-1">
+		<div class="border rounded p-1" id="${rowId}">
 			<input type="hidden" name="productId" value="${productId}" class="hiddenProductId" />
 			<div class="row">
 				<div class="col-1">
-					<div>${nextCount}</div>				
+					<div class="divCount">${nextCount}</div>
+					<div><a class="fas fa-trash icon-dark linkRemove" href="" rowNumber="${nextCount}"></a></div>				
 				</div>
 				<div class="col-3">
 					<img src="${mainImagePath}" class="img-fluid" />
@@ -132,23 +137,23 @@ function generateProductCode(productId, productName, mainImagePath, productCost,
 			</div>
 			
 		</div>
-		<div class="row">&nbsp;</div>	
+		<div id="${blankLineId}"class="row">&nbsp;</div>	
 	`;	
-
+	
 	return htmlCode;
 }
 
 function isProductAlreadyAdded(productId) {
 	productExists = false;
-
+	
 	$(".hiddenProductId").each(function(e) {
 		aProductId = $(this).val();
-
+		
 		if (aProductId == productId) {
 			productExists = true;
 			return;
 		}
 	});
-
+	
 	return productExists;
 }
