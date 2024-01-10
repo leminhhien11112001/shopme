@@ -282,6 +282,11 @@ public class Order extends AbstractAddress {
 	public boolean isPicked() {
 		return hasStatus(OrderStatus.PICKED);
 	}
+	
+	@Transient
+	public boolean isProcessing() {
+		return hasStatus(OrderStatus.PROCESSING);
+	}
 
 	@Transient
 	public boolean isShipping() {
