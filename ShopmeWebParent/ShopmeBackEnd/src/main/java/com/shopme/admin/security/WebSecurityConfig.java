@@ -63,7 +63,9 @@ public class WebSecurityConfig{
 				 	
 				 	.requestMatchers("/customers/**", "/orders/**", "/get_shipping_cost").hasAnyAuthority("Admin", "Salesperson")
 				 	
-	                .anyRequest().authenticated()
+				 	.requestMatchers("/orders_shipper/update/**").hasAuthority("Shipper")
+	                
+				 	.anyRequest().authenticated()
 	            )
 	            .formLogin(form -> form
 	                .loginPage("/login")
