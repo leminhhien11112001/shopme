@@ -297,6 +297,11 @@ public class Order extends AbstractAddress {
 	public boolean isReturned() {
 		return hasStatus(OrderStatus.RETURNED);
 	}	
+	
+	@Transient
+	public boolean isReturnRequested() {
+		return hasStatus(OrderStatus.RETURN_REQUESTED);
+	}	
 
 	public boolean hasStatus(OrderStatus status) {
 		for (OrderTrack aTrack : orderTracks) {
@@ -307,4 +312,19 @@ public class Order extends AbstractAddress {
 
 		return false;
 	}
+	
+	@Transient
+	public String getProductNames() {
+		String productNames = "";
+
+		productNames = "<ul>";
+
+		for (OrderDetail detail : orderDetails) {
+			productNames += "<li>" + detail.getProduct().getShortName() + "</li>";			
+		}
+
+		productNames += "</ul>";
+
+		return productNames;
+	}	
 }
