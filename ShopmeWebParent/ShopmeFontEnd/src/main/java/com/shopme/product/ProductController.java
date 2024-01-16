@@ -103,7 +103,7 @@ public class ProductController {
 		model.addAttribute("endCount", endCount);
 		model.addAttribute("totalItems", pageProducts.getTotalElements());
 		model.addAttribute("pageTitle", keyword + " - Search Result");
-
+		model.addAttribute("searchKeyword", keyword);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("listResult", listResult);
 
