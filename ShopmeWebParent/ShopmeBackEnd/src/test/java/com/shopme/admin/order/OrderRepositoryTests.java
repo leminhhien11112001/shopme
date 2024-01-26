@@ -2,9 +2,13 @@ package com.shopme.admin.order;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.text.DateFormat;
+
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -201,4 +205,21 @@ public class OrderRepositoryTests {
 
 		assertThat(updatedOrder.getOrderTracks()).hasSizeGreaterThan(1);
 	}	
+	
+	@Test
+	public void testFindByOrderTimeBetween() throws ParseException {
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date startTime = dateFormatter.parse("2021-08-01");
+		Date endTime = dateFormatter.parse("2021-08-31");
+
+		List<Order> listOrders = repo.findByOrderTimeBetween(startTime, endTime);
+
+		assertThat(listOrders.size()).isGreaterThan(0);
+
+		for (Order order : listOrders) {
+			System.out.printf("%s | %s | %.2f | %.2f | %.2f \n", 
+					order.getId(), order.getOrderTime(), order.getProductCost(), 
+					order.getSubtotal(), order.getTotal());
+		}
+	}
 }
