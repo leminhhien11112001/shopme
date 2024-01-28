@@ -44,8 +44,9 @@ public class WebSecurityConfig{
 	
 	@Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		 http.authenticationProvider(authenticationProvider());
      		
-		 http.authorizeHttpRequests(configure -> configure
+		 http.authorizeHttpRequests(auth -> auth
 				 	.requestMatchers("/states/list_by_country/**").hasAnyAuthority("Admin", "Salesperson")
 				 	.requestMatchers("/users/**", "/settings/**", "/countries/**", "/states/**").hasAuthority("Admin")
 				 	.requestMatchers("/categories/**", "/brands/**").hasAnyAuthority("Admin", "Editor")
@@ -80,18 +81,16 @@ public class WebSecurityConfig{
 	            .rememberMe(remember -> remember
 	            				.key("AbcDefgHijKlmnOpqrs_1234567890")
 	            				.tokenValiditySeconds(7 * 24 * 60 * 60) //7 days
-	            		)
-	            .authenticationProvider(authenticationProvider());
-		 http.headers(fm -> fm.frameOptions(sm -> sm.sameOrigin()));
+	            );
+	            
+		 http.headers(headers -> headers.frameOptions(f -> f.sameOrigin()));
 	           
         return http.build();
     }
 	
 	@Bean
 	WebSecurityCustomizer webSecurityCustomizer() {
-		
-		return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
-		
+		return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");	
 	}
 
 }

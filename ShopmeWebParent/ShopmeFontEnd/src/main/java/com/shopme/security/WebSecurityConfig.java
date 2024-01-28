@@ -46,8 +46,9 @@ public class WebSecurityConfig{
 	
 	@Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.authenticationProvider(authenticationProvider());
 		
-		http.authorizeHttpRequests(configure -> configure
+		http.authorizeHttpRequests(auth -> auth
 			 	.requestMatchers("/customer").authenticated()
 			 	.requestMatchers("/account_details", "/update_account_details", "/orders/**",
 						"/cart", "/address_book/**", "/checkout", "/place_order", 
@@ -69,17 +70,14 @@ public class WebSecurityConfig{
             				.key("AbcDefgHijKlmnOpqrs_1234567890")
             				.tokenValiditySeconds(14 * 24 * 60 * 60) //7 days
             		)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-            .authenticationProvider(authenticationProvider());
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));    
            
 		return http.build();
     }
 	
 	@Bean
-	WebSecurityCustomizer webSecurityCustomizer() {
-		
+	WebSecurityCustomizer webSecurityCustomizer() {		
 		return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
-		
 	}
 
 }

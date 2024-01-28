@@ -13,8 +13,7 @@ import com.shopme.common.entity.User;
 
 @Repository
 //It's optional to use @Repository. Spring Data JPA handles it automatically.
-public interface UserRepository extends SearchRepository<User, Integer>,
-						CrudRepository<User, Integer>{
+public interface UserRepository extends SearchRepository<User, Integer> {
 	
 	//@Param annotation is used in queries of repository interfaces
 	@Query("SELECT u FROM User u WHERE u.email = :email")

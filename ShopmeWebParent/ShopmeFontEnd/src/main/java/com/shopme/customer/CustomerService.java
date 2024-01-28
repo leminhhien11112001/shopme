@@ -2,8 +2,8 @@ package com.shopme.customer;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,10 +38,8 @@ public class CustomerService {
 		customer.setEnabled(false);
 		customer.setCreatedTime(new Date());
 		customer.setAuthenticationType(AuthenticationType.DATABASE);
-
-		UUID uuid =  UUID.randomUUID();
 		
-		String randomCode = uuid.toString();
+		String randomCode = RandomStringUtils.random(64, true, true);
 		customer.setVerificationCode(randomCode);
 
 		customerRepo.save(customer);
@@ -135,9 +133,9 @@ public class CustomerService {
 	public String updateResetPasswordToken(String email) throws CustomerNotFoundException {
 		Customer customer = customerRepo.findByEmail(email);
 		if (customer != null) {
-			UUID uuid =  UUID.randomUUID();
 			
-			String token = uuid.toString();
+			
+			String token = RandomStringUtils.random(30, true, true);
 			customer.setResetPasswordToken(token);
 			customerRepo.save(customer);
 

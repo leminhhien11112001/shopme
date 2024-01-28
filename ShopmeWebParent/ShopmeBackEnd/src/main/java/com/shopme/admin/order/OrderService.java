@@ -18,7 +18,6 @@ import com.shopme.common.entity.order.OrderStatus;
 import com.shopme.common.entity.order.OrderTrack;
 import com.shopme.common.exception.OrderNotFoundException;
 
-
 @Service
 public class OrderService {
 	private static final int ORDERS_PER_PAGE = 10;

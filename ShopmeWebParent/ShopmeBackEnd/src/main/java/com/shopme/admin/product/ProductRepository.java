@@ -4,13 +4,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
 
+import com.shopme.admin.paging.SearchRepository;
 import com.shopme.common.entity.product.Product;
 
-public interface ProductRepository extends PagingAndSortingRepository<Product, Integer>,
-											CrudRepository<Product, Integer>{
+public interface ProductRepository extends SearchRepository<Product, Integer>{
+	
 	public Product findByName(String name);
 	
 	@Query("UPDATE Product p SET p.enabled = ?2 WHERE p.id = ?1")
