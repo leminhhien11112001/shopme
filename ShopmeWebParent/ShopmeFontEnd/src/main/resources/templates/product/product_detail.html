@@ -69,11 +69,12 @@
 		</div>
 		<div class="col-sm-2">
 			<div>
-				<span th:if="${product.inStock}" class="text-success"><b>In Stock</b></span>
-				<span th:unless="${product.inStock}" class="text-danger"><b>Out of Stock</b></span>
+				<span th:if="${product.inStock && product.quantity >= 1}" class="text-success"><b>In Stock</b></span>
+				<span th:unless="${product.inStock && product.quantity >= 1}" class="text-danger"><b>Out of Stock</b></span>
 			</div>
-			<th:block th:if="${product.inStock}">
+			<th:block th:if="${product.inStock && product.quantity >= 1}">
 				<div th:replace="cart/quantity_control :: quantity_control(1, ${product.id})"></div>
+				<div th:text = "Quantity + ': ' + ${product.quantity}"></div>
 				<div class="mt-3">
 					<input type="button" value="Add to Cart" id="buttonAdd2Cart" class="btn btn-primary" />
 				</div>

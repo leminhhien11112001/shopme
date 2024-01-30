@@ -32,16 +32,30 @@ function decreaseQuantity(link) {
 }
 
 function increaseQuantity(link) {
-		productId = link.attr("pid");
-		quantityInput = $("#quantity" + productId);
-		newQuantity = parseInt(quantityInput.val()) + 1;
+	productId = link.attr("pid");
+	quantityInput = $("#quantity" + productId);
+	newQuantity = parseInt(quantityInput.val()) + 1;
 
-		if (newQuantity <= 5) {
+	url = contextPath + "get_quantity";
+	params = {productId: productId};
+	
+	$.ajax({
+		type: "GET",
+		url: url,
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader(csrfHeaderName, csrfValue);
+		},
+		data: params	
+	}).done(function(quantity) {
+		if (newQuantity <= quantity) {
 			quantityInput.val(newQuantity);
 			updateQuantity(productId, newQuantity);
 		} else {
-			showWarningModal('Maximum quantity is 5');
-		}	
+			showWarningModal('Maximum quantity is ' + quantity);
+		}
+	}).fail(function() {
+		showErrorModal("Error while adding product to shopping cart.");
+	});
 }
 
 function updateQuantity(productId, quantity) {

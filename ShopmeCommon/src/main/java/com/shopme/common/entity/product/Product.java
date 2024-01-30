@@ -78,6 +78,8 @@ public class Product extends IdBasedEntity{
 	private int reviewCount;
 	private float averageRating;
 	
+	private int quantity;
+	
 	@Transient 
 	private boolean customerCanReview;
 	
@@ -312,6 +314,14 @@ public class Product extends IdBasedEntity{
 		return false;
 	}
 	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	@Transient
 	public String getShortName() {
 		if (name.length() > 70) {
