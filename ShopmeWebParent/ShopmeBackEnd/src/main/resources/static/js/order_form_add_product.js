@@ -59,17 +59,31 @@ function getProductInfo(productId, shippingCost) {
 		productCost = $.number(productJson.cost, 2);
 		productPrice = $.number(productJson.price, 2);
 
-		htmlCode = generateProductCode(productId, productName, mainImagePath, productCost, productPrice, shippingCost);
-		$("#productList").append(htmlCode);
+		url = contextPath + "products/get_quantity";
+		params = { productId: productId };
 
-		updateOrderAmounts();
+		$.ajax({
+			type: "GET",
+			url: url,
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader(csrfHeaderName, csrfValue);
+			},
+			data: params
+		}).done(function(quantity) {
+			htmlCode = generateProductCode(productId, productName, mainImagePath, productCost, productPrice, shippingCost, quantity);
+			$("#productList").append(htmlCode);
+
+			updateOrderAmounts();
+		}).fail(function() {
+			showErrorModal("Error while adding product.");
+		});
 
 	}).fail(function(err) {
 		showWarningModal(err.responseJSON.message);
 	});
 }
 
-function generateProductCode(productId, productName, mainImagePath, productCost, productPrice, shippingCost) {
+function generateProductCode(productId, productName, mainImagePath, productCost, productPrice, shippingCost, quantity) {
 	nextCount = productDetailCount + 1;
 	productDetailCount++;
 	rowId = "row" + nextCount;
@@ -110,7 +124,7 @@ function generateProductCode(productId, productName, mainImagePath, productCost,
 				<tr>
 					<td>Quantity:</td>
 					<td>
-						<input type="number" step="1" min="1" max="5" class="form-control m-1 quantity-input"
+						<input type="number" step="1" min="1" max="${quantity}" class="form-control m-1 quantity-input"
 							name="quantity"
 							id="${quantityId}"
 							rowNumber="${nextCount}" 

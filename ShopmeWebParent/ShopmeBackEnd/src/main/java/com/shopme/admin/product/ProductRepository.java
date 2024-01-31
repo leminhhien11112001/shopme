@@ -31,7 +31,7 @@ public interface ProductRepository extends SearchRepository<Product, Integer> {
 	public Page<Product> searchInCategory(Integer categoryId, String categoryIdMatch, String keyword,
 			Pageable pageable);
 
-	@Query("SELECT p FROM Product p WHERE p.name LIKE %?1%")
+	@Query("SELECT p FROM Product p WHERE p.name LIKE %?1% AND p.inStock = true AND p.quantity >= 1")
 	public Page<Product> searchProductsByName(String keyword, Pageable pageable);
 
 	@Query("UPDATE Product p SET p.averageRating = CAST(COALESCE((SELECT AVG(r.rating) FROM Review r WHERE r.product.id = ?1), 0) AS java.lang.Float),"

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shopme.admin.paging.PagingAndSortingHelper;
 import com.shopme.admin.paging.PagingAndSortingParam;
+import com.shopme.admin.product.ProductService;
 import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.admin.setting.SettingService;
 import com.shopme.common.entity.Country;
@@ -27,6 +28,7 @@ import com.shopme.common.entity.order.OrderTrack;
 import com.shopme.common.entity.product.Product;
 import com.shopme.common.entity.setting.Setting;
 import com.shopme.common.exception.OrderNotFoundException;
+import com.shopme.common.exception.ProductNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -38,6 +40,8 @@ public class OrderController {
 	private OrderService orderService;
 	@Autowired
 	private SettingService settingService;
+	@Autowired
+	private ProductService productService;
 
 	@GetMapping("/orders")
 	public String listFirstPage() {
@@ -196,6 +200,14 @@ public class OrderController {
 			Integer detailId = Integer.parseInt(detailIds[i]);
 			if (detailId > 0) {
 				orderDetail.setId(detailId);
+			} else {
+				try {
+					Product product = productService.get(Integer.parseInt(productIds[i]));
+					product.setQuantity(product.getQuantity() - Integer.parseInt(quantities[i]));
+					productService.save(product);
+				} catch (NumberFormatException | ProductNotFoundException e) {
+					e.printStackTrace();
+				}
 			}
 
 			orderDetail.setOrder(order);

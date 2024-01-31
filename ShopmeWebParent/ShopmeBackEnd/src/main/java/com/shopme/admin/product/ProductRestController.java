@@ -27,4 +27,10 @@ public class ProductRestController {
 		return new ProductDTO(product.getName(), product.getMainImagePath(), product.getDiscountPrice(),
 				product.getCost());
 	}
+
+	@GetMapping("products/get_quantity")
+	public String getQuantityOfProduct(Integer productId) throws ProductNotFoundException {
+		Product product = service.get(productId);
+		return String.valueOf(product.getQuantity());
+	}
 }

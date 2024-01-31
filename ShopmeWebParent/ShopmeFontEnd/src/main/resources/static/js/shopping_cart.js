@@ -36,7 +36,7 @@ function increaseQuantity(link) {
 	quantityInput = $("#quantity" + productId);
 	newQuantity = parseInt(quantityInput.val()) + 1;
 
-	url = contextPath + "get_quantity";
+	url = contextPath + "products/get_quantity";
 	params = { productId: productId };
 
 	$.ajax({
