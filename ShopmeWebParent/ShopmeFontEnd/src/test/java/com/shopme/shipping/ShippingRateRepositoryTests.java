@@ -15,7 +15,8 @@ import com.shopme.common.entity.ShippingRate;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class ShippingRateRepositoryTests {
 
-	@Autowired private ShippingRateRepository repo;
+	@Autowired
+	private ShippingRateRepository repo;
 
 	@Test
 	public void testFindByCountryAndState() {

@@ -18,22 +18,25 @@ import com.shopme.security.oauth.OAuth2LoginSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig{
+public class WebSecurityConfig {
 
-	@Autowired private CustomerOAuth2UserService oAuth2UserService;
-	@Autowired private OAuth2LoginSuccessHandler oauth2LoginHandler;
-	@Autowired private DatabaseLoginSuccessHandler databaseLoginHandler;
-	
+	@Autowired
+	private CustomerOAuth2UserService oAuth2UserService;
+	@Autowired
+	private OAuth2LoginSuccessHandler oauth2LoginHandler;
+	@Autowired
+	private DatabaseLoginSuccessHandler databaseLoginHandler;
+
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
 	UserDetailsService userDetailsService() {
 		return new CustomerUserDetailsService();
 	}
-	
+
 	@Bean
 	DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -42,41 +45,30 @@ public class WebSecurityConfig{
 		authProvider.setPasswordEncoder(passwordEncoder());
 
 		return authProvider;
-	}	
-	
+	}
+
 	@Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authenticationProvider(authenticationProvider());
-		
-		http.authorizeHttpRequests(auth -> auth
-			 	.requestMatchers("/customer").authenticated()
-			 	.requestMatchers("/account_details", "/update_account_details", "/orders/**",
-						"/cart", "/address_book/**", "/checkout", "/place_order", 
-						"/process_paypal_order", "/write_review/**", "/post_review").authenticated()
-                .anyRequest().permitAll()
-            )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .usernameParameter("email")
-                .successHandler(databaseLoginHandler)
-                .permitAll()
-            ).oauth2Login(oauth2  -> oauth2
-            	.loginPage("/login")
-            	.userInfoEndpoint(u -> u.userService(oAuth2UserService))
-				.successHandler(oauth2LoginHandler)
-            )
-            .logout(logout -> logout.permitAll())
-            .rememberMe(remember -> remember
-            				.key("AbcDefgHijKlmnOpqrs_1234567890")
-            				.tokenValiditySeconds(14 * 24 * 60 * 60) //7 days
-            		)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));    
-           
+
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/customer").authenticated()
+				.requestMatchers("/account_details", "/update_account_details", "/orders/**", "/cart",
+						"/address_book/**", "/checkout", "/place_order", "/process_paypal_order", "/write_review/**",
+						"/post_review")
+				.authenticated().anyRequest().permitAll())
+				.formLogin(form -> form.loginPage("/login").usernameParameter("email")
+						.successHandler(databaseLoginHandler).permitAll())
+				.oauth2Login(oauth2 -> oauth2.loginPage("/login")
+						.userInfoEndpoint(u -> u.userService(oAuth2UserService)).successHandler(oauth2LoginHandler))
+				.logout(logout -> logout.permitAll()).rememberMe(remember -> remember
+						.key("AbcDefgHijKlmnOpqrs_1234567890").tokenValiditySeconds(14 * 24 * 60 * 60) // 7 days
+				).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
+
 		return http.build();
-    }
-	
+	}
+
 	@Bean
-	WebSecurityCustomizer webSecurityCustomizer() {		
+	WebSecurityCustomizer webSecurityCustomizer() {
 		return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
 	}
 

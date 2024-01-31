@@ -34,8 +34,10 @@ import jakarta.servlet.http.HttpServletRequest;
 public class OrderController {
 	private String defaultRedirectURL = "redirect:/orders/page/1?sortField=orderTime&sortDir=desc";
 
-	@Autowired private OrderService orderService;
-	@Autowired private SettingService settingService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private SettingService settingService;
 
 	@GetMapping("/orders")
 	public String listFirstPage() {
@@ -45,12 +47,12 @@ public class OrderController {
 	@GetMapping("/orders/page/{pageNum}")
 	public String listByPage(
 			@PagingAndSortingParam(listName = "listOrders", moduleURL = "/orders") PagingAndSortingHelper helper,
-			@PathVariable(name = "pageNum") int pageNum,
-			HttpServletRequest request, @AuthenticationPrincipal ShopmeUserDetails loggedUser) {
+			@PathVariable(name = "pageNum") int pageNum, HttpServletRequest request,
+			@AuthenticationPrincipal ShopmeUserDetails loggedUser) {
 
 		orderService.listByPage(pageNum, helper);
 		loadCurrencySetting(request);
-		
+
 		if (!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Salesperson") && loggedUser.hasRole("Shipper")) {
 			return "orders/orders_shipper";
 		}
@@ -63,23 +65,22 @@ public class OrderController {
 
 		for (Setting setting : currencySettings) {
 			request.setAttribute(setting.getKey(), setting.getValue());
-		}	
-	}	
-	
+		}
+	}
+
 	@GetMapping("/orders/detail/{id}")
-	public String viewOrderDetails(@PathVariable("id") Integer id, Model model, 
-			RedirectAttributes ra, HttpServletRequest request,
-			@AuthenticationPrincipal ShopmeUserDetails loggedUser) {
+	public String viewOrderDetails(@PathVariable("id") Integer id, Model model, RedirectAttributes ra,
+			HttpServletRequest request, @AuthenticationPrincipal ShopmeUserDetails loggedUser) {
 		try {
 			Order order = orderService.get(id);
-			loadCurrencySetting(request);	
-			
+			loadCurrencySetting(request);
+
 			boolean isVisibleForAdminOrSalesperson = false;
 
 			if (loggedUser.hasRole("Admin") || loggedUser.hasRole("Salesperson")) {
 				isVisibleForAdminOrSalesperson = true;
 			}
-			
+
 			model.addAttribute("isVisibleForAdminOrSalesperson", isVisibleForAdminOrSalesperson);
 			model.addAttribute("order", order);
 
@@ -90,11 +91,12 @@ public class OrderController {
 		}
 
 	}
-	
+
 	@GetMapping("/orders/delete/{id}")
 	public String deleteOrder(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
 		try {
-			orderService.delete(id);;
+			orderService.delete(id);
+			;
 			ra.addFlashAttribute("message", "The order ID " + id + " has been deleted.");
 		} catch (OrderNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());
@@ -107,7 +109,8 @@ public class OrderController {
 	public String editOrder(@PathVariable("id") Integer id, Model model, RedirectAttributes ra,
 			HttpServletRequest request) {
 		try {
-			Order order = orderService.get(id);;
+			Order order = orderService.get(id);
+			;
 
 			List<Country> listCountries = orderService.listAllCountries();
 
@@ -122,8 +125,8 @@ public class OrderController {
 			return defaultRedirectURL;
 		}
 
-	}	
-	
+	}
+
 	@PostMapping("/order/save")
 	public String saveOrder(Order order, HttpServletRequest request, RedirectAttributes ra) {
 		String countryName = request.getParameter("countryName");
@@ -132,7 +135,7 @@ public class OrderController {
 		updateProductDetails(order, request);
 		updateOrderTracks(order, request);
 
-		orderService.save(order);		
+		orderService.save(order);
 
 		ra.addFlashAttribute("message", "The order ID " + order.getId() + " has been updated successfully");
 

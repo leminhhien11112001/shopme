@@ -15,8 +15,8 @@ public class PagingAndSortingHelper {
 	private String sortDir;
 	private String keyword;
 
-	public PagingAndSortingHelper(ModelAndViewContainer model,String listName,
-			String sortField, String sortDir, String keyword) {
+	public PagingAndSortingHelper(ModelAndViewContainer model, String listName, String sortField, String sortDir,
+			String keyword) {
 		this.model = model;
 		this.listName = listName;
 		this.sortField = sortField;
@@ -52,14 +52,14 @@ public class PagingAndSortingHelper {
 			page = repo.findAll(pageable);
 		}
 
-		updateModelAttributes(pageNum, page);		
+		updateModelAttributes(pageNum, page);
 	}
 
 	public Pageable createPageable(int pageSize, int pageNum) {
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
-		return PageRequest.of(pageNum - 1, pageSize, sort);		
-	}	
+		return PageRequest.of(pageNum - 1, pageSize, sort);
+	}
 
 	public String getSortField() {
 		return sortField;
@@ -72,6 +72,5 @@ public class PagingAndSortingHelper {
 	public String getKeyword() {
 		return keyword;
 	}
-
 
 }

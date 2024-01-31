@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Properties;
 
-
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,14 +38,15 @@ public class Utility {
 
 		return mailSender;
 	}
-	
+
 	public static String getEmailOfAuthenticatedCustomer(HttpServletRequest request) {
 		Object principal = request.getUserPrincipal();
-		if (principal == null) return null;
+		if (principal == null)
+			return null;
 
 		String customerEmail = null;
 
-		if (principal instanceof UsernamePasswordAuthenticationToken 
+		if (principal instanceof UsernamePasswordAuthenticationToken
 				|| principal instanceof RememberMeAuthenticationToken) {
 			customerEmail = request.getUserPrincipal().getName();
 		} else if (principal instanceof OAuth2AuthenticationToken) {
@@ -56,8 +56,8 @@ public class Utility {
 		}
 
 		return customerEmail;
-	}	
-	
+	}
+
 	public static String formatCurrency(float amount, CurrencySettingBag settings) {
 		String symbol = settings.getSymbol();
 		String symbolPosition = settings.getSymbolPosition();
@@ -70,7 +70,8 @@ public class Utility {
 
 		if (decimalDigits > 0) {
 			pattern += ".";
-			for (int count = 1; count <= decimalDigits; count++) pattern += "#";
+			for (int count = 1; count <= decimalDigits; count++)
+				pattern += "#";
 		}
 
 		pattern += symbolPosition.equals("After price") ? symbol : "";

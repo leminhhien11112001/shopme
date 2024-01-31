@@ -16,17 +16,17 @@ import com.shopme.common.entity.Brand;
 @ExtendWith(SpringExtension.class)
 public class BrandServiceTests {
 
-	@MockBean 
+	@MockBean
 	private BrandRepository repo;
 
-	@InjectMocks 
+	@InjectMocks
 	private BrandService service;
 
 	@Test
 	public void testCheckUniqueInNewModeReturnDuplicate() {
 		Integer id = null;
 		String name = "Acer";
-		
+
 		Brand brand = new Brand(name);
 
 		Mockito.when(repo.findByName(name)).thenReturn(brand);
@@ -50,7 +50,7 @@ public class BrandServiceTests {
 	public void testCheckUniqueInEditModeReturnDuplicate() {
 		Integer id = 1;
 		String name = "Canon";
-		
+
 		Brand brand = new Brand(id, name);
 
 		Mockito.when(repo.findByName(name)).thenReturn(brand);
@@ -69,5 +69,5 @@ public class BrandServiceTests {
 
 		String result = service.checkUnique(id, "Acer Ltd");
 		assertThat(result).isEqualTo("OK");
-	}	
+	}
 }

@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.shopme.common.entity.IdBasedEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,8 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-
-import com.shopme.common.entity.IdBasedEntity;
 
 @Entity
 @Table(name = "order_track")
@@ -64,7 +64,7 @@ public class OrderTrack extends IdBasedEntity {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-	
+
 	@Transient
 	public String getUpdatedTimeOnForm() {
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");

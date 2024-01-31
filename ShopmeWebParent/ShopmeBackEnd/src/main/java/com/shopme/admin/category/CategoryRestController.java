@@ -14,5 +14,5 @@ public class CategoryRestController {
 	public String checkUnique(Integer id, String name, String alias) {
 		return service.checkUnique(id, name, alias);
 	}
-	
+
 }

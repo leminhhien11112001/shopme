@@ -6,8 +6,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "currencies")
-public class Currency extends IdBasedEntity{
-	
+public class Currency extends IdBasedEntity {
+
 	@Column(nullable = false, length = 64)
 	private String name;
 
@@ -56,5 +56,5 @@ public class Currency extends IdBasedEntity{
 	public String toString() {
 		return name + " - " + code + " - " + symbol;
 	}
-	
+
 }

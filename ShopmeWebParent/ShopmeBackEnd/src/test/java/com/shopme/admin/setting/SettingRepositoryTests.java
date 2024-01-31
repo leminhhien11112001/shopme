@@ -19,7 +19,8 @@ import com.shopme.common.entity.setting.SettingCategory;
 @Rollback(false)
 public class SettingRepositoryTests {
 
-	@Autowired SettingRepository repo;
+	@Autowired
+	SettingRepository repo;
 
 	@Test
 	public void testCreateGeneralSettings() {
@@ -43,11 +44,10 @@ public class SettingRepositoryTests {
 		Setting decimalDigits = new Setting("DECIMAL_DIGITS", "2", SettingCategory.CURRENCY);
 		Setting thousandsPointType = new Setting("THOUSANDS_POINT_TYPE", "COMMA", SettingCategory.CURRENCY);
 
-		repo.saveAll(List.of(currencyId, symbol, symbolPosition, decimalPointType, 
-				decimalDigits, thousandsPointType));
+		repo.saveAll(List.of(currencyId, symbol, symbolPosition, decimalPointType, decimalDigits, thousandsPointType));
 
 	}
-	
+
 	@Test
 	public void testListSettingsByCategory() {
 		List<Setting> settings = repo.findByCategory(SettingCategory.GENERAL);

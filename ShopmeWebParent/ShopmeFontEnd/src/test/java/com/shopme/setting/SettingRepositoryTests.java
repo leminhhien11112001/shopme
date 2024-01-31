@@ -17,7 +17,8 @@ import com.shopme.common.entity.setting.SettingCategory;
 @Rollback(false)
 public class SettingRepositoryTests {
 
-	@Autowired SettingRepository repo;
+	@Autowired
+	SettingRepository repo;
 
 	@Test
 	public void testFindByTwoCategories() {

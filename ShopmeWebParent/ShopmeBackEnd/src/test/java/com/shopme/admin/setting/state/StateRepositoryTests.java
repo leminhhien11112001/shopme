@@ -21,8 +21,10 @@ import com.shopme.common.entity.State;
 @Rollback(false)
 public class StateRepositoryTests {
 
-	@Autowired private StateRepository repo;
-	@Autowired private TestEntityManager entityManager;
+	@Autowired
+	private StateRepository repo;
+	@Autowired
+	private TestEntityManager entityManager;
 
 	@Test
 	public void testCreateStatesInIndia() {
@@ -88,6 +90,6 @@ public class StateRepositoryTests {
 		repo.deleteById(stateId);
 
 		Optional<State> findById = repo.findById(stateId);
-		assertThat(findById.isEmpty());		
+		assertThat(findById.isEmpty());
 	}
 }

@@ -15,7 +15,7 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "users")
-public class User extends IdBasedEntity{
+public class User extends IdBasedEntity {
 	@Column(length = 128, nullable = false, unique = true)
 	private String email;
 
@@ -34,11 +34,7 @@ public class User extends IdBasedEntity{
 	private boolean enabled;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "users_roles",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "role_id")
-			)
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
 	public User() {
@@ -116,7 +112,7 @@ public class User extends IdBasedEntity{
 		return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", roles=" + roles + "]";
 	}
-	
+
 	public boolean hasRole(String roleName) {
 		Iterator<Role> iterator = roles.iterator();
 
@@ -129,10 +125,11 @@ public class User extends IdBasedEntity{
 
 		return false;
 	}
-	
+
 	@Transient
 	public String getPhotosImagePath() {
-		if (id == null || photos == null) return "/images/default-user.png";
+		if (id == null || photos == null)
+			return "/images/default-user.png";
 
 		return "/user-photos/" + this.id + "/" + this.photos;
 	}
@@ -141,6 +138,5 @@ public class User extends IdBasedEntity{
 	public String getFullName() {
 		return firstName + " " + lastName;
 	}
-	
+
 }
-	

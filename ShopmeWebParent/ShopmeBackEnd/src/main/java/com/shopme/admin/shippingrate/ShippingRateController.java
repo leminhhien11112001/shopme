@@ -21,7 +21,8 @@ import com.shopme.common.exception.ShippingRateNotFoundException;
 public class ShippingRateController {
 	private String defaultRedirectURL = "redirect:/shipping_rates/page/1?sortField=country&sortDir=asc";
 
-	@Autowired private ShippingRateService service;
+	@Autowired
+	private ShippingRateService service;
 
 	@GetMapping("/shipping_rates")
 	public String listFirstPage() {
@@ -29,12 +30,12 @@ public class ShippingRateController {
 	}
 
 	@GetMapping("/shipping_rates/page/{pageNum}")
-	public String listByPage(@PagingAndSortingParam(listName = "shippingRates", 
-						moduleURL = "/shipping_rates") PagingAndSortingHelper helper,
-						@PathVariable(name = "pageNum") int pageNum) {
+	public String listByPage(
+			@PagingAndSortingParam(listName = "shippingRates", moduleURL = "/shipping_rates") PagingAndSortingHelper helper,
+			@PathVariable(name = "pageNum") int pageNum) {
 		service.listByPage(pageNum, helper);
 		return "shipping_rates/shipping_rates";
-	}	
+	}
 
 	@GetMapping("/shipping_rates/new")
 	public String newRate(Model model) {
@@ -44,7 +45,7 @@ public class ShippingRateController {
 		model.addAttribute("listCountries", listCountries);
 		model.addAttribute("pageTitle", "New Rate");
 
-		return "shipping_rates/shipping_rate_form";		
+		return "shipping_rates/shipping_rate_form";
 	}
 
 	@PostMapping("/shipping_rates/save")
@@ -59,13 +60,12 @@ public class ShippingRateController {
 	}
 
 	@GetMapping("/shipping_rates/edit/{id}")
-	public String editRate(@PathVariable(name = "id") Integer id,
-			Model model, RedirectAttributes ra) {
+	public String editRate(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes ra) {
 		try {
 			ShippingRate rate = service.get(id);
 			List<Country> listCountries = service.listAllCountries();
 
-			model.addAttribute("listCountries", listCountries);			
+			model.addAttribute("listCountries", listCountries);
 			model.addAttribute("rate", rate);
 			model.addAttribute("pageTitle", "Edit Rate (ID: " + id + ")");
 
@@ -78,8 +78,7 @@ public class ShippingRateController {
 
 	@GetMapping("/shipping_rates/cod/{id}/enabled/{supported}")
 	public String updateCODSupport(@PathVariable(name = "id") Integer id,
-			@PathVariable(name = "supported") Boolean supported,
-			Model model, RedirectAttributes ra) {
+			@PathVariable(name = "supported") Boolean supported, Model model, RedirectAttributes ra) {
 		try {
 			service.updateCODSupport(id, supported);
 			ra.addFlashAttribute("message", "COD support for shipping rate ID " + id + " has been updated.");
@@ -90,8 +89,7 @@ public class ShippingRateController {
 	}
 
 	@GetMapping("/shipping_rates/delete/{id}")
-	public String deleteRate(@PathVariable(name = "id") Integer id,
-			Model model, RedirectAttributes ra) {
+	public String deleteRate(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes ra) {
 		try {
 			service.delete(id);
 			ra.addFlashAttribute("message", "The shipping rate ID " + id + " has been deleted.");
@@ -99,5 +97,5 @@ public class ShippingRateController {
 			ra.addFlashAttribute("message", ex.getMessage());
 		}
 		return defaultRedirectURL;
-	}	
+	}
 }

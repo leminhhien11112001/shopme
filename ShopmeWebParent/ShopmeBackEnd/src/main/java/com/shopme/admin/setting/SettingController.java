@@ -23,9 +23,11 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class SettingController {
 
-	@Autowired private SettingService service;
+	@Autowired
+	private SettingService service;
 
-	@Autowired private CurrencyRepository currencyRepo;
+	@Autowired
+	private CurrencyRepository currencyRepo;
 
 	@GetMapping("/settings")
 	public String listAll(Model model) {
@@ -55,7 +57,7 @@ public class SettingController {
 
 		return "redirect:/settings";
 	}
-	
+
 	@PostMapping("/settings/save_mail_server")
 	public String saveMailServerSetttings(HttpServletRequest request, RedirectAttributes ra) {
 		List<Setting> mailServerSettings = service.getMailServerSettings();
@@ -108,7 +110,7 @@ public class SettingController {
 
 		service.saveAll(listSettings);
 	}
-	
+
 	@PostMapping("/settings/save_payment")
 	public String savePaymentSetttings(HttpServletRequest request, RedirectAttributes ra) {
 		List<Setting> paymentSettings = service.getPaymentSettings();
@@ -117,6 +119,6 @@ public class SettingController {
 		ra.addFlashAttribute("message", "Payment settings have been saved");
 
 		return "redirect:/settings#payment";
-	}	
-	
+	}
+
 }

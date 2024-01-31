@@ -23,8 +23,10 @@ import com.shopme.common.exception.ShippingRateNotFoundException;
 @ExtendWith(SpringExtension.class)
 public class ShippingRateServiceTests {
 
-	@MockBean private ShippingRateRepository shipRepo;
-	@MockBean private ProductRepository productRepo;
+	@MockBean
+	private ShippingRateRepository shipRepo;
+	@MockBean
+	private ProductRepository productRepo;
 
 	@InjectMocks
 	private ShippingRateService shipService;
@@ -61,7 +63,7 @@ public class ShippingRateServiceTests {
 		product.setWeight(5);
 		product.setWidth(4);
 		product.setHeight(3);
-		product.setLength(8);		
+		product.setLength(8);
 
 		Mockito.when(productRepo.findById(productId)).thenReturn(Optional.of(product));
 

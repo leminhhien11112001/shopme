@@ -1,9 +1,9 @@
 package com.shopme.checkout;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -36,13 +36,20 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class CheckoutController {
 
-	@Autowired private CheckoutService checkoutService;
-	@Autowired private AddressService addressService;
-	@Autowired private ShippingRateService shipService;
-	@Autowired private ShoppingCartService cartService;
-	@Autowired private OrderService orderService;
-	@Autowired private SettingService settingService;
-	@Autowired private ControllerHelper controllerHelper;
+	@Autowired
+	private CheckoutService checkoutService;
+	@Autowired
+	private AddressService addressService;
+	@Autowired
+	private ShippingRateService shipService;
+	@Autowired
+	private ShoppingCartService cartService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private SettingService settingService;
+	@Autowired
+	private ControllerHelper controllerHelper;
 
 	@GetMapping("/checkout")
 	public String showCheckoutPage(Model model, HttpServletRequest request) {
@@ -71,7 +78,7 @@ public class CheckoutController {
 
 		return "checkout/checkout";
 	}
-	
+
 	@PostMapping("/place_order")
 	public String placeOrder(HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
 		String paymentType = request.getParameter("paymentMethod");
@@ -97,8 +104,8 @@ public class CheckoutController {
 
 		return "checkout/order_completed";
 	}
-	
-	private void sendOrderConfirmationEmail(HttpServletRequest request, Order order) 
+
+	private void sendOrderConfirmationEmail(HttpServletRequest request, Order order)
 			throws UnsupportedEncodingException, MessagingException {
 		EmailSettingBag emailSettings = settingService.getEmailSettings();
 		JavaMailSenderImpl mailSender = Utility.prepareMailSender(emailSettings);
@@ -117,7 +124,7 @@ public class CheckoutController {
 		helper.setTo(toAddress);
 		helper.setSubject(subject);
 
-		DateFormat dateFormatter =  new SimpleDateFormat("HH:mm:ss E, dd MMM yyyy");
+		DateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss E, dd MMM yyyy");
 		String orderTime = dateFormatter.format(order.getOrderTime());
 
 		CurrencySettingBag currencySettings = settingService.getCurrencySettings();
@@ -131,6 +138,6 @@ public class CheckoutController {
 		content = content.replace("[[paymentMethod]]", order.getPaymentMethod().toString());
 
 		helper.setText(content, true);
-		mailSender.send(message);		
+		mailSender.send(message);
 	}
 }

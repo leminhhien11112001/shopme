@@ -3,7 +3,8 @@ package com.shopme.order;
 public class OrderReturnResponse {
 	private Integer orderId;
 
-	public OrderReturnResponse() { }
+	public OrderReturnResponse() {
+	}
 
 	public OrderReturnResponse(Integer orderId) {
 		this.orderId = orderId;
@@ -15,5 +16,5 @@ public class OrderReturnResponse {
 
 	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
-	}	
+	}
 }

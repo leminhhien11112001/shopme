@@ -19,9 +19,10 @@ import com.shopme.common.exception.CustomerNotFoundException;
 @Controller
 public class CustomerController {
 	private String defaultRedirectURL = "redirect:/customers/page/1?sortField=firstName&sortDir=asc";
-	
-	@Autowired private CustomerService service;
-	
+
+	@Autowired
+	private CustomerService service;
+
 	@GetMapping("/customers")
 	public String listFirstPage(Model model) {
 		return defaultRedirectURL;
@@ -33,52 +34,52 @@ public class CustomerController {
 			@PathVariable(name = "pageNum") int pageNum) {
 
 		service.listByPage(pageNum, helper);
-		
+
 		return "customers/customers";
 	}
-	
+
 	@GetMapping("/customers/{id}/enabled/{status}")
-	public String updateCustomerEnabledStatus(@PathVariable("id") Integer id,
-			@PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) {
+	public String updateCustomerEnabledStatus(@PathVariable("id") Integer id, @PathVariable("status") boolean enabled,
+			RedirectAttributes redirectAttributes) {
 		service.updateCustomerEnabledStatus(id, enabled);
 		String status = enabled ? "enabled" : "disabled";
 		String message = "The Customer ID " + id + " has been " + status;
 		redirectAttributes.addFlashAttribute("message", message);
-		
+
 		return defaultRedirectURL;
-	}	
-	
+	}
+
 	@GetMapping("/customers/detail/{id}")
 	public String viewCustomer(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
 		try {
 			Customer customer = service.get(id);
 			model.addAttribute("customer", customer);
-			
+
 			return "customers/customer_detail_modal";
-		} catch (CustomerNotFoundException ex) {
-			ra.addFlashAttribute("message", ex.getMessage());
-			return defaultRedirectURL;		
-		}
-	}
-	
-	@GetMapping("/customers/edit/{id}")
-	public String editCustomer(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
-		try {
-			Customer customer = service.get(id);
-			List<Country> countries = service.listAllCountries();
-			
-			model.addAttribute("listCountries", countries);			
-			model.addAttribute("customer", customer);
-			model.addAttribute("pageTitle", String.format("Edit Customer (ID: %d)", id));
-			
-			return "customers/customer_form";
-			
 		} catch (CustomerNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());
 			return defaultRedirectURL;
 		}
 	}
-	
+
+	@GetMapping("/customers/edit/{id}")
+	public String editCustomer(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+		try {
+			Customer customer = service.get(id);
+			List<Country> countries = service.listAllCountries();
+
+			model.addAttribute("listCountries", countries);
+			model.addAttribute("customer", customer);
+			model.addAttribute("pageTitle", String.format("Edit Customer (ID: %d)", id));
+
+			return "customers/customer_form";
+
+		} catch (CustomerNotFoundException ex) {
+			ra.addFlashAttribute("message", ex.getMessage());
+			return defaultRedirectURL;
+		}
+	}
+
 	@PostMapping("/customers/save")
 	public String saveCustomer(Customer customer, RedirectAttributes ra) {
 		service.save(customer);
@@ -89,14 +90,14 @@ public class CustomerController {
 	@GetMapping("/customers/delete/{id}")
 	public String deleteCustomer(@PathVariable Integer id, RedirectAttributes ra) {
 		try {
-			service.delete(id);			
+			service.delete(id);
 			ra.addFlashAttribute("message", "The customer ID " + id + " has been deleted successfully.");
-			
+
 		} catch (CustomerNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());
 		}
-		
+
 		return defaultRedirectURL;
 	}
-	
+
 }

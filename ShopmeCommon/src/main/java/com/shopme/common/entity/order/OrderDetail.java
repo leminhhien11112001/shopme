@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "order_details")
-public class OrderDetail extends IdBasedEntity{
+public class OrderDetail extends IdBasedEntity {
 	private int quantity;
 	private float productCost;
 	private float shippingCost;
@@ -44,7 +44,7 @@ public class OrderDetail extends IdBasedEntity{
 		this.productCost = productCost;
 		this.shippingCost = shippingCost;
 		this.subtotal = subtotal;
-	}	
+	}
 
 	public int getQuantity() {
 		return quantity;
@@ -101,6 +101,5 @@ public class OrderDetail extends IdBasedEntity{
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-
 
 }

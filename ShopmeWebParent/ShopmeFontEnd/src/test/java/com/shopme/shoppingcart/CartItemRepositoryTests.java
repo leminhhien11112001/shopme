@@ -21,8 +21,10 @@ import com.shopme.common.entity.product.Product;
 @Rollback(false)
 public class CartItemRepositoryTests {
 
-	@Autowired private CartItemRepository repo;
-	@Autowired private TestEntityManager entityManager;
+	@Autowired
+	private CartItemRepository repo;
+	@Autowired
+	private TestEntityManager entityManager;
 
 	@Test
 	public void testSaveItem() {

@@ -11,10 +11,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-
 @Entity
 @Table(name = "brands")
-public class Brand extends IdBasedEntity{
+public class Brand extends IdBasedEntity {
 	@Column(nullable = false, length = 45, unique = true)
 	private String name;
 
@@ -22,11 +21,7 @@ public class Brand extends IdBasedEntity{
 	private String logo;
 
 	@ManyToMany
-	@JoinTable(
-			name = "brands_categories",
-			joinColumns = @JoinColumn(name = "brand_id"),
-			inverseJoinColumns = @JoinColumn(name = "category_id")
-			)
+	@JoinTable(name = "brands_categories", joinColumns = @JoinColumn(name = "brand_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
 
 	public Brand() {
@@ -37,7 +32,7 @@ public class Brand extends IdBasedEntity{
 		this.name = name;
 		this.logo = "brand-logo.png";
 	}
-	
+
 	public Brand(Integer id, String name) {
 		this.id = id;
 		this.name = name;
@@ -74,10 +69,10 @@ public class Brand extends IdBasedEntity{
 
 	@Transient
 	public String getLogoPath() {
-		if (this.id == null || this.logo == null) return "/images/image-thumbnail.png";
+		if (this.id == null || this.logo == null)
+			return "/images/image-thumbnail.png";
 
-		return "/brand-logos/" + this.id + "/" + this.logo;		
+		return "/brand-logos/" + this.id + "/" + this.logo;
 	}
-	
 
 }

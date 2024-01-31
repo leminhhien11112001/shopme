@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class SettingFilter implements Filter {
 
 	@Autowired
-	private SettingService service; 
+	private SettingService service;
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -30,8 +30,7 @@ public class SettingFilter implements Filter {
 		HttpServletRequest servletRequest = (HttpServletRequest) request;
 		String url = servletRequest.getRequestURL().toString();
 
-		if (url.endsWith(".css") || url.endsWith(".js") || url.endsWith(".png") ||
-				url.endsWith(".jpg")) {
+		if (url.endsWith(".css") || url.endsWith(".js") || url.endsWith(".png") || url.endsWith(".jpg")) {
 			chain.doFilter(request, response);
 			return;
 		}

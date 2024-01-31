@@ -24,11 +24,11 @@ public class BrandRestController {
 	public String checkUnique(Integer id, String name) {
 		return service.checkUnique(id, name);
 	}
-	
 
 	@GetMapping("/brands/{id}/categories")
-	public List<CategoryDTO> listCategoriesByBrand(@PathVariable(name = "id") Integer brandId) throws BrandNotFoundRestException {
-		List<CategoryDTO> listCategories = new ArrayList<>(); 
+	public List<CategoryDTO> listCategoriesByBrand(@PathVariable(name = "id") Integer brandId)
+			throws BrandNotFoundRestException {
+		List<CategoryDTO> listCategories = new ArrayList<>();
 
 		try {
 			Brand brand = service.get(brandId);

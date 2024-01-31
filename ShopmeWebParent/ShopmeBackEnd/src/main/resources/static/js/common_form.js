@@ -10,7 +10,7 @@ $(document).ready(function() {
 			return;
 		}
 
-		showImageThumbnail(this);	
+		showImageThumbnail(this);
 	});
 });
 
@@ -26,7 +26,7 @@ function checkFileSize(fileInput) {
 		fileInput.setCustomValidity("");
 
 		return true;
-	}	
+	}
 }
 
 function showImageThumbnail(fileInput) {

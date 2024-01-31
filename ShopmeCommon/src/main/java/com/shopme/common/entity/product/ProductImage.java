@@ -11,7 +11,7 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "product_images")
-public class ProductImage extends IdBasedEntity{
+public class ProductImage extends IdBasedEntity {
 
 	@Column(nullable = false)
 	private String name;
@@ -27,7 +27,7 @@ public class ProductImage extends IdBasedEntity{
 		this.name = name;
 		this.product = product;
 	}
-	
+
 	public ProductImage(Integer id, String name, Product product) {
 		this.id = id;
 		this.name = name;

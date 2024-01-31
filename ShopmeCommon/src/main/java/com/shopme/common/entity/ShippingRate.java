@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "shipping_rates")
-public class ShippingRate extends IdBasedEntity{
+public class ShippingRate extends IdBasedEntity {
 	private float rate;
 	private int days;
 
@@ -91,7 +91,6 @@ public class ShippingRate extends IdBasedEntity{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}	
-
+	}
 
 }

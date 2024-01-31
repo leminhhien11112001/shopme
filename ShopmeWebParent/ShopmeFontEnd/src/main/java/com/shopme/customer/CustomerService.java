@@ -20,9 +20,12 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class CustomerService {
 
-	@Autowired private CountryRepository countryRepo;
-	@Autowired private CustomerRepository customerRepo;
-	@Autowired PasswordEncoder passwordEncoder;
+	@Autowired
+	private CountryRepository countryRepo;
+	@Autowired
+	private CustomerRepository customerRepo;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	public List<Country> listAllCountries() {
 		return countryRepo.findAllByOrderByNameAsc();
@@ -32,30 +35,29 @@ public class CustomerService {
 		Customer customer = customerRepo.findByEmail(email);
 		return customer == null;
 	}
-	
+
 	public void registerCustomer(Customer customer) {
 		encodePassword(customer);
 		customer.setEnabled(false);
 		customer.setCreatedTime(new Date());
 		customer.setAuthenticationType(AuthenticationType.DATABASE);
-		
+
 		String randomCode = RandomStringUtils.random(64, true, true);
 		customer.setVerificationCode(randomCode);
 
 		customerRepo.save(customer);
 
 	}
-	
+
 	public Customer getCustomerByEmail(String email) {
 		return customerRepo.findByEmail(email);
 	}
-
 
 	private void encodePassword(Customer customer) {
 		String encodedPassword = passwordEncoder.encode(customer.getPassword());
 		customer.setPassword(encodedPassword);
 	}
-	
+
 	public boolean verify(String verificationCode) {
 		Customer customer = customerRepo.findByVerificationCode(verificationCode);
 
@@ -66,13 +68,13 @@ public class CustomerService {
 			return true;
 		}
 	}
-	
+
 	public void updateAuthenticationType(Customer customer, AuthenticationType type) {
 		if (!customer.getAuthenticationType().equals(type)) {
 			customerRepo.updateAuthenticationType(customer.getId(), type);
 		}
 	}
-	
+
 	public void addNewCustomerUponOAuthLogin(String name, String email, String countryCode,
 			AuthenticationType authenticationType) {
 		Customer customer = new Customer();
@@ -91,7 +93,7 @@ public class CustomerService {
 		customer.setCountry(countryRepo.findByCode(countryCode));
 
 		customerRepo.save(customer);
-	}	
+	}
 
 	private void setName(String name, Customer customer) {
 		String[] nameArray = name.split(" ");
@@ -106,17 +108,17 @@ public class CustomerService {
 			customer.setLastName(lastName);
 		}
 	}
-	
+
 	public void update(Customer customerInForm) {
 		Customer customerInDB = customerRepo.findById(customerInForm.getId()).get();
 
 		if (customerInDB.getAuthenticationType().equals(AuthenticationType.DATABASE)) {
 			if (!customerInForm.getPassword().isEmpty()) {
 				String encodedPassword = passwordEncoder.encode(customerInForm.getPassword());
-				customerInForm.setPassword(encodedPassword);			
+				customerInForm.setPassword(encodedPassword);
 			} else {
 				customerInForm.setPassword(customerInDB.getPassword());
-			}		
+			}
 		} else {
 			customerInForm.setPassword(customerInDB.getPassword());
 		}
@@ -128,13 +130,12 @@ public class CustomerService {
 		customerInForm.setResetPasswordToken(customerInDB.getResetPasswordToken());
 
 		customerRepo.save(customerInForm);
-	}	
-	
+	}
+
 	public String updateResetPasswordToken(String email) throws CustomerNotFoundException {
 		Customer customer = customerRepo.findByEmail(email);
 		if (customer != null) {
-			
-			
+
 			String token = RandomStringUtils.random(30, true, true);
 			customer.setResetPasswordToken(token);
 			customerRepo.save(customer);
@@ -143,7 +144,7 @@ public class CustomerService {
 		} else {
 			throw new CustomerNotFoundException("Could not find any customer with the email " + email);
 		}
-	}	
+	}
 
 	public Customer getByResetPasswordToken(String token) {
 		return customerRepo.findByResetPasswordToken(token);

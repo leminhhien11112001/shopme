@@ -3,7 +3,6 @@ package com.shopme.admin.customer;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,9 +20,12 @@ import jakarta.transaction.Transactional;
 public class CustomerService {
 	public static final int CUSTOMERS_PER_PAGE = 10;
 
-	@Autowired private CustomerRepository customerRepo;
-	@Autowired private CountryRepository countryRepo;	
-	@Autowired private PasswordEncoder passwordEncoder;
+	@Autowired
+	private CustomerRepository customerRepo;
+	@Autowired
+	private CountryRepository countryRepo;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public void listByPage(int pageNum, PagingAndSortingHelper helper) {
 		helper.listEntities(pageNum, CUSTOMERS_PER_PAGE, customerRepo);
@@ -43,7 +45,7 @@ public class CustomerService {
 
 	public List<Country> listAllCountries() {
 		return countryRepo.findAllByOrderByNameAsc();
-	}		
+	}
 
 	public boolean isEmailUnique(Integer id, String email) {
 		Customer existCustomer = customerRepo.findByEmail(email);
@@ -58,20 +60,20 @@ public class CustomerService {
 
 	public void save(Customer customerInForm) {
 		Customer customerInDB = customerRepo.findById(customerInForm.getId()).get();
-		
+
 		if (!customerInForm.getPassword().isEmpty()) {
 			String encodedPassword = passwordEncoder.encode(customerInForm.getPassword());
-			customerInForm.setPassword(encodedPassword);			
+			customerInForm.setPassword(encodedPassword);
 		} else {
 			customerInForm.setPassword(customerInDB.getPassword());
-		}		
-		
+		}
+
 		customerInForm.setEnabled(customerInDB.isEnabled());
 		customerInForm.setCreatedTime(customerInDB.getCreatedTime());
 		customerInForm.setVerificationCode(customerInDB.getVerificationCode());
 		customerInForm.setAuthenticationType(customerInDB.getAuthenticationType());
 		customerInForm.setResetPasswordToken(customerInDB.getResetPasswordToken());
-		
+
 		customerRepo.save(customerInForm);
 	}
 

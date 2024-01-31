@@ -12,20 +12,20 @@ import com.shopme.common.exception.BrandNotFoundException;
 
 @Service
 public class BrandService {
-	
+
 	public static final int BRANDS_PER_PAGE = 10;
-	
+
 	@Autowired
 	private BrandRepository repo;
 
 	public List<Brand> listAll() {
 		return (List<Brand>) repo.findAll();
 	}
-	
+
 	public void listByPage(int pageNum, PagingAndSortingHelper helper) {
 		helper.listEntities(pageNum, BRANDS_PER_PAGE, repo);
 	}
-	
+
 	public Brand save(Brand brand) {
 		return repo.save(brand);
 	}
@@ -42,18 +42,19 @@ public class BrandService {
 		Long countById = repo.countById(id);
 
 		if (countById == null || countById == 0) {
-			throw new BrandNotFoundException("Could not find any brand with ID " + id);			
+			throw new BrandNotFoundException("Could not find any brand with ID " + id);
 		}
 
 		repo.deleteById(id);
 	}
-	
+
 	public String checkUnique(Integer id, String name) {
 		boolean isCreatingNew = (id == null || id == 0);
 		Brand brandByName = repo.findByName(name);
 
 		if (isCreatingNew) {
-			if (brandByName != null) return "Duplicate";
+			if (brandByName != null)
+				return "Duplicate";
 		} else {
 			if (brandByName != null && brandByName.getId() != id) {
 				return "Duplicate";

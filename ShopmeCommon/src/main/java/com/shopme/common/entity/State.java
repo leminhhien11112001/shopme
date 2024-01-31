@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "states")
-public class State extends IdBasedEntity{
+public class State extends IdBasedEntity {
 	@Column(nullable = false, length = 45)
 	private String name;
 
@@ -45,6 +45,5 @@ public class State extends IdBasedEntity{
 	public String toString() {
 		return "State [id=" + id + ", name=" + name + "]";
 	}
-
 
 }

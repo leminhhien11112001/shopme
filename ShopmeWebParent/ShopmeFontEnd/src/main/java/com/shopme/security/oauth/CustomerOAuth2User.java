@@ -39,11 +39,11 @@ public class CustomerOAuth2User implements OAuth2User {
 	public String getFullName() {
 		return fullName != null ? fullName : oauth2User.getAttribute("name");
 	}
-	
+
 	public String getClientName() {
 		return clientName;
 	}
-	
+
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}

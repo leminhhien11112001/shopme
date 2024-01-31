@@ -20,8 +20,10 @@ import com.shopme.common.entity.ShippingRate;
 @Rollback(false)
 public class ShippingRateRepositoryTests {
 
-	@Autowired private ShippingRateRepository repo;
-	@Autowired private TestEntityManager entityManager;
+	@Autowired
+	private ShippingRateRepository repo;
+	@Autowired
+	private TestEntityManager entityManager;
 
 	@Test
 	public void testCreateNew() {

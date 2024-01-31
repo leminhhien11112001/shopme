@@ -18,8 +18,10 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 public class OrderRestController {
 
-	@Autowired private OrderService orderService;
-	@Autowired private CustomerService customerService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private CustomerService customerService;
 
 	@PostMapping("/orders/return")
 	public ResponseEntity<?> handleOrderReturnRequest(@RequestBody OrderReturnRequest returnRequest,
@@ -46,13 +48,12 @@ public class OrderRestController {
 		return new ResponseEntity<>(new OrderReturnResponse(returnRequest.getOrderId()), HttpStatus.OK);
 	}
 
-	private Customer getAuthenticatedCustomer(HttpServletRequest request) 
-			throws CustomerNotFoundException {
+	private Customer getAuthenticatedCustomer(HttpServletRequest request) throws CustomerNotFoundException {
 		String email = Utility.getEmailOfAuthenticatedCustomer(request);
 		if (email == null) {
 			throw new CustomerNotFoundException("No authenticated customer");
 		}
 
 		return customerService.getCustomerByEmail(email);
-	}	
+	}
 }

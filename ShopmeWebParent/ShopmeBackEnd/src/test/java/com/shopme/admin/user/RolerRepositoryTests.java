@@ -17,7 +17,7 @@ import com.shopme.common.entity.Role;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Rollback(false)
 public class RolerRepositoryTests {
-	
+
 	@Autowired
 	private RoleRepository repo;
 
@@ -31,14 +31,12 @@ public class RolerRepositoryTests {
 
 	@Test
 	public void testCreateRestRoles() {
-		Role roleSalesperson = new Role("Salesperson", "manage product price, "
-				+ "customers, shipping, orders and sales report");
+		Role roleSalesperson = new Role("Salesperson",
+				"manage product price, " + "customers, shipping, orders and sales report");
 
-		Role roleEditor = new Role("Editor", "manage categories, brands, "
-				+ "products, articles and menus");
+		Role roleEditor = new Role("Editor", "manage categories, brands, " + "products, articles and menus");
 
-		Role roleShipper = new Role("Shipper", "view products, view orders "
-				+ "and update order status");
+		Role roleShipper = new Role("Shipper", "view products, view orders " + "and update order status");
 
 		Role roleAssistant = new Role("Assistant", "manage questions and reviews");
 

@@ -16,17 +16,16 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 public class OrderRestControllerTests {
 
-	@Autowired private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
 	@Test
-	@WithMockUser(username = "user1", password = "pass1", authorities = {"Shipper"})
+	@WithMockUser(username = "user1", password = "pass1", authorities = { "Shipper" })
 	public void testUpdateOrderStatus() throws Exception {
 		Integer orderId = 1;
 		String status = "SHIPPING";
 		String requestURL = "/orders_shipper/update/" + orderId + "/" + status;
 
-		mockMvc.perform(post(requestURL).with(csrf()))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andDo(print());
+		mockMvc.perform(post(requestURL).with(csrf())).andExpect(MockMvcResultMatchers.status().isOk()).andDo(print());
 	}
 }

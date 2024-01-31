@@ -11,8 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileUploadUtil {
 
-	public static void saveFile(String uploadDir, String fileName, 
-			MultipartFile multipartFile) throws IOException {
+	public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
 		Path uploadPath = Paths.get(uploadDir);
 
 		if (!Files.exists(uploadPath)) {
@@ -44,7 +43,7 @@ public class FileUploadUtil {
 			System.out.println("Could not list directory: " + dirPath);
 		}
 	}
-	
+
 	public static void removeDir(String dir) {
 		cleanDir(dir);
 

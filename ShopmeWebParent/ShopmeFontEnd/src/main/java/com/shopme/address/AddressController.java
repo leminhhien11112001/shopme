@@ -2,7 +2,6 @@ package com.shopme.address;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +21,12 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class AddressController {
 
-	@Autowired private AddressService addressService;
-	@Autowired private CustomerService customerService;	
-	@Autowired private ControllerHelper controllerHelper;
+	@Autowired
+	private AddressService addressService;
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private ControllerHelper controllerHelper;
 
 	@GetMapping("/address_book")
 	public String showAddressBook(Model model, HttpServletRequest request) {
@@ -44,8 +46,8 @@ public class AddressController {
 		model.addAttribute("usePrimaryAddressAsDefault", usePrimaryAddressAsDefault);
 
 		return "address_book/addresses";
-	}	
-	
+	}
+
 	@GetMapping("/address_book/new")
 	public String newAddress(Model model) {
 		List<Country> listCountries = customerService.listAllCountries();
@@ -63,7 +65,7 @@ public class AddressController {
 
 		address.setCustomer(customer);
 		addressService.save(address);
-		
+
 		String redirectOption = request.getParameter("redirect");
 		String redirectURL = "redirect:/address_book";
 
@@ -77,8 +79,7 @@ public class AddressController {
 	}
 
 	@GetMapping("/address_book/edit/{id}")
-	public String editAddress(@PathVariable("id") Integer addressId, Model model,
-			HttpServletRequest request) {
+	public String editAddress(@PathVariable("id") Integer addressId, Model model, HttpServletRequest request) {
 		Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 		List<Country> listCountries = customerService.listAllCountries();
 
@@ -101,10 +102,9 @@ public class AddressController {
 
 		return "redirect:/address_book";
 	}
-	
+
 	@GetMapping("/address_book/default/{id}")
-	public String setDefaultAddress(@PathVariable("id") Integer addressId,
-			HttpServletRequest request) {
+	public String setDefaultAddress(@PathVariable("id") Integer addressId, HttpServletRequest request) {
 		Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 		addressService.setDefaultAddress(addressId, customer.getId());
 
@@ -117,6 +117,6 @@ public class AddressController {
 			redirectURL = "redirect:/checkout";
 		}
 
-		return redirectURL; 
+		return redirectURL;
 	}
 }

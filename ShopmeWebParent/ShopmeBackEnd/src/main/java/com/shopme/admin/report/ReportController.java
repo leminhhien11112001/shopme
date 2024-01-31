@@ -13,20 +13,21 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class ReportController {
-	
-	@Autowired private SettingService settingService;
-	
+
+	@Autowired
+	private SettingService settingService;
+
 	@GetMapping("/reports")
 	public String viewSalesReportHome(HttpServletRequest request) {
 		loadCurrencySetting(request);
 		return "reports/reports";
 	}
-	
+
 	private void loadCurrencySetting(HttpServletRequest request) {
 		List<Setting> currencySettings = settingService.getCurrencySettings();
-		
+
 		for (Setting setting : currencySettings) {
 			request.setAttribute(setting.getKey(), setting.getValue());
-		}	
-	}	
+		}
+	}
 }

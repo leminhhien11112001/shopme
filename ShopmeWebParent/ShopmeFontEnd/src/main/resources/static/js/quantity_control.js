@@ -17,17 +17,17 @@ $(document).ready(function() {
 		productId = $(this).attr("pid");
 		quantityInput = $("#quantity" + productId);
 		newQuantity = parseInt(quantityInput.val()) + 1;
-		
+
 		url = contextPath + "get_quantity";
-		params = {productId: productId};
-		
+		params = { productId: productId };
+
 		$.ajax({
 			type: "GET",
 			url: url,
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader(csrfHeaderName, csrfValue);
 			},
-			data: params	
+			data: params
 		}).done(function(quantity) {
 			if (newQuantity <= quantity) {
 				quantityInput.val(newQuantity);
@@ -37,5 +37,5 @@ $(document).ready(function() {
 		}).fail(function() {
 			showErrorModal("Error while adding product to shopping cart.");
 		});
-	});	
+	});
 });

@@ -22,7 +22,8 @@ import com.shopme.common.entity.product.Product;
 @Rollback(false)
 public class ReviewRepositoryTests {
 
-	@Autowired private ReviewRepository repo;
+	@Autowired
+	private ReviewRepository repo;
 
 	@Test
 	public void testCreateReview() {
@@ -43,7 +44,7 @@ public class ReviewRepositoryTests {
 		Review savedReview = repo.save(review);
 
 		assertThat(savedReview).isNotNull();
-		assertThat(savedReview.getId()).isGreaterThan(0);		
+		assertThat(savedReview.getId()).isGreaterThan(0);
 	}
 
 	@Test

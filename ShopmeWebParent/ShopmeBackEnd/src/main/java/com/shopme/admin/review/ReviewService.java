@@ -17,8 +17,10 @@ import jakarta.transaction.Transactional;
 public class ReviewService {
 	public static final int REVIEWS_PER_PAGE = 5;
 
-	@Autowired private ReviewRepository reviewRepo;
-	@Autowired private ProductRepository productRepo;
+	@Autowired
+	private ReviewRepository reviewRepo;
+	@Autowired
+	private ProductRepository productRepo;
 
 	public void listByPage(int pageNum, PagingAndSortingHelper helper) {
 		helper.listEntities(pageNum, REVIEWS_PER_PAGE, reviewRepo);

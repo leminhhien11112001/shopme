@@ -20,7 +20,8 @@ import com.shopme.common.entity.Customer;
 @Rollback(false)
 public class AddressRepositoryTests {
 
-	@Autowired private AddressRepository repo;
+	@Autowired
+	private AddressRepository repo;
 
 	@Test
 	public void testAddNew() {
@@ -85,8 +86,8 @@ public class AddressRepositoryTests {
 
 		Address address = repo.findByIdAndCustomer(addressId, customerId);
 		assertThat(address).isNull();
-	}	
-	
+	}
+
 	@Test
 	public void testGetDefault() {
 		Integer customerId = 5;

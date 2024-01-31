@@ -5,8 +5,8 @@ $(document).ready(function() {
 		if (doesOrderHaveOnlyOneProduct()) {
 			showWarningModal("Could not remove product. The order must have eat least one product.");
 		} else {
-			removeProduct($(this));		
-			updateOrderAmounts();	
+			removeProduct($(this));
+			updateOrderAmounts();
 		}
 	});
 });

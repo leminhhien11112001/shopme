@@ -31,13 +31,13 @@ public class CategoryServiceTests {
 		Category category = new Category(id, name, alias);
 
 		Mockito.when(repo.findByName(name)).thenReturn(category);
-		
+
 		Mockito.when(repo.findByAlias(alias)).thenReturn(null);
 
 		String result = service.checkUnique(id, name, alias);
 
 		System.out.println(result);
-				
+
 		assertThat(result).isEqualTo("DuplicateName");
 	}
 
@@ -55,8 +55,7 @@ public class CategoryServiceTests {
 		String result = service.checkUnique(id, name, alias);
 
 		assertThat(result).isEqualTo("DuplicateAlias");
-	}	
-
+	}
 
 	@Test
 	public void testCheckUniqueInNewModeReturnOK() {
@@ -70,7 +69,7 @@ public class CategoryServiceTests {
 		String result = service.checkUnique(id, name, alias);
 
 		assertThat(result).isEqualTo("OK");
-	}		
+	}
 
 	@Test
 	public void testCheckUniqueInEditModeReturnDuplicateName() {
@@ -118,5 +117,5 @@ public class CategoryServiceTests {
 		String result = service.checkUnique(id, name, alias);
 
 		assertThat(result).isEqualTo("OK");
-	}		
+	}
 }

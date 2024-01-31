@@ -26,23 +26,23 @@ import com.shopme.common.entity.Country;
 @AutoConfigureMockMvc
 public class CountryRestControllerTests {
 
-	@Autowired MockMvc mockMvc;
+	@Autowired
+	MockMvc mockMvc;
 
-	@Autowired ObjectMapper objectMapper;
+	@Autowired
+	ObjectMapper objectMapper;
 
-	@Autowired CountryRepository repo;
+	@Autowired
+	CountryRepository repo;
 
 	@Test
 	@WithMockUser(username = "nam@codejava.net", password = "something", roles = "ADMIN")
 	public void testListCountries() throws Exception {
 		String url = "/countries/list";
 
-		MvcResult result = mockMvc.perform(get(url))
-			.andExpect(status().isOk())
-			.andDo(print())
-			.andReturn();
+		MvcResult result = mockMvc.perform(get(url)).andExpect(status().isOk()).andDo(print()).andReturn();
 
-		String jsonResponse = result.getResponse().getContentAsString();		
+		String jsonResponse = result.getResponse().getContentAsString();
 		Country[] countries = objectMapper.readValue(jsonResponse, Country[].class);
 
 		assertThat(countries).hasSizeGreaterThan(0);
@@ -57,11 +57,8 @@ public class CountryRestControllerTests {
 		Country country = new Country(countryName, countryCode);
 
 		MvcResult result = mockMvc.perform(post(url).contentType("application/json")
-				.content(objectMapper.writeValueAsString(country))
-				.with(csrf()))
-			.andDo(print())
-			.andExpect(status().isOk())
-			.andReturn();
+				.content(objectMapper.writeValueAsString(country)).with(csrf())).andDo(print())
+				.andExpect(status().isOk()).andReturn();
 
 		String response = result.getResponse().getContentAsString();
 		Integer countryId = Integer.parseInt(response);
@@ -84,12 +81,9 @@ public class CountryRestControllerTests {
 		String countryCode = "CN";
 		Country country = new Country(countryId, countryName, countryCode);
 
-		mockMvc.perform(post(url).contentType("application/json")
-				.content(objectMapper.writeValueAsString(country))
-				.with(csrf()))
-			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(content().string(String.valueOf(countryId)));
+		mockMvc.perform(post(url).contentType("application/json").content(objectMapper.writeValueAsString(country))
+				.with(csrf())).andDo(print()).andExpect(status().isOk())
+				.andExpect(content().string(String.valueOf(countryId)));
 
 		Optional<Country> findById = repo.findById(countryId);
 		assertThat(findById.isPresent());

@@ -1,11 +1,11 @@
 var iconNames = {
-	'PICKED':'fa-people-carry',
-	'SHIPPING':'fa-shipping-fast',
-	'DELIVERED':'fa-box-open',
-	'RETURNED':'fa-undo'	
+	'PICKED': 'fa-people-carry',
+	'SHIPPING': 'fa-shipping-fast',
+	'DELIVERED': 'fa-box-open',
+	'RETURNED': 'fa-undo'
 };
 
-var confirmText;  
+var confirmText;
 var confirmModalDialog;
 var yesButton;
 var noButton;
@@ -65,7 +65,7 @@ function showUpdateConfirmModal(link) {
 	yesButton.attr("href", link.attr("href"));
 
 	confirmText.text("Are you sure you want to update status of the order ID #" + orderId
-					 + " to " + status + "?");
+		+ " to " + status + "?");
 
 	confirmModalDialog.modal();
 }

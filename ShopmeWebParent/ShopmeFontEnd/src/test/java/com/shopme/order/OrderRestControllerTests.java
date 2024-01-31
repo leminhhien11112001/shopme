@@ -18,8 +18,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @AutoConfigureMockMvc
 public class OrderRestControllerTests {
 
-	@Autowired private MockMvc mockMvc;
-	@Autowired private ObjectMapper objectMapper;
+	@Autowired
+	private MockMvc mockMvc;
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@Test
 	@WithUserDetails("lehoanganhvn@gmail.com")
@@ -29,11 +31,8 @@ public class OrderRestControllerTests {
 
 		String requestURL = "/orders/return";
 
-		mockMvc.perform(post(requestURL)
-						.with(csrf())
-						.contentType("application/json")
-						.content(objectMapper.writeValueAsString(returnRequest)))
-				.andExpect(status().isNotFound())
+		mockMvc.perform(post(requestURL).with(csrf()).contentType("application/json")
+				.content(objectMapper.writeValueAsString(returnRequest))).andExpect(status().isNotFound())
 				.andDo(print());
 	}
 
@@ -48,11 +47,7 @@ public class OrderRestControllerTests {
 
 		String requestURL = "/orders/return";
 
-		mockMvc.perform(post(requestURL)
-						.with(csrf())
-						.contentType("application/json")
-						.content(objectMapper.writeValueAsString(returnRequest)))
-				.andExpect(status().isOk())
-				.andDo(print());
-	}	
+		mockMvc.perform(post(requestURL).with(csrf()).contentType("application/json")
+				.content(objectMapper.writeValueAsString(returnRequest))).andExpect(status().isOk()).andDo(print());
+	}
 }

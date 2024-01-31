@@ -1,6 +1,5 @@
 package com.shopme.shoppingcart;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +16,10 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class ShoppingCartRestController {
-	@Autowired private ShoppingCartService cartService;
-	@Autowired private CustomerService customerService;
+	@Autowired
+	private ShoppingCartService cartService;
+	@Autowired
+	private CustomerService customerService;
 
 	@PostMapping("/cart/add/{productId}/{quantity}")
 	public String addProductToCart(@PathVariable("productId") Integer productId,
@@ -37,8 +38,7 @@ public class ShoppingCartRestController {
 
 	}
 
-	private Customer getAuthenticatedCustomer(HttpServletRequest request) 
-			throws CustomerNotFoundException {
+	private Customer getAuthenticatedCustomer(HttpServletRequest request) throws CustomerNotFoundException {
 		String email = Utility.getEmailOfAuthenticatedCustomer(request);
 		if (email == null) {
 			throw new CustomerNotFoundException("No authenticated customer");
@@ -46,7 +46,7 @@ public class ShoppingCartRestController {
 
 		return customerService.getCustomerByEmail(email);
 	}
-	
+
 	@PostMapping("/cart/update/{productId}/{quantity}")
 	public String updateQuantity(@PathVariable("productId") Integer productId,
 			@PathVariable("quantity") Integer quantity, HttpServletRequest request) {
@@ -57,12 +57,11 @@ public class ShoppingCartRestController {
 			return String.valueOf(subtotal);
 		} catch (CustomerNotFoundException ex) {
 			return "You must login to change quantity of product.";
-		}	
+		}
 	}
-	
+
 	@DeleteMapping("/cart/remove/{productId}")
-	public String removeProduct(@PathVariable("productId") Integer productId,
-			HttpServletRequest request) {
+	public String removeProduct(@PathVariable("productId") Integer productId, HttpServletRequest request) {
 		try {
 			Customer customer = getAuthenticatedCustomer(request);
 			cartService.removeProduct(productId, customer);

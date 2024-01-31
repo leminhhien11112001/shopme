@@ -22,12 +22,12 @@ $(document).ready(function() {
 function showReturnModalDialog(link) {
 	divMessage.hide();
 	divReason.show();
-	firstButton.show();	
+	firstButton.show();
 	secondButton.text("Cancel");
 	fieldNote.val("");
 
 	orderId = link.attr("orderId");
-	modalTitle.text("Return Order ID #" + orderId);	
+	modalTitle.text("Return Order ID #" + orderId);
 	returnModal.modal("show");
 }
 
@@ -44,7 +44,7 @@ function handleReturnOrderLink() {
 	$(".linkReturnOrder").on("click", function(e) {
 		e.preventDefault();
 		showReturnModalDialog($(this));
-	});	
+	});
 }
 
 function submitReturnOrderForm() {
@@ -58,7 +58,7 @@ function submitReturnOrderForm() {
 
 function sendReturnOrderRequest(reason, note) {
 	requestURL = contextPath + "orders/return";
-	requestBody = {orderId: orderId, reason: reason, note: note};
+	requestBody = { orderId: orderId, reason: reason, note: note };
 
 	$.ajax({
 		type: "POST",
@@ -76,7 +76,7 @@ function sendReturnOrderRequest(reason, note) {
 	}).fail(function(err) {
 		console.log(err);
 		showMessageModal(err.responseText);
-	});		
+	});
 
 }
 
@@ -87,5 +87,5 @@ function updateStatusTextAndHideReturnButton(orderId) {
 
 	$(".linkReturn" + orderId).each(function(index) {
 		$(this).hide();
-	})	
+	})
 }

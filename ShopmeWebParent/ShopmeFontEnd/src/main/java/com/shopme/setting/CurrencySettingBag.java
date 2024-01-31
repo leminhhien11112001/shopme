@@ -25,7 +25,7 @@ public class CurrencySettingBag extends SettingBag {
 
 	public String getThousandPointType() {
 		return super.getValue("THOUSANDS_POINT_TYPE");
-	}	
+	}
 
 	public int getDecimalDigits() {
 		return Integer.parseInt(super.getValue("DECIMAL_DIGITS"));

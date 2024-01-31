@@ -2,7 +2,7 @@ var trackRecordCount;
 
 $(document).ready(function() {
 	trackRecordCount = $(".hiddenTrackId").length;
-	
+
 	$("#trackList").on("click", ".linkRemoveTrack", function(e) {
 		e.preventDefault();
 		deleteTrack($(this));
@@ -21,23 +21,23 @@ $(document).ready(function() {
 
 		defaultNote = selectedOption.attr("defaultDescription");
 		$("#trackNote" + rowNumber).text(defaultNote);
-	});	
+	});
 });
 
 function deleteTrack(link) {
 	rowNumber = link.attr('rowNumber');
 	$("#rowTrack" + rowNumber).remove();
-	$("#emptyLine" + rowNumber).remove();	
+	$("#emptyLine" + rowNumber).remove();
 }
 
 function updateTrackCountNumbers() {
-	$(".divCountTrack").each(function (index, element) {
+	$(".divCountTrack").each(function(index, element) {
 		element.innerHTML = "" + (index + 1);
 	});
 }
 
-function addNewTrackRecord() {	
-	htmlCode = generateTrackCode();	
+function addNewTrackRecord() {
+	htmlCode = generateTrackCode();
 	$("#trackList").append(htmlCode);
 }
 

@@ -15,7 +15,8 @@ import com.shopme.common.entity.Country;
 @RestController
 public class CountryRestController {
 
-	@Autowired private CountryRepository repo;
+	@Autowired
+	private CountryRepository repo;
 
 	@GetMapping("/countries/list")
 	public List<Country> listAll() {

@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "countries")
-public class Country extends IdBasedEntity{
+public class Country extends IdBasedEntity {
 	@Column(nullable = false, length = 45)
 	private String name;
 
@@ -22,7 +22,7 @@ public class Country extends IdBasedEntity{
 	public Country() {
 
 	}
-	
+
 	public Country(Integer id) {
 		this.id = id;
 	}
@@ -31,13 +31,13 @@ public class Country extends IdBasedEntity{
 		this.name = name;
 		this.code = code;
 	}
-	
+
 	public Country(Integer id, String name, String code) {
 		this.id = id;
 		this.name = name;
 		this.code = code;
 	}
-	
+
 	public Country(String name) {
 		this.name = name;
 	}
@@ -62,6 +62,5 @@ public class Country extends IdBasedEntity{
 	public String toString() {
 		return "Country [id=" + id + ", name=" + name + ", code=" + code + "]";
 	}
-
 
 }

@@ -20,7 +20,8 @@ import com.shopme.common.entity.product.Product;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class ReviewRepositoryTests {
 
-	@Autowired private ReviewRepository repo;
+	@Autowired
+	private ReviewRepository repo;
 
 	@Test
 	public void testFindByCustomerNoKeyword() {
@@ -30,7 +31,7 @@ public class ReviewRepositoryTests {
 		Page<Review> page = repo.findByCustomer(customerId, pageable);
 		long totalElements = page.getTotalElements();
 
-		assertThat(totalElements).isGreaterThan(1);		
+		assertThat(totalElements).isGreaterThan(1);
 	}
 
 	@Test
@@ -42,7 +43,7 @@ public class ReviewRepositoryTests {
 		Page<Review> page = repo.findByCustomer(customerId, keyword, pageable);
 		long totalElements = page.getTotalElements();
 
-		assertThat(totalElements).isGreaterThan(0);		
+		assertThat(totalElements).isGreaterThan(0);
 	}
 
 	@Test
@@ -53,7 +54,7 @@ public class ReviewRepositoryTests {
 		Review review = repo.findByCustomerAndId(customerId, reviewId);
 		assertThat(review).isNotNull();
 	}
-	
+
 	@Test
 	public void testFindByProduct() {
 		Product product = new Product(1);

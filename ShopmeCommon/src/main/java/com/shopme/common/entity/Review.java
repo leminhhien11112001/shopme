@@ -2,13 +2,13 @@ package com.shopme.common.entity;
 
 import java.util.Date;
 
+import com.shopme.common.entity.product.Product;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
-import com.shopme.common.entity.product.Product;
 
 @Entity
 @Table(name = "reviews")
@@ -20,7 +20,7 @@ public class Review extends IdBasedEntity {
 	@Column(length = 300, nullable = false)
 	private String comment;
 
-	private int rating;	
+	private int rating;
 
 	@Column(nullable = false)
 	private Date reviewTime;
@@ -86,6 +86,5 @@ public class Review extends IdBasedEntity {
 		return "Review [headline=" + headline + ", rating=" + rating + ", reviewTime=" + reviewTime + ", product="
 				+ product.getShortName() + ", customer=" + customer.getFullName() + "]";
 	}
-
 
 }

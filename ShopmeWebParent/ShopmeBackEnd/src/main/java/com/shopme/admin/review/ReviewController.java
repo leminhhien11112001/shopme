@@ -17,7 +17,8 @@ import com.shopme.common.exception.ReviewNotFoundException;
 public class ReviewController {
 	private String defaultRedirectURL = "redirect:/reviews/page/1?sortField=reviewTime&sortDir=desc";
 
-	@Autowired private ReviewService service;
+	@Autowired
+	private ReviewService service;
 
 	@GetMapping("/reviews")
 	public String listFirstPage(Model model) {
@@ -43,7 +44,7 @@ public class ReviewController {
 			return "reviews/review_detail_modal";
 		} catch (ReviewNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());
-			return defaultRedirectURL;		
+			return defaultRedirectURL;
 		}
 	}
 
@@ -58,15 +59,15 @@ public class ReviewController {
 			return "reviews/review_form";
 		} catch (ReviewNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());
-			return defaultRedirectURL;		
+			return defaultRedirectURL;
 		}
-	}	
+	}
 
 	@PostMapping("/reviews/save")
 	public String saveReview(Review reviewInForm, RedirectAttributes ra) {
-		service.save(reviewInForm);		
+		service.save(reviewInForm);
 		ra.addFlashAttribute("message", "The review ID " + reviewInForm.getId() + " has been updated successfully.");
-		return defaultRedirectURL;		
+		return defaultRedirectURL;
 	}
 
 	@GetMapping("/reviews/delete/{id}")
@@ -78,6 +79,6 @@ public class ReviewController {
 			ra.addFlashAttribute("message", ex.getMessage());
 		}
 
-		return defaultRedirectURL;		
+		return defaultRedirectURL;
 	}
 }

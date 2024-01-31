@@ -19,7 +19,8 @@ import com.shopme.common.entity.Country;
 @Rollback(false)
 public class CountryRepositoryTests {
 
-	@Autowired private CountryRepository repo;
+	@Autowired
+	private CountryRepository repo;
 
 	@Test
 	public void testCreateCountry() {
@@ -51,7 +52,7 @@ public class CountryRepositoryTests {
 
 	@Test
 	public void testGetCountry() {
-		Integer id = 3;		
+		Integer id = 3;
 		Country country = repo.findById(id).get();
 		assertThat(country).isNotNull();
 	}

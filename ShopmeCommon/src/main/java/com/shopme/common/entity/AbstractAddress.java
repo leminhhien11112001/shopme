@@ -92,5 +92,5 @@ public abstract class AbstractAddress extends IdBasedEntity {
 
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
-	}	
+	}
 }

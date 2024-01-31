@@ -3,7 +3,6 @@ package com.shopme.customer;
 import java.io.UnsupportedEncodingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -23,8 +22,10 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class ForgotPasswordController {
-	@Autowired private CustomerService customerService;
-	@Autowired private SettingService settingService;
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private SettingService settingService;
 
 	@GetMapping("/forgot_password")
 	public String showRequestForm() {
@@ -39,8 +40,7 @@ public class ForgotPasswordController {
 			String link = Utility.getSiteURL(request) + "/reset_password?token=" + token;
 			sendEmail(link, email);
 
-			model.addAttribute("message", "We have sent a reset password link to your email."
-					+ " Please check.");
+			model.addAttribute("message", "We have sent a reset password link to your email." + " Please check.");
 		} catch (CustomerNotFoundException e) {
 			model.addAttribute("error", e.getMessage());
 		} catch (UnsupportedEncodingException | MessagingException e) {
@@ -50,20 +50,16 @@ public class ForgotPasswordController {
 		return "customer/forgot_password_form";
 	}
 
-	private void sendEmail(String link, String email) 
-			throws UnsupportedEncodingException, MessagingException {
+	private void sendEmail(String link, String email) throws UnsupportedEncodingException, MessagingException {
 		EmailSettingBag emailSettings = settingService.getEmailSettings();
 		JavaMailSenderImpl mailSender = Utility.prepareMailSender(emailSettings);
 
 		String toAddress = email;
 		String subject = "Here's the link to reset your password";
 
-		String content = "<p>Hello,</p>"
-				+ "<p>You have requested to reset your password.</p>"
-				+ "Click the link below to change your password:</p>"
-				+ "<p><a href=\"" + link + "\">Change my password</a></p>"
-				+ "<br>"
-				+ "<p>Ignore this email if you do remember your password, "
+		String content = "<p>Hello,</p>" + "<p>You have requested to reset your password.</p>"
+				+ "Click the link below to change your password:</p>" + "<p><a href=\"" + link
+				+ "\">Change my password</a></p>" + "<br>" + "<p>Ignore this email if you do remember your password, "
 				+ "or you have not made the request.</p>";
 
 		MimeMessage message = mailSender.createMimeMessage();
@@ -71,7 +67,7 @@ public class ForgotPasswordController {
 
 		helper.setFrom(emailSettings.getFromAddress(), emailSettings.getSenderName());
 		helper.setTo(toAddress);
-		helper.setSubject(subject);		
+		helper.setSubject(subject);
 
 		helper.setText(content, true);
 		mailSender.send(message);
@@ -106,8 +102,8 @@ public class ForgotPasswordController {
 		} catch (CustomerNotFoundException e) {
 			model.addAttribute("pageTitle", "Invalid Token");
 			model.addAttribute("message", e.getMessage());
-		}	
+		}
 
-		return "message";		
+		return "message";
 	}
 }

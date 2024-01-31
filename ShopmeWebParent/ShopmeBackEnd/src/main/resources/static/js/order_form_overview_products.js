@@ -23,7 +23,7 @@ $(document).ready(function() {
 	$("#productList").on("change", ".price-input", function(e) {
 		updateSubtotalWhenPriceChanged($(this));
 		updateOrderAmounts();
-	});	
+	});
 
 	$("#productList").on("change", ".cost-input", function(e) {
 		updateOrderAmounts();
@@ -31,7 +31,7 @@ $(document).ready(function() {
 
 	$("#productList").on("change", ".ship-input", function(e) {
 		updateOrderAmounts();
-	});			
+	});
 });
 
 function updateOrderAmounts() {
@@ -43,8 +43,8 @@ function updateOrderAmounts() {
 		quantityValue = $("#quantity" + rowNumber).val();
 
 
-		productCost = getNumberValueRemovedThousandSeparator(costInputField); 
-		totalCost += productCost * parseInt(quantityValue); 
+		productCost = getNumberValueRemovedThousandSeparator(costInputField);
+		totalCost += productCost * parseInt(quantityValue);
 	});
 
 	setAndFormatNumberForField("productCost", totalCost);
@@ -80,7 +80,7 @@ function setAndFormatNumberForField(fieldId, fieldValue) {
 function getNumberValueRemovedThousandSeparator(fieldRef) {
 	fieldValue = fieldRef.val().replace(",", "");
 	return parseFloat(fieldValue);
-} 
+}
 
 function updateSubtotalWhenPriceChanged(input) {
 	priceValue = getNumberValueRemovedThousandSeparator(input);
@@ -90,7 +90,7 @@ function updateSubtotalWhenPriceChanged(input) {
 	quantityValue = quantityField.val();
 	newSubtotal = parseFloat(quantityValue) * priceValue;
 
-	setAndFormatNumberForField("subtotal" + rowNumber, newSubtotal);	
+	setAndFormatNumberForField("subtotal" + rowNumber, newSubtotal);
 }
 
 function updateSubtotalWhenQuantityChanged(input) {
@@ -109,15 +109,15 @@ function formatProductAmounts() {
 
 	$(".price-input").each(function(e) {
 		formatNumberForField($(this));
-	});	
+	});
 
 	$(".subtotal-output").each(function(e) {
 		formatNumberForField($(this));
-	});	
+	});
 
 	$(".ship-input").each(function(e) {
 		formatNumberForField($(this));
-	});	
+	});
 }
 
 function formatOrderAmounts() {
@@ -125,7 +125,7 @@ function formatOrderAmounts() {
 	formatNumberForField(fieldSubtotal);
 	formatNumberForField(fieldShippingCost);
 	formatNumberForField(fieldTax);
-	formatNumberForField(fieldTotal);	
+	formatNumberForField(fieldTotal);
 }
 
 function formatNumberForField(fieldRef) {
@@ -151,11 +151,11 @@ function processFormBeforeSubmit() {
 
 	$(".subtotal-output").each(function(e) {
 		removeThousandSeparatorForField($(this));
-	});			
+	});
 
 	$(".ship-input").each(function(e) {
 		removeThousandSeparatorForField($(this));
-	});		
+	});
 
 	return true;
 }

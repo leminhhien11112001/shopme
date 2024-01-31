@@ -25,13 +25,14 @@ import com.shopme.common.exception.OrderNotFoundException;
 
 @Service
 public class OrderService {
-	
-	public static final int ORDERS_PER_PAGE = 5;
-	
-	@Autowired private OrderRepository repo;
 
-	public Order createOrder(Customer customer, Address address, List<CartItem> cartItems,
-			PaymentMethod paymentMethod, CheckoutInfo checkoutInfo) {
+	public static final int ORDERS_PER_PAGE = 5;
+
+	@Autowired
+	private OrderRepository repo;
+
+	public Order createOrder(Customer customer, Address address, List<CartItem> cartItems, PaymentMethod paymentMethod,
+			CheckoutInfo checkoutInfo) {
 		Order newOrder = new Order();
 		newOrder.setOrderTime(new Date());
 		newOrder.setStatus(OrderStatus.NEW);
@@ -66,10 +67,10 @@ public class OrderService {
 			orderDetail.setShippingCost(cartItem.getShippingCost());
 
 			product.setQuantity(product.getQuantity() - cartItem.getQuantity());
-			
+
 			orderDetails.add(orderDetail);
 		}
-		
+
 		OrderTrack track = new OrderTrack();
 		track.setOrder(newOrder);
 		track.setStatus(OrderStatus.NEW);
@@ -78,12 +79,11 @@ public class OrderService {
 
 		newOrder.getOrderTracks().add(track);
 
-
 		return repo.save(newOrder);
 	}
-	
-	public Page<Order> listForCustomerByPage(Customer customer, int pageNum, 
-			String sortField, String sortDir, String keyword) {
+
+	public Page<Order> listForCustomerByPage(Customer customer, int pageNum, String sortField, String sortDir,
+			String keyword) {
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 
@@ -95,20 +95,20 @@ public class OrderService {
 
 		return repo.findAll(customer.getId(), pageable);
 
-	}	
-	
+	}
+
 	public Order getOrder(Integer id, Customer customer) {
 		return repo.findByIdAndCustomer(id, customer);
 	}
-	
-	public void setOrderReturnRequested(OrderReturnRequest request, Customer customer) 
-			throws OrderNotFoundException {
+
+	public void setOrderReturnRequested(OrderReturnRequest request, Customer customer) throws OrderNotFoundException {
 		Order order = repo.findByIdAndCustomer(request.getOrderId(), customer);
 		if (order == null) {
 			throw new OrderNotFoundException("Order ID " + request.getOrderId() + " not found");
 		}
 
-		if (order.isReturnRequested()) return;
+		if (order.isReturnRequested())
+			return;
 
 		OrderTrack track = new OrderTrack();
 		track.setOrder(order);

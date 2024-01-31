@@ -17,22 +17,22 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class UserService {
-	
+
 	public static final int USERS_PER_PAGE = 4;
-	
+
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Autowired
 	private RoleRepository roleRepo;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	public User getByEmail(String email) {
 		return userRepo.getUserByEmail(email);
 	}
-	
+
 	public List<User> listAll() {
 		return (List<User>) userRepo.findAll();
 	}
@@ -40,11 +40,11 @@ public class UserService {
 	public void listByPage(int pageNum, PagingAndSortingHelper helper) {
 		helper.listEntities(pageNum, USERS_PER_PAGE, userRepo);
 	}
-	
+
 	public List<Role> listRoles() {
 		return (List<Role>) roleRepo.findAll();
 	}
-	
+
 	public User save(User user) {
 		boolean isUpdatingUser = (user.getId() != null);
 
@@ -57,13 +57,13 @@ public class UserService {
 				encodePassword(user);
 			}
 
-		} else {		
+		} else {
 			encodePassword(user);
 		}
-		
+
 		return userRepo.save(user);
 	}
-	
+
 	public User updateAccount(User userInForm) {
 		User userInDB = userRepo.findById(userInForm.getId()).get();
 
@@ -81,27 +81,29 @@ public class UserService {
 
 		return userRepo.save(userInDB);
 	}
-	
+
 	private void encodePassword(User user) {
 		String encodePassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodePassword);
 	}
-	
+
 	public boolean isEmailUnique(Integer id, String email) {
 		User userByEmail = userRepo.getUserByEmail(email);
 
-		if(userByEmail == null) return true;
-		
+		if (userByEmail == null)
+			return true;
+
 		boolean isCreatingNew = (id == null);
-		
-		if(isCreatingNew) {
-			if(userByEmail != null) return false;
-		}else {
-			if(userByEmail.getId() != id) {
+
+		if (isCreatingNew) {
+			if (userByEmail != null)
+				return false;
+		} else {
+			if (userByEmail.getId() != id) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -113,7 +115,7 @@ public class UserService {
 		}
 	}
 
-	public void delete(Integer id) throws UserNotFoundException{
+	public void delete(Integer id) throws UserNotFoundException {
 		Long countById = userRepo.countById(id);
 		if (countById == null || countById == 0) {
 			throw new UserNotFoundException("Could not find any user with ID " + id);
@@ -126,5 +128,4 @@ public class UserService {
 		userRepo.updateEnabledStatus(id, enabled);
 	}
 
-	
 }

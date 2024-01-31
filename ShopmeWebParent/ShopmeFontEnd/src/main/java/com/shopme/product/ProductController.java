@@ -23,25 +23,27 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class ProductController {
-	
-	@Autowired private ProductService productService;
-	@Autowired private CategoryService categoryService;
-	@Autowired private ReviewService reviewService;
-	@Autowired private ControllerHelper controllerHelper;
+
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private CategoryService categoryService;
+	@Autowired
+	private ReviewService reviewService;
+	@Autowired
+	private ControllerHelper controllerHelper;
 
 	@GetMapping("/c/{category_alias}")
-	public String viewProductFirstPage(@PathVariable("category_alias") String alias,
-			Model model) {
+	public String viewProductFirstPage(@PathVariable("category_alias") String alias, Model model) {
 		return viewProductByPage(alias, 1, model);
 	}
 
 	@GetMapping("/c/{category_alias}/page/{pageNum}")
-	public String viewProductByPage(@PathVariable("category_alias") String alias,
-			@PathVariable("pageNum") int pageNum,
+	public String viewProductByPage(@PathVariable("category_alias") String alias, @PathVariable("pageNum") int pageNum,
 			Model model) {
-		
+
 		try {
-			Category category = categoryService.getCategory(alias);		
+			Category category = categoryService.getCategory(alias);
 			List<Category> listCategoryParents = categoryService.getCategoryParents(category);
 
 			Page<Product> pageProducts = productService.listByCategory(pageNum, category.getId());
@@ -68,7 +70,7 @@ public class ProductController {
 			return "error/404";
 		}
 	}
-	
+
 	@GetMapping("/p/{product_alias}")
 	public String viewProductDetail(@PathVariable("product_alias") String alias, Model model,
 			HttpServletRequest request) {
@@ -76,7 +78,7 @@ public class ProductController {
 			Product product = productService.getProduct(alias);
 			List<Category> listCategoryParents = categoryService.getCategoryParents(product.getCategory());
 			Page<Review> listReviews = reviewService.list3MostRecentReviewsByProduct(product);
-			
+
 			Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 
 			if (customer != null) {
@@ -94,21 +96,20 @@ public class ProductController {
 			model.addAttribute("product", product);
 			model.addAttribute("pageTitle", product.getShortName());
 			model.addAttribute("listReviews", listReviews);
-			
+
 			return "product/product_detail";
 		} catch (ProductNotFoundException e) {
 			return "error/404";
 		}
 	}
-	
+
 	@GetMapping("/search")
 	public String searchFirstPage(String keyword, Model model) {
 		return searchByPage(keyword, 1, model);
 	}
 
 	@GetMapping("/search/page/{pageNum}")
-	public String searchByPage(String keyword, @PathVariable("pageNum") int pageNum,
-			Model model) {
+	public String searchByPage(String keyword, @PathVariable("pageNum") int pageNum, Model model) {
 		Page<Product> pageProducts = productService.search(keyword, pageNum);
 		List<Product> listResult = pageProducts.getContent();
 

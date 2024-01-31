@@ -9,11 +9,11 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "addresses")
 public class Address extends AbstractAddressWithCountry {
-	
+
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
-	
+
 	@Column(name = "default_address")
 	private boolean defaultForShipping;
 
@@ -32,5 +32,5 @@ public class Address extends AbstractAddressWithCountry {
 	public void setDefaultForShipping(boolean defaultForShipping) {
 		this.defaultForShipping = defaultForShipping;
 	}
-	
+
 }

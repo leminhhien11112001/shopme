@@ -22,7 +22,8 @@ import com.shopme.common.entity.order.OrderDetail;
 @Rollback(false)
 public class OrderDetailRepositoryTests {
 
-	@Autowired private OrderDetailRepository repo;
+	@Autowired
+	private OrderDetailRepository repo;
 
 	@Test
 	public void testFindWithCategoryAndTimeBetween() throws ParseException {
@@ -35,10 +36,8 @@ public class OrderDetailRepositoryTests {
 		assertThat(listOrderDetails.size()).isGreaterThan(0);
 
 		for (OrderDetail detail : listOrderDetails) {
-			System.out.printf("%-30s | %d | %10.2f| %10.2f | %10.2f \n", 
-					detail.getProduct().getCategory().getName(),
-					detail.getQuantity(), detail.getProductCost(),
-					detail.getShippingCost(), detail.getSubtotal());
+			System.out.printf("%-30s | %d | %10.2f| %10.2f | %10.2f \n", detail.getProduct().getCategory().getName(),
+					detail.getQuantity(), detail.getProductCost(), detail.getShippingCost(), detail.getSubtotal());
 		}
 	}
 
@@ -53,10 +52,8 @@ public class OrderDetailRepositoryTests {
 		assertThat(listOrderDetails.size()).isGreaterThan(0);
 
 		for (OrderDetail detail : listOrderDetails) {
-			System.out.printf("%-70s | %d | %10.2f| %10.2f | %10.2f \n", 
-					detail.getProduct().getShortName(),
-					detail.getQuantity(), detail.getProductCost(),
-					detail.getShippingCost(), detail.getSubtotal());
+			System.out.printf("%-70s | %d | %10.2f| %10.2f | %10.2f \n", detail.getProduct().getShortName(),
+					detail.getQuantity(), detail.getProductCost(), detail.getShippingCost(), detail.getSubtotal());
 		}
-	}	
+	}
 }

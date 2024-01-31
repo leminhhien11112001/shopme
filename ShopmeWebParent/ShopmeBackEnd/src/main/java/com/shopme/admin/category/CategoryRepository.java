@@ -13,26 +13,26 @@ import org.springframework.stereotype.Repository;
 
 import com.shopme.common.entity.Category;
 
-@Repository 
-public interface CategoryRepository extends	PagingAndSortingRepository<Category, Integer>
-				, CrudRepository<Category, Integer>{
+@Repository
+public interface CategoryRepository
+		extends PagingAndSortingRepository<Category, Integer>, CrudRepository<Category, Integer> {
 
 	@Query("SELECT c FROM Category c WHERE c.parent.id is NULL")
 	public List<Category> findRootCategories(Sort sort);
-	
+
 	@Query("SELECT c FROM Category c WHERE c.parent.id is NULL")
 	public Page<Category> findRootCategories(Pageable pageable);
-	
+
 	@Query("SELECT c FROM Category c WHERE c.name LIKE %?1%")
 	public Page<Category> search(String keyword, Pageable pageable);
-	
+
 	public Category findByName(String name);
 
 	public Category findByAlias(String alias);
-	
+
 	public Long countById(Integer id);
-	
+
 	@Query("UPDATE Category c SET c.enabled = ?2 WHERE c.id = ?1")
 	@Modifying
-	public void updateEnabledStatus(Integer id, boolean enabled);	
+	public void updateEnabledStatus(Integer id, boolean enabled);
 }

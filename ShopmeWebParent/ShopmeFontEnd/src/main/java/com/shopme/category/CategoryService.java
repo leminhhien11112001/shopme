@@ -13,7 +13,7 @@ import com.shopme.common.exception.CategoryNotFoundException;
 @Service
 public class CategoryService {
 
-	@Autowired 
+	@Autowired
 	private CategoryRepository repo;
 
 	public List<Category> listNoChildrenCategories() {
@@ -30,7 +30,7 @@ public class CategoryService {
 
 		return listNoChildrenCategories;
 	}
-	
+
 	public Category getCategory(String alias) throws CategoryNotFoundException {
 		Category category = repo.findByAliasEnabled(alias);
 		if (category == null) {
@@ -39,8 +39,8 @@ public class CategoryService {
 
 		return category;
 	}
-	
-	//For Breadcrumb
+
+	// For Breadcrumb
 	public List<Category> getCategoryParents(Category child) {
 		List<Category> listParents = new ArrayList<>();
 

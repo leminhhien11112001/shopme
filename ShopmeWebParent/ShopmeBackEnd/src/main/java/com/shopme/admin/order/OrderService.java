@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import com.shopme.admin.paging.PagingAndSortingHelper;
 import com.shopme.admin.setting.country.CountryRepository;
 import com.shopme.common.entity.Country;
@@ -22,10 +23,12 @@ import com.shopme.common.exception.OrderNotFoundException;
 public class OrderService {
 	private static final int ORDERS_PER_PAGE = 10;
 
-	@Autowired private OrderRepository orderRepo;
-	@Autowired private CountryRepository countryRepo;
+	@Autowired
+	private OrderRepository orderRepo;
+	@Autowired
+	private CountryRepository countryRepo;
 
-	public void listByPage(int pageNum, PagingAndSortingHelper helper) {		
+	public void listByPage(int pageNum, PagingAndSortingHelper helper) {
 		String sortField = helper.getSortField();
 		String sortDir = helper.getSortDir();
 		String keyword = helper.getKeyword();
@@ -49,9 +52,9 @@ public class OrderService {
 			page = orderRepo.findAll(pageable);
 		}
 
-		helper.updateModelAttributes(pageNum, page);	
+		helper.updateModelAttributes(pageNum, page);
 	}
-	
+
 	public Order get(Integer id) throws OrderNotFoundException {
 		try {
 			return orderRepo.findById(id).get();
@@ -59,20 +62,20 @@ public class OrderService {
 			throw new OrderNotFoundException("Could not find any orders with ID " + id);
 		}
 	}
-	
+
 	public void delete(Integer id) throws OrderNotFoundException {
 		Long count = orderRepo.countById(id);
 		if (count == null || count == 0) {
-			throw new OrderNotFoundException("Could not find any orders with ID " + id); 
+			throw new OrderNotFoundException("Could not find any orders with ID " + id);
 		}
 
 		orderRepo.deleteById(id);
-	}	
-	
+	}
+
 	public List<Country> listAllCountries() {
 		return countryRepo.findAllByOrderByNameAsc();
 	}
-	
+
 	public void save(Order orderInForm) {
 		Order orderInDB = orderRepo.findById(orderInForm.getId()).get();
 		orderInForm.setOrderTime(orderInDB.getOrderTime());
@@ -80,7 +83,7 @@ public class OrderService {
 
 		orderRepo.save(orderInForm);
 	}
-	
+
 	public void updateStatus(Integer orderId, String status) {
 		Order orderInDB = orderRepo.findById(orderId).get();
 		OrderStatus statusToUpdate = OrderStatus.valueOf(status);

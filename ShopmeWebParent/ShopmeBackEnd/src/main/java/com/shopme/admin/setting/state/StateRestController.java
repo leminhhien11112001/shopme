@@ -18,7 +18,8 @@ import com.shopme.common.entity.StateDTO;
 @RestController
 public class StateRestController {
 
-	@Autowired private StateRepository repo;
+	@Autowired
+	private StateRepository repo;
 
 	@GetMapping("/states/list_by_country/{id}")
 	public List<StateDTO> listByCountry(@PathVariable("id") Integer countryId) {

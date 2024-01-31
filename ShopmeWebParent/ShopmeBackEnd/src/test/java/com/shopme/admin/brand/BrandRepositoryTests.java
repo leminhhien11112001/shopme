@@ -21,7 +21,7 @@ public class BrandRepositoryTests {
 
 	@Autowired
 	private BrandRepository repo;
-	
+
 	@Test
 	public void testCreateBrand1() {
 		Category laptops = new Category(6);
@@ -53,8 +53,8 @@ public class BrandRepositoryTests {
 	public void testCreateBrand3() {
 		Brand samsung = new Brand("Samsung");
 
-		samsung.getCategories().add(new Category(29));	// category memory
-		samsung.getCategories().add(new Category(24));	// category internal hard drive
+		samsung.getCategories().add(new Category(29)); // category memory
+		samsung.getCategories().add(new Category(24)); // category internal hard drive
 
 		Brand savedBrand = repo.save(samsung);
 

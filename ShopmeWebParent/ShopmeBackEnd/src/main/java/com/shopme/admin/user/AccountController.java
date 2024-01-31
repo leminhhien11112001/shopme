@@ -24,20 +24,19 @@ public class AccountController {
 	private UserService service;
 
 	@GetMapping("/account")
-	public String viewDetails(@AuthenticationPrincipal ShopmeUserDetails loggedUser,
-			Model model) {
+	public String viewDetails(@AuthenticationPrincipal ShopmeUserDetails loggedUser, Model model) {
 		String email = loggedUser.getUsername();
 		User user = service.getByEmail(email);
-		
+
 		model.addAttribute("user", user);
 
 		return "users/account_form";
 	}
-	
+
 	@PostMapping("/account/update")
 	public String saveDetails(User user, RedirectAttributes redirectAttributes,
-			@AuthenticationPrincipal ShopmeUserDetails loggedUser,
-			@RequestParam("image") MultipartFile multipartFile) throws IOException {
+			@AuthenticationPrincipal ShopmeUserDetails loggedUser, @RequestParam("image") MultipartFile multipartFile)
+			throws IOException {
 
 		if (!multipartFile.isEmpty()) {
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -50,7 +49,8 @@ public class AccountController {
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
 		} else {
-			if (user.getPhotos().isEmpty()) user.setPhotos(null);
+			if (user.getPhotos().isEmpty())
+				user.setPhotos(null);
 			service.updateAccount(user);
 		}
 

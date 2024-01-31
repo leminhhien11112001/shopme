@@ -1,4 +1,4 @@
-$(document).ready(function() {		
+$(document).ready(function() {
 	$("a[name='linkRemoveDetail']").each(function(index) {
 		$(this).click(function() {
 			removeDetailSectionByIndex(index);
@@ -43,5 +43,5 @@ function removeDetailSectionById(id) {
 
 
 function removeDetailSectionByIndex(index) {
-	$("#divDetail" + index).remove();	
+	$("#divDetail" + index).remove();
 }

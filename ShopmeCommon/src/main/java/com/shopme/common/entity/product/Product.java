@@ -22,7 +22,7 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "products")
-public class Product extends IdBasedEntity{
+public class Product extends IdBasedEntity {
 	@Column(unique = true, length = 256, nullable = false)
 	private String name;
 
@@ -57,7 +57,7 @@ public class Product extends IdBasedEntity{
 	private float width;
 	private float height;
 	private float weight;
-	
+
 	@Column(name = "main_image", nullable = false)
 	private String mainImage;
 
@@ -66,24 +66,24 @@ public class Product extends IdBasedEntity{
 	private Category category;
 
 	@ManyToOne
-	@JoinColumn(name = "brand_id")	
+	@JoinColumn(name = "brand_id")
 	private Brand brand;
-	
+
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ProductImage> images = new HashSet<>();
-	
+
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ProductDetail> details = new ArrayList<>();
-	
+
 	private int reviewCount;
 	private float averageRating;
-	
+
 	private int quantity;
-	
-	@Transient 
+
+	@Transient
 	private boolean customerCanReview;
-	
-	@Transient 
+
+	@Transient
 	private boolean reviewedByCustomer;
 
 	public Product(Integer id) {
@@ -92,7 +92,7 @@ public class Product extends IdBasedEntity{
 
 	public Product() {
 	}
-	
+
 	public Product(String name) {
 		this.name = name;
 	}
@@ -232,7 +232,7 @@ public class Product extends IdBasedEntity{
 	public void setBrand(Brand brand) {
 		this.brand = brand;
 	}
-	
+
 	public String getMainImage() {
 		return mainImage;
 	}
@@ -248,7 +248,7 @@ public class Product extends IdBasedEntity{
 	public void setImages(Set<ProductImage> images) {
 		this.images = images;
 	}
-	
+
 	public List<ProductDetail> getDetails() {
 		return details;
 	}
@@ -260,15 +260,15 @@ public class Product extends IdBasedEntity{
 	public void addDetail(String name, String value) {
 		this.details.add(new ProductDetail(name, value, this));
 	}
-	
+
 	public void addDetail(Integer id, String name, String value) {
 		this.details.add(new ProductDetail(id, name, value, this));
 	}
-	
+
 	public void addExtraImage(String imageName) {
 		this.images.add(new ProductImage(imageName, this));
 	}
-	
+
 	public int getReviewCount() {
 		return reviewCount;
 	}
@@ -284,7 +284,7 @@ public class Product extends IdBasedEntity{
 	public void setAverageRating(float averageRating) {
 		this.averageRating = averageRating;
 	}
-	
+
 	public boolean isCustomerCanReview() {
 		return customerCanReview;
 	}
@@ -300,7 +300,7 @@ public class Product extends IdBasedEntity{
 	public void setReviewedByCustomer(boolean reviewedByCustomer) {
 		this.reviewedByCustomer = reviewedByCustomer;
 	}
-		
+
 	public boolean containsImageName(String imageName) {
 		Iterator<ProductImage> iterator = images.iterator();
 
@@ -313,7 +313,7 @@ public class Product extends IdBasedEntity{
 
 		return false;
 	}
-	
+
 	public int getQuantity() {
 		return quantity;
 	}
@@ -329,14 +329,15 @@ public class Product extends IdBasedEntity{
 		}
 		return name;
 	}
-	
+
 	@Transient
 	public String getMainImagePath() {
-		if (id == null || mainImage == null) return "/images/image-thumbnail.png";
+		if (id == null || mainImage == null)
+			return "/images/image-thumbnail.png";
 
 		return "/product-images/" + this.id + "/" + this.mainImage;
 	}
-	
+
 	@Transient
 	public float getDiscountPrice() {
 		if (discountPercent > 0) {
@@ -344,16 +345,15 @@ public class Product extends IdBasedEntity{
 		}
 		return this.price;
 	}
-	
+
 	@Transient
 	public String getURI() {
 		return "/p/" + this.alias;
-	}	
-	
+	}
+
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + "]";
 	}
-
 
 }

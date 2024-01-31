@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "roles")
-public class Role extends IdBasedEntity{
+public class Role extends IdBasedEntity {
 	@Column(length = 40, nullable = false, unique = true)
 	private String name;
 
@@ -18,8 +18,8 @@ public class Role extends IdBasedEntity{
 
 	public Role(String name) {
 		this.name = name;
-	}	
-	
+	}
+
 	public Role(Integer id) {
 		this.id = id;
 	}
@@ -44,8 +44,6 @@ public class Role extends IdBasedEntity{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	
 
 	@Override
 	public int hashCode() {

@@ -1,5 +1,5 @@
 decimalSeparator = decimalPointType == 'COMMA' ? ',' : '.';
-thousandsSeparator = thousandsPointType == 'COMMA' ? ',' : '.'; 
+thousandsSeparator = thousandsPointType == 'COMMA' ? ',' : '.';
 
 $(document).ready(function() {
 	$(".linkMinus").on("click", function(evt) {
@@ -10,12 +10,12 @@ $(document).ready(function() {
 	$(".linkPlus").on("click", function(evt) {
 		evt.preventDefault();
 		increaseQuantity($(this));
-	});	
-	
+	});
+
 	$(".linkRemove").on("click", function(evt) {
 		evt.preventDefault();
 		removeProduct($(this));
-	});	
+	});
 });
 
 function decreaseQuantity(link) {
@@ -28,7 +28,7 @@ function decreaseQuantity(link) {
 		updateQuantity(productId, newQuantity);
 	} else {
 		showWarningModal('Minimum quantity is 1');
-	}	
+	}
 }
 
 function increaseQuantity(link) {
@@ -37,15 +37,15 @@ function increaseQuantity(link) {
 	newQuantity = parseInt(quantityInput.val()) + 1;
 
 	url = contextPath + "get_quantity";
-	params = {productId: productId};
-	
+	params = { productId: productId };
+
 	$.ajax({
 		type: "GET",
 		url: url,
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader(csrfHeaderName, csrfValue);
 		},
-		data: params	
+		data: params
 	}).done(function(quantity) {
 		if (newQuantity <= quantity) {
 			quantityInput.val(newQuantity);
@@ -72,7 +72,7 @@ function updateQuantity(productId, quantity) {
 		updateTotal();
 	}).fail(function() {
 		showErrorModal("Error while updating product quantity.");
-	});	
+	});
 }
 
 function updateSubtotal(updatedSubtotal, productId) {
@@ -92,7 +92,7 @@ function updateTotal() {
 		showEmptyShoppingCart();
 	} else {
 		formattedTotal = $.number(total, 2);
-		$("#total").text(formatCurrency(total));			
+		$("#total").text(formatCurrency(total));
 	}
 }
 
@@ -120,7 +120,7 @@ function removeProduct(link) {
 
 	}).fail(function() {
 		showErrorModal("Error while removing product.");
-	});				
+	});
 }
 
 function removeProductHTML(rowNumber) {
@@ -131,7 +131,7 @@ function removeProductHTML(rowNumber) {
 function updateCountNumbers() {
 	$(".divCount").each(function(index, element) {
 		element.innerHTML = "" + (index + 1);
-	}); 
+	});
 }
 
 function formatCurrency(amount) {

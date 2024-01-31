@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "product_details")
-public class ProductDetail extends IdBasedEntity{
+public class ProductDetail extends IdBasedEntity {
 	@Column(nullable = false, length = 255)
 	private String name;
 
@@ -29,7 +29,7 @@ public class ProductDetail extends IdBasedEntity{
 		this.value = value;
 		this.product = product;
 	}
-	
+
 	public ProductDetail(Integer id, String name, String value, Product product) {
 		this.id = id;
 		this.name = name;

@@ -2,13 +2,12 @@ package com.shopme.admin.order;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.text.DateFormat;
-
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +30,10 @@ import com.shopme.common.entity.product.Product;
 @Rollback(false)
 public class OrderRepositoryTests {
 
-	@Autowired private OrderRepository repo;
-	@Autowired private TestEntityManager entityManager;
+	@Autowired
+	private OrderRepository repo;
+	@Autowired
+	private TestEntityManager entityManager;
 
 	@Test
 	public void testCreateNewOrderWithSingleProduct() {
@@ -68,7 +69,7 @@ public class OrderRepositoryTests {
 
 		Order savedOrder = repo.save(mainOrder);
 
-		assertThat(savedOrder.getId()).isGreaterThan(0);		
+		assertThat(savedOrder.getId()).isGreaterThan(0);
 	}
 
 	@Test
@@ -115,8 +116,8 @@ public class OrderRepositoryTests {
 		mainOrder.setDeliverDate(new Date());
 		mainOrder.setDeliverDays(3);
 
-		Order savedOrder = repo.save(mainOrder);		
-		assertThat(savedOrder.getId()).isGreaterThan(0);		
+		Order savedOrder = repo.save(mainOrder);
+		assertThat(savedOrder.getId()).isGreaterThan(0);
 	}
 
 	@Test
@@ -160,7 +161,7 @@ public class OrderRepositoryTests {
 		Optional<Order> result = repo.findById(orderId);
 		assertThat(result).isNotPresent();
 	}
-	
+
 	@Test
 	public void testUpdateOrderTracks() {
 		Integer orderId = 1;
@@ -186,7 +187,7 @@ public class OrderRepositoryTests {
 
 		assertThat(updatedOrder.getOrderTracks()).hasSizeGreaterThan(1);
 	}
-	
+
 	@Test
 	public void testAddTrackWithStatusNewToOrder() {
 		Integer orderId = 1;
@@ -199,13 +200,13 @@ public class OrderRepositoryTests {
 		newTrack.setNotes(OrderStatus.DELIVERED.defaultDescription());
 
 		List<OrderTrack> orderTracks = order.getOrderTracks();
-		orderTracks.add(newTrack);		
+		orderTracks.add(newTrack);
 
 		Order updatedOrder = repo.save(order);
 
 		assertThat(updatedOrder.getOrderTracks()).hasSizeGreaterThan(1);
-	}	
-	
+	}
+
 	@Test
 	public void testFindByOrderTimeBetween() throws ParseException {
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -217,9 +218,8 @@ public class OrderRepositoryTests {
 		assertThat(listOrders.size()).isGreaterThan(0);
 
 		for (Order order : listOrders) {
-			System.out.printf("%s | %s | %.2f | %.2f | %.2f \n", 
-					order.getId(), order.getOrderTime(), order.getProductCost(), 
-					order.getSubtotal(), order.getTotal());
+			System.out.printf("%s | %s | %.2f | %.2f | %.2f \n", order.getId(), order.getOrderTime(),
+					order.getProductCost(), order.getSubtotal(), order.getTotal());
 		}
 	}
 }

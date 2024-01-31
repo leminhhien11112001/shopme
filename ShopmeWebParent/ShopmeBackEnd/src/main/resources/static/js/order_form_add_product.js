@@ -2,43 +2,43 @@ var productDetailCount;
 
 $(document).ready(function() {
 	productDetailCount = $(".hiddenProductId").length;
-	
+
 	$("#products").on("click", "#linkAddProduct", function(e) {
 		e.preventDefault();
 		link = $(this);
 		url = link.attr("href");
-		
+
 		$("#addProductModal").on("shown.bs.modal", function() {
 			$(this).find("iframe").attr("src", url);
 		});
-		
+
 		$("#addProductModal").modal();
 	})
 });
 
 function addProduct(productId, productName) {
-	getShippingCost(productId);	
+	getShippingCost(productId);
 }
 
 function getShippingCost(productId) {
 	selectedCountry = $("#country option:selected");
 	countryId = selectedCountry.val();
-	
+
 	state = $("#state").val();
 	if (state.length == 0) {
-		state = $("#city").val();		
+		state = $("#city").val();
 	}
-	
+
 	requestUrl = contextPath + "get_shipping_cost";
-	params = {productId: productId, countryId: countryId, state: state};
-	
+	params = { productId: productId, countryId: countryId, state: state };
+
 	$.ajax({
 		type: 'POST',
 		url: requestUrl,
 		beforeSend: function(xhr) {
 			xhr.setRequestHeader(csrfHeaderName, csrfValue);
 		},
-		data: params		
+		data: params
 	}).done(function(shippingCost) {
 		getProductInfo(productId, shippingCost);
 	}).fail(function(err) {
@@ -47,7 +47,7 @@ function getShippingCost(productId) {
 		getProductInfo(productId, shippingCost);
 	}).always(function() {
 		$("#addProductModal").modal("hide");
-	});		
+	});
 }
 
 function getProductInfo(productId, shippingCost) {
@@ -58,15 +58,15 @@ function getProductInfo(productId, shippingCost) {
 		mainImagePath = contextPath.substring(0, contextPath.length - 1) + productJson.imagePath;
 		productCost = $.number(productJson.cost, 2);
 		productPrice = $.number(productJson.price, 2);
-		
+
 		htmlCode = generateProductCode(productId, productName, mainImagePath, productCost, productPrice, shippingCost);
 		$("#productList").append(htmlCode);
-		
+
 		updateOrderAmounts();
-		
+
 	}).fail(function(err) {
 		showWarningModal(err.responseJSON.message);
-	});	
+	});
 }
 
 function generateProductCode(productId, productName, mainImagePath, productCost, productPrice, shippingCost) {
@@ -76,8 +76,8 @@ function generateProductCode(productId, productName, mainImagePath, productCost,
 	quantityId = "quantity" + nextCount;
 	priceId = "price" + nextCount;
 	subtotalId = "subtotal" + nextCount;
-	blankLineId= "blankLine" + nextCount;
-	
+	blankLineId = "blankLine" + nextCount;
+
 	htmlCode = `
 		<div class="border rounded p-1" id="${rowId}">
 			<input type="hidden" name="detailId" value="0" />
@@ -149,22 +149,22 @@ function generateProductCode(productId, productName, mainImagePath, productCost,
 			
 		</div>
 		<div id="${blankLineId}"class="row">&nbsp;</div>	
-	`;	
-	
+	`;
+
 	return htmlCode;
 }
 
 function isProductAlreadyAdded(productId) {
 	productExists = false;
-	
+
 	$(".hiddenProductId").each(function(e) {
 		aProductId = $(this).val();
-		
+
 		if (aProductId == productId) {
 			productExists = true;
 			return;
 		}
 	});
-	
+
 	return productExists;
 }

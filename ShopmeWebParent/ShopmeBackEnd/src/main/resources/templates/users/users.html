@@ -4,115 +4,117 @@
 <head th:replace="fragments :: page_head('Users - Shopme Admin', 'none')" />
 
 <body>
-<div class="container-fluid">
-	
-	<div th:replace="navigation :: menu"></div>
-	
-	<div>
-		<h2>Manage Users</h2>
-		<a th:href="@{/users/new}" title="Create user"
-			class="fas fa-user-plus fa-2x icon-dark mr-2"></a>
-	</div>
-	<br>
-	
-	<div>
-		<!-- NOTE: When a form is submitted, all the fields will be appended to request URL 
+	<div class="container-fluid">
+
+		<div th:replace="navigation :: menu"></div>
+
+		<div>
+			<h2>Manage Users</h2>
+			<a th:href="@{/users/new}" title="Create user" class="fas fa-user-plus fa-2x icon-dark mr-2"></a>
+		</div>
+		<br>
+
+		<div>
+			<!-- NOTE: When a form is submitted, all the fields will be appended to request URL 
 		(with request method GET only). -->
-		
-		<!-- /users/page/1?sortField=xx&sortDir=yy&keyword=zz-->
 
-		<div th:replace="fragments :: search_form_and_message" />
-		
-	</div>
+			<!-- /users/page/1?sortField=xx&sortDir=yy&keyword=zz-->
 
-	<div class="full-details">
-		<table class="table table-bordered table-striped table-hover table-responsive-xl">
-			<thead class="thead-dark">
-				<tr>
-					<th class="hideable-column">
-						<th th:replace="fragments :: column_link('id', 'ID', 'tag')" />
-					</th>
-					
-					<th>Photos</th>
-					
-					<th class="hideable-column">
-						<th th:replace="fragments :: column_link('email', 'E-mail', 'tag')" />
-					</th>
+			<div th:replace="fragments :: search_form_and_message" />
 
-					<th th:replace="fragments :: column_link('firstName', 'First Name', 'none')" />
-					
-					<th th:replace="fragments :: column_link('lastName', 'Last Name', 'none')" />
-					
-					<th>Roles</th>
-					
-					<th th:replace="fragments :: column_link('enabled', 'Enabled', 'none')" />
-					
-					<th></th>
-				</tr>								
-			</thead>
-			<tbody>
-				<tr th:each="user : ${listUsers}">
-					<td class="hideable-column">[[${user.id}]]</td>
-					<td>
-						<img th:src="@{${user.photosImagePath}}" style="width: 100px" />
-					</td>
-					<td class="hideable-column">[[${user.email}]]</td>
-					<td>[[${user.firstName}]]</td>
-					<td>[[${user.lastName}]]</td>
-					<td>[[${user.roles}]]</td>
-					<td>
+		</div>
+
+		<div class="full-details">
+			<table class="table table-bordered table-striped table-hover table-responsive-xl">
+				<thead class="thead-dark">
+					<tr>
+						<th class="hideable-column">
+							<th th:replace="fragments :: column_link('id', 'ID', 'tag')" />
+						</th>
+
+						<th>Photos</th>
+
+						<th class="hideable-column">
+							<th th:replace="fragments :: column_link('email', 'E-mail', 'tag')" />
+						</th>
+
+						<th th:replace="fragments :: column_link('firstName', 'First Name', 'none')" />
+
+						<th th:replace="fragments :: column_link('lastName', 'Last Name', 'none')" />
+
+						<th>Roles</th>
+
+						<th th:replace="fragments :: column_link('enabled', 'Enabled', 'none')" />
+
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user : ${listUsers}">
+						<td class="hideable-column">[[${user.id}]]</td>
+						<td>
+							<img th:src="@{${user.photosImagePath}}" style="width: 100px" />
+						</td>
+						<td class="hideable-column">[[${user.email}]]</td>
+						<td>[[${user.firstName}]]</td>
+						<td>[[${user.lastName}]]</td>
+						<td>[[${user.roles}]]</td>
+						<td>
+							<div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})" />
+						</td>
+						<td>
+							<div th:replace="fragments :: edit('user', '/users/edit/' + ${user.id})" />
+							&nbsp;&nbsp;
+							<div
+								th:replace="fragments :: delete('user', ${user.id}, '/users/delete/' + ${user.id}, true)" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="less-details">
+			<div th:each="user : ${listUsers}" class="row m-1">
+				<div class="col-4">
+					<img th:src="@{${user.photosImagePath}}" style="width: 100px" />
+				</div>
+				<div class="col-8">
+					<div>[[${user.fullName}]]</div>
+					<div>[[${user.roles}]]</div>
+					<div class="mt-2">
 						<div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})" />
-					</td>
-					<td>
+						&nbsp;
 						<div th:replace="fragments :: edit('user', '/users/edit/' + ${user.id})" />
 						&nbsp;&nbsp;
-						<div th:replace="fragments :: delete('user', ${user.id}, '/users/delete/' + ${user.id}, true)" />
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-	<div class="less-details">
-		<div th:each="user : ${listUsers}" class="row m-1">
-			<div class="col-4">
-				<img th:src="@{${user.photosImagePath}}" style="width: 100px" />		
-			</div>
-			<div class="col-8">
-				<div>[[${user.fullName}]]</div>
-				<div>[[${user.roles}]]</div>
-				<div class="mt-2">
-					<div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})" />
-					&nbsp; 			
-					<div th:replace="fragments :: edit('user', '/users/edit/' + ${user.id})" />
-					&nbsp;&nbsp;
-					<div th:replace="fragments :: delete('user', ${user.id}, '/users/delete/' + ${user.id}, true)" />
+						<div
+							th:replace="fragments :: delete('user', ${user.id}, '/users/delete/' + ${user.id}, true)" />
+					</div>
 				</div>
+				<div>&nbsp;</div>
 			</div>
-			<div>&nbsp;</div>
 		</div>
+
+		<div th:replace="fragments :: pagination('users')"></div>
+
+		<div th:replace="modal_fragments :: confirm_modal" />
+
+		<div th:replace="fragments :: footer"></div>
+
 	</div>
-	
-	<div th:replace="fragments :: pagination('users')"></div>
-	
-	<div th:replace="modal_fragments :: confirm_modal" />
 
-	<div th:replace="fragments :: footer"></div>
+	<script type="text/javascript">
+		moduleURL = "[[@{/users}]]";
 
-</div>
-
-<script type="text/javascript">
-	moduleURL = "[[@{/users}]]";
-	
-	$(document).ready(function() {
-		$(".link-delete").click(function(e) {
-			e.preventDefault();
-			showDeleteConfirmModal($(this), 'user');
+		$(document).ready(function () {
+			$(".link-delete").click(function (e) {
+				e.preventDefault();
+				showDeleteConfirmModal($(this), 'user');
+			});
 		});
-	});
-</script>
+	</script>
 
-<script th:src="@{/js/common_list.js}"></script>
+	<script th:src="@{/js/common_list.js}"></script>
 
 </body>
+
 </html>

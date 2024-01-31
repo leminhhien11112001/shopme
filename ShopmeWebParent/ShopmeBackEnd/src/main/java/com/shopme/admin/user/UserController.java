@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,30 +21,28 @@ import com.shopme.common.entity.Role;
 import com.shopme.common.entity.User;
 import com.shopme.common.exception.UserNotFoundException;
 
-import org.springframework.util.StringUtils;
-
-import org.springframework.ui.Model;
-
 @Controller
 public class UserController {
-	
+
 	private String defaultRedirectURL = "redirect:/users/page/1?sortField=firstName&sortDir=asc";
-	@Autowired private UserService service;
-	
+	@Autowired
+	private UserService service;
+
 	@GetMapping("/users")
 	public String listFirstPage() {
 		return defaultRedirectURL;
 	}
-	
+
 	@GetMapping("/users/page/{pageNum}")
-	public String listByPage(@PagingAndSortingParam(listName = "listUsers", moduleURL = "/users") PagingAndSortingHelper helper,
+	public String listByPage(
+			@PagingAndSortingParam(listName = "listUsers", moduleURL = "/users") PagingAndSortingHelper helper,
 			@PathVariable(name = "pageNum") int pageNum) {
 
-		service.listByPage(pageNum, helper);	
-		
-		return "users/users";		
+		service.listByPage(pageNum, helper);
+
+		return "users/users";
 	}
-	
+
 	@GetMapping("/users/new")
 	public String newUser(Model model) {
 		List<Role> listRoles = service.listRoles();
@@ -56,12 +56,11 @@ public class UserController {
 
 		return "users/user_form";
 	}
-	
+
 	@PostMapping("/users/save")
 	public String saveUser(User user, RedirectAttributes redirectAttributes,
-			@RequestParam("image") MultipartFile multipartFile
-			) throws IOException {
-		
+			@RequestParam("image") MultipartFile multipartFile) throws IOException {
+
 		if (!multipartFile.isEmpty()) {
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			user.setPhotos(fileName);
@@ -73,10 +72,10 @@ public class UserController {
 			FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
 		} else {
-			if (user.getPhotos().isEmpty()) user.setPhotos(null);
+			if (user.getPhotos().isEmpty())
+				user.setPhotos(null);
 			service.save(user);
 		}
-
 
 		redirectAttributes.addFlashAttribute("message", "The user has been saved successfully.");
 
@@ -88,11 +87,9 @@ public class UserController {
 		String lastName = user.getLastName();
 		return "redirect:/users/page/1?sortField=id&sortDir=asc&keyword=" + lastName;
 	}
-	
+
 	@GetMapping("/users/edit/{id}")
-	public String editUser(@PathVariable(name = "id") Integer id, 
-			Model model,
-			RedirectAttributes redirectAttributes) {
+	public String editUser(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes redirectAttributes) {
 		try {
 			User user = service.get(id);
 			List<Role> listRoles = service.listRoles();
@@ -107,40 +104,38 @@ public class UserController {
 			return defaultRedirectURL;
 		}
 	}
-	
+
 	@GetMapping("/users/delete/{id}")
-	public String deleteUser(@PathVariable(name = "id") Integer id, 
-			Model model,
+	public String deleteUser(@PathVariable(name = "id") Integer id, Model model,
 			RedirectAttributes redirectAttributes) {
 		try {
 			service.delete(id);
-			
+
 			String userDir = "user-photos/" + id;
 			FileUploadUtil.removeDir(userDir);
-			
-			redirectAttributes.addFlashAttribute("message", 
-					"The user ID " + id + " has been deleted successfully");
+
+			redirectAttributes.addFlashAttribute("message", "The user ID " + id + " has been deleted successfully");
 		} catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 		}
 
 		return defaultRedirectURL;
 	}
-	
+
 	@GetMapping("/users/{id}/enabled/{status}")
-	public String updateUserEnabledStatus(@PathVariable("id") Integer id,
-			@PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) throws UserNotFoundException {
-		
+	public String updateUserEnabledStatus(@PathVariable("id") Integer id, @PathVariable("status") boolean enabled,
+			RedirectAttributes redirectAttributes) throws UserNotFoundException {
+
 		try {
 			User user = service.get(id);
-			
+
 			service.updateUserEnabledStatus(id, enabled);
-			
+
 			String status = enabled ? "enabled" : "disabled";
 			String message = "The user ID " + id + " has been " + status;
-			
+
 			System.out.println(message);
-			
+
 			redirectAttributes.addFlashAttribute("message", message);
 
 			return getRedirectURLtoAffectedUser(user);

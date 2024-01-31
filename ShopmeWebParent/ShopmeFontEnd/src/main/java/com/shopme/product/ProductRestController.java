@@ -8,10 +8,10 @@ import com.shopme.common.entity.product.Product;
 
 @RestController
 public class ProductRestController {
-	
+
 	@Autowired
 	private ProductRepository repo;
-	
+
 	@GetMapping("/get_quantity")
 	public String getQuantityOfProduct(Integer productId) {
 		Product product = repo.findById(productId).get();

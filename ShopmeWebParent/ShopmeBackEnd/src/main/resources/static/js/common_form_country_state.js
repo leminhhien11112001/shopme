@@ -8,7 +8,7 @@ $(document).ready(function() {
 	dropdownCountries.on("change", function() {
 		loadStates4Country();
 		$("#state").val("").focus();
-	});	
+	});
 
 	loadStates4Country();
 });
@@ -27,5 +27,5 @@ function loadStates4Country() {
 		});
 	}).fail(function() {
 		showErrorModal("Error loading states/provinces for the selected country.");
-	})	
+	})
 }	

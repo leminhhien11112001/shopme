@@ -14,12 +14,13 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class AddressService {
 
-	@Autowired private AddressRepository repo;
+	@Autowired
+	private AddressRepository repo;
 
 	public List<Address> listAddressBook(Customer customer) {
 		return repo.findByCustomer(customer);
 	}
-	
+
 	public void save(Address address) {
 		repo.save(address);
 	}
@@ -39,7 +40,7 @@ public class AddressService {
 
 		repo.setNonDefaultForOthers(defaultAddressId, customerId);
 	}
-	
+
 	public Address getDefaultAddress(Customer customer) {
 		return repo.findDefaultByCustomer(customer.getId());
 	}

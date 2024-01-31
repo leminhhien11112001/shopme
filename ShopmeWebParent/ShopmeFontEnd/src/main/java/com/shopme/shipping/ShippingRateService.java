@@ -10,7 +10,8 @@ import com.shopme.common.entity.ShippingRate;
 @Service
 public class ShippingRateService {
 
-	@Autowired private ShippingRateRepository repo;
+	@Autowired
+	private ShippingRateRepository repo;
 
 	public ShippingRate getShippingRateForCustomer(Customer customer) {
 		String state = customer.getState();
@@ -28,5 +29,5 @@ public class ShippingRateService {
 		}
 
 		return repo.findByCountryAndState(address.getCountry(), state);
-	}	
+	}
 }

@@ -27,13 +27,17 @@ import com.shopme.common.entity.State;
 @AutoConfigureMockMvc
 public class StateRestControllerTests {
 
-	@Autowired MockMvc mockMvc;
+	@Autowired
+	MockMvc mockMvc;
 
-	@Autowired ObjectMapper objectMapper;
+	@Autowired
+	ObjectMapper objectMapper;
 
-	@Autowired CountryRepository countryRepo;
+	@Autowired
+	CountryRepository countryRepo;
 
-	@Autowired StateRepository stateRepo;
+	@Autowired
+	StateRepository stateRepo;
 
 	@Test
 	@WithMockUser(username = "nam", password = "something", roles = "Admin")
@@ -41,10 +45,7 @@ public class StateRestControllerTests {
 		Integer countryId = 14;
 		String url = "/states/list_by_country/" + countryId;
 
-		MvcResult result = mockMvc.perform(get(url))
-				.andExpect(status().isOk())
-				.andDo(print())
-				.andReturn();
+		MvcResult result = mockMvc.perform(get(url)).andExpect(status().isOk()).andDo(print()).andReturn();
 
 		String jsonResponse = result.getResponse().getContentAsString();
 		State[] states = objectMapper.readValue(jsonResponse, State[].class);
@@ -60,18 +61,15 @@ public class StateRestControllerTests {
 		Country country = countryRepo.findById(countryId).get();
 		State state = new State("Arizona", country);
 
-		MvcResult result = mockMvc.perform(post(url).contentType("application/json")
-				.content(objectMapper.writeValueAsString(state))
-				.with(csrf()))
-			.andDo(print())
-			.andExpect(status().isOk())
-			.andReturn();
+		MvcResult result = mockMvc.perform(
+				post(url).contentType("application/json").content(objectMapper.writeValueAsString(state)).with(csrf()))
+				.andDo(print()).andExpect(status().isOk()).andReturn();
 
 		String response = result.getResponse().getContentAsString();
 		Integer stateId = Integer.parseInt(response);
 		Optional<State> findById = stateRepo.findById(stateId);
 
-		assertThat(findById.isPresent());		
+		assertThat(findById.isPresent());
 	}
 
 	@Test
@@ -84,12 +82,9 @@ public class StateRestControllerTests {
 		State state = stateRepo.findById(stateId).get();
 		state.setName(stateName);
 
-		mockMvc.perform(post(url).contentType("application/json")
-			.content(objectMapper.writeValueAsString(state))
-			.with(csrf()))
-			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(content().string(String.valueOf(stateId)));
+		mockMvc.perform(
+				post(url).contentType("application/json").content(objectMapper.writeValueAsString(state)).with(csrf()))
+				.andDo(print()).andExpect(status().isOk()).andExpect(content().string(String.valueOf(stateId)));
 
 		Optional<State> findById = stateRepo.findById(stateId);
 		assertThat(findById.isPresent());
@@ -110,5 +105,5 @@ public class StateRestControllerTests {
 		Optional<State> findById = stateRepo.findById(stateId);
 
 		assertThat(findById).isNotPresent();
-	}	
+	}
 }

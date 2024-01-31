@@ -18,7 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-	@Autowired private CustomerService customerService;
+	@Autowired
+	private CustomerService customerService;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -32,7 +33,7 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
 		System.out.println("OAuth2LoginSuccessHandler: " + name + " | " + email);
 		System.out.println("Client name: " + clientName);
-		
+
 		AuthenticationType authenticationType = getAuthenticationType(clientName);
 
 		Customer customer = customerService.getCustomerByEmail(email);
@@ -45,7 +46,7 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
-	
+
 	private AuthenticationType getAuthenticationType(String clientName) {
 		if (clientName.equals("Google")) {
 			return AuthenticationType.GOOGLE;

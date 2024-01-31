@@ -25,22 +25,23 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ReviewController {
 	private String defaultRedirectURL = "redirect:/reviews/page/1?sortField=reviewTime&sortDir=desc";
 
-	@Autowired private ReviewService reviewService;
-	@Autowired private ProductService productService;
-	@Autowired private ControllerHelper controllerHelper;
-	
+	@Autowired
+	private ReviewService reviewService;
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private ControllerHelper controllerHelper;
 
 	@GetMapping("/reviews")
 	public String listFirstPage(Model model) {
 		return defaultRedirectURL;
 	}
 
-	@GetMapping("/reviews/page/{pageNum}") 
+	@GetMapping("/reviews/page/{pageNum}")
 	public String listReviewsByCustomerByPage(Model model, HttpServletRequest request,
-							@PathVariable(name = "pageNum") int pageNum,
-							String keyword, String sortField, String sortDir) {
+			@PathVariable(name = "pageNum") int pageNum, String keyword, String sortField, String sortDir) {
 		Customer customer = controllerHelper.getAuthenticatedCustomer(request);
-		Page<Review> page = reviewService.listByCustomerByPage(customer, keyword, pageNum, sortField, sortDir);		
+		Page<Review> page = reviewService.listByCustomerByPage(customer, keyword, pageNum, sortField, sortDir);
 		List<Review> listReviews = page.getContent();
 
 		model.addAttribute("totalPages", page.getTotalPages());
@@ -68,8 +69,8 @@ public class ReviewController {
 	}
 
 	@GetMapping("/reviews/detail/{id}")
-	public String viewReview(@PathVariable("id") Integer id, Model model, 
-			RedirectAttributes ra, HttpServletRequest request) {
+	public String viewReview(@PathVariable("id") Integer id, Model model, RedirectAttributes ra,
+			HttpServletRequest request) {
 		Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 		try {
 			Review review = reviewService.getByCustomerAndId(customer, id);
@@ -78,20 +79,18 @@ public class ReviewController {
 			return "reviews/review_detail_modal";
 		} catch (ReviewNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());
-			return defaultRedirectURL;		
+			return defaultRedirectURL;
 		}
-	}	
-	
+	}
+
 	@GetMapping("/ratings/{productAlias}")
 	public String listByProductFirstPage(@PathVariable(name = "productAlias") String productAlias, Model model) {
 		return listByProductByPage(model, productAlias, 1, "reviewTime", "desc");
-	}	
-	
-	@GetMapping("/ratings/{productAlias}/page/{pageNum}") 
-	public String listByProductByPage(Model model,
-				@PathVariable(name = "productAlias") String productAlias,
-				@PathVariable(name = "pageNum") int pageNum,
-				String sortField, String sortDir) {
+	}
+
+	@GetMapping("/ratings/{productAlias}/page/{pageNum}")
+	public String listByProductByPage(Model model, @PathVariable(name = "productAlias") String productAlias,
+			@PathVariable(name = "pageNum") int pageNum, String sortField, String sortDir) {
 
 		Product product = null;
 
@@ -127,10 +126,9 @@ public class ReviewController {
 
 		return "reviews/reviews_product";
 	}
-	
+
 	@GetMapping("/write_review/product/{productId}")
-	public String showViewForm(@PathVariable("productId") Integer productId, Model model,
-			HttpServletRequest request) {
+	public String showViewForm(@PathVariable("productId") Integer productId, Model model, HttpServletRequest request) {
 
 		Review review = new Review();
 
@@ -143,7 +141,7 @@ public class ReviewController {
 		}
 
 		Customer customer = controllerHelper.getAuthenticatedCustomer(request);
-		
+
 		boolean customerReviewed = reviewService.didCustomerReviewProduct(customer, product.getId());
 
 		if (customerReviewed) {
@@ -152,18 +150,18 @@ public class ReviewController {
 			boolean customerCanReview = reviewService.canCustomerReviewProduct(customer, product.getId());
 
 			if (customerCanReview) {
-				model.addAttribute("customerCanReview", customerCanReview);				
+				model.addAttribute("customerCanReview", customerCanReview);
 			} else {
 				model.addAttribute("NoReviewPermission", true);
 			}
-		}		
+		}
 
 		model.addAttribute("product", product);
 		model.addAttribute("review", review);
 
 		return "reviews/review_form";
 	}
-	
+
 	@PostMapping("/post_review")
 	public String saveReview(Model model, Review review, Integer productId, HttpServletRequest request) {
 		Customer customer = controllerHelper.getAuthenticatedCustomer(request);
@@ -185,5 +183,5 @@ public class ReviewController {
 
 		return "reviews/review_done";
 	}
-	
+
 }

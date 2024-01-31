@@ -26,7 +26,7 @@ public class ProductRepositoryTests {
 
 	@Autowired
 	private TestEntityManager entityManager;
-	
+
 	@Test
 	public void testCreateProduct() {
 		Brand brand = entityManager.find(Brand.class, 37);
@@ -54,16 +54,16 @@ public class ProductRepositoryTests {
 		assertThat(savedProduct).isNotNull();
 		assertThat(savedProduct.getId()).isGreaterThan(0);
 	}
-	
+
 	@Test
 	public void testListAllProducts() {
 		Iterable<Product> iterableProducts = repo.findAll();
-		
-		for(Product product: iterableProducts) {
+
+		for (Product product : iterableProducts) {
 			System.out.println(product);
 		}
 	}
-	
+
 	@Test
 	public void testUpdateProduct() {
 		Integer id = 1;
@@ -76,7 +76,7 @@ public class ProductRepositoryTests {
 
 		assertThat(updatedProduct.getPrice()).isEqualTo(499);
 	}
-	
+
 	@Test
 	public void testDeleteProduct() {
 		Integer id = 1;
@@ -86,7 +86,7 @@ public class ProductRepositoryTests {
 
 		assertThat(!result.isPresent());
 	}
-	
+
 	@Test
 	public void testSaveProductWithImages() {
 		Integer productId = 1;
@@ -101,7 +101,7 @@ public class ProductRepositoryTests {
 
 		assertThat(savedProduct.getImages().size()).isEqualTo(3);
 	}
-	
+
 	@Test
 	public void testSaveProductWithDetails() {
 		Integer productId = 1;
@@ -112,6 +112,6 @@ public class ProductRepositoryTests {
 		product.addDetail("OS", "Android 10");
 
 		Product savedProduct = repo.save(product);
-		assertThat(savedProduct.getDetails()).isNotEmpty();		
+		assertThat(savedProduct.getDetails()).isNotEmpty();
 	}
 }

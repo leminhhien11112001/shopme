@@ -29,9 +29,11 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class CustomerController {
-	@Autowired private CustomerService customerService;
-	@Autowired private SettingService settingService;
-	
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private SettingService settingService;
+
 	@GetMapping("/register")
 	public String showRegisterForm(Model model) {
 		List<Country> listCountries = customerService.listAllCountries();
@@ -42,10 +44,10 @@ public class CustomerController {
 
 		return "register/register_form";
 	}
-	
+
 	@PostMapping("/create_customer")
-	public String createCustomer(Customer customer, Model model,
-			HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
+	public String createCustomer(Customer customer, Model model, HttpServletRequest request)
+			throws UnsupportedEncodingException, MessagingException {
 		customerService.registerCustomer(customer);
 		sendVerificationEmail(request, customer);
 
@@ -54,7 +56,7 @@ public class CustomerController {
 		return "/register/register_success";
 	}
 
-	private void sendVerificationEmail(HttpServletRequest request, Customer customer) 
+	private void sendVerificationEmail(HttpServletRequest request, Customer customer)
 			throws UnsupportedEncodingException, MessagingException {
 		EmailSettingBag emailSettings = settingService.getEmailSettings();
 		JavaMailSenderImpl mailSender = Utility.prepareMailSender(emailSettings);
@@ -83,7 +85,6 @@ public class CustomerController {
 		System.out.println("to Address: " + toAddress);
 		System.out.println("Verify URL: " + verifyURL);
 	}
-	
 
 	@GetMapping("/verify")
 	public String verifyAccount(String code, Model model) {
@@ -91,7 +92,7 @@ public class CustomerController {
 
 		return "register/" + (verified ? "verify_success" : "verify_fail");
 	}
-	
+
 	@GetMapping("/account_details")
 	public String viewAccountDetails(Model model, HttpServletRequest request) {
 		String email = Utility.getEmailOfAuthenticatedCustomer(request);
@@ -129,7 +130,7 @@ public class CustomerController {
 	private void updateNameForAuthenticatedCustomer(Customer customer, HttpServletRequest request) {
 		Object principal = request.getUserPrincipal();
 
-		if (principal instanceof UsernamePasswordAuthenticationToken 
+		if (principal instanceof UsernamePasswordAuthenticationToken
 				|| principal instanceof RememberMeAuthenticationToken) {
 			CustomerUserDetails userDetails = getCustomerUserDetailsObject(principal);
 			Customer authenticatedCustomer = userDetails.getCustomer();
@@ -141,7 +142,7 @@ public class CustomerController {
 			CustomerOAuth2User oauth2User = (CustomerOAuth2User) oauth2Token.getPrincipal();
 			String fullName = customer.getFirstName() + " " + customer.getLastName();
 			oauth2User.setFullName(fullName);
-		}		
+		}
 	}
 
 	private CustomerUserDetails getCustomerUserDetailsObject(Object principal) {
