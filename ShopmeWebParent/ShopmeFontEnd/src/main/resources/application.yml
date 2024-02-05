@@ -4,9 +4,9 @@ server:
     context-path: /Shopme
 spring:
   datasource:
-    password: 1234
-    url: jdbc:mysql://localhost:3306/shopmedb
-    username: root
+    password: ${DB_USER_PASSWORD}
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
   main:
     allow-circular-references: 'true'
   jpa:
